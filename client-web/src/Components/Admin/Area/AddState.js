@@ -81,44 +81,45 @@ const AddState = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add State</h2>
+    <div className="bg-[#f8f9fa] m-5 h-screen scrollbar">
+    <div className="w-1/3  mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Add State</h2>
       <form onSubmit={handleSubmit}>
         <label className="block mb-4">
-          <span className="text-gray-700">State Name:</span>
+          <span className="font-bold text-md text-gray-500">State Name</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={stateName}
             onChange={(e) => setStateName(e.target.value)}
             required
           />
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Name:</span>
+          <span className="font-bold text-md text-gray-500">Name</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={Name}
             onChange={(e) => setName(e.target.value)}
             required
           />
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Email:</span>
+          <span className="font-bold text-md text-gray-500">Email</span>
           <input
             type="email"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Contact Number:</span>
+          <span className="font-bold text-md text-gray-500">Contact Number</span>
           <input
             type="tel"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
             required
@@ -126,11 +127,12 @@ const AddState = () => {
         </label>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add State
         </button>
       </form>
+    </div>
     </div>
   );
 };

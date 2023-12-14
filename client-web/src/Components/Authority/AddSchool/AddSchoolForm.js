@@ -121,53 +121,55 @@ const AddSchoolForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add School</h2>
+    <div className="mx-auto my-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-400 w-3/5">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Add School</h2>
       <form onSubmit={handleSubmit}>
-        <label className="block mb-4">
-          <span className="text-gray-700">Name:</span>
+        <label className="mb-4 flex ">
+         
+          <span className="text-gray-500 font-bold w-1/3 ">Name</span>
+         
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Email:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Email</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Address:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Address</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required
           />
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Contact Number:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Contact Number</span>
           <input
             type="tel"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={contactNumber}
             onChange={(e) => setContactNumber(e.target.value)}
             required
           />
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Medium:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Medium</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={selectedMedium}
             onChange={(e) => setSelectedMedium(e.target.value)}
             required
@@ -182,10 +184,10 @@ const AddSchoolForm = () => {
             <option value="Other">Other</option> */}
           </select>
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Type:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Type</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={type}
             onChange={(e) => setType(e.target.value)}
             required
@@ -197,10 +199,10 @@ const AddSchoolForm = () => {
             <option value="3">International</option>
           </select>
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Select State:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Select State</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={selectedState}
             onChange={(e) => {
               setSelectedState(e.target.value);
@@ -218,10 +220,10 @@ const AddSchoolForm = () => {
             ))}
           </select>
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Select District:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Select District</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={selectedDistrict}
             onChange={(e) => {
               setSelectedDistrict(e.target.value);
@@ -239,10 +241,10 @@ const AddSchoolForm = () => {
             ))}
           </select>
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Select Taluka:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={selectedTaluka}
             onChange={(e) => {
               setSelectedTaluka(e.target.value);
@@ -263,10 +265,10 @@ const AddSchoolForm = () => {
             ))}
           </select>
         </label>
-        <label className="block mb-4">
-          <span className="text-gray-700">Select City:</span>
+        <label className="flex mb-4">
+          <span className="text-gray-500 font-bold w-1/3">Select City</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
             value={selectedCity}
             onChange={(e) => {
               setSelectedCity(e.target.value);
@@ -281,12 +283,14 @@ const AddSchoolForm = () => {
             ))}
           </select>
         </label>
+         <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add School
         </button>
+        </div>
       </form>
     </div>
   );

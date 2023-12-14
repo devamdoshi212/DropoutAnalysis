@@ -80,7 +80,7 @@ const NewStudentForm = () => {
         validationSchema={RegistrationvalidationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="min-w-fit w-3/5 mx-auto my-8 p-8 border rounded bg-white shadow-md shadow-gray-400 space-y-5">
+        <Form className="min-w-fit w-3/5 mx-auto my-8 p-8 border rounded bg-gray-100 shadow-md shadow-gray-400 space-y-5">
           <div className="mb-4">
            <div className="flex">
             <label
@@ -556,7 +556,7 @@ const NewStudentForm = () => {
           <div className="mt-4 flex items-center justify-center">
             <button
               type="submit"
-              className="btn bg-blue-700 text-white font-bold tracking-wider py-3 px-5 my-3 rounded-md hover:bg-blue-600 uppercase "
+              className="btn bg-blue-700 text-white font-bold tracking-wider py-2 px-5 my-3 rounded-md hover:bg-blue-600 uppercase "
             >
               Submit
             </button>
