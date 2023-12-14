@@ -12,7 +12,7 @@ const CitySchema = new mongoose.Schema(
       ref: "talukas",
     },
     city: String,
-    cityType: Number, //0 urban //1 rural
+    cityType: String, //0 urban //1 rural
   },
   {
     timestamps: true,

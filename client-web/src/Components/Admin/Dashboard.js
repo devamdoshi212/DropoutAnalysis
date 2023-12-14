@@ -2,10 +2,13 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AdminDashboard = () => {
   const [data, setdata] = useState({});
   const [visible, setvisible] = useState(false);
+  const userData = useSelector((state) => state.user.user);
+
   //   useEffect(() => {
   //     var requestOptions = {
   //       method: "GET",
@@ -48,6 +51,7 @@ const AdminDashboard = () => {
   };
   return (
     <div className="m-5">
+      <h1>{userData.Name}</h1>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
         {/* <Link to={"districtWiseSportsComplex"}> */}
         <div className=" text-center rounded-lg bg-gray-300 ">

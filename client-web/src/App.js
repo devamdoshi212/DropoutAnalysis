@@ -12,6 +12,10 @@ import Analysis from "./Components/Admin/Analysis/Analysis";
 import AuthorityLayout from "./Components/Authority/Layout";
 import AuthorityDashboard from "./Components/Authority/Dashboard";
 import AdminDashboard from "./Components/Admin/Dashboard";
+import AddState from "./Components/Admin/Area/AddState";
+import AddDistrict from "./Components/Admin/Area/AddDistrict";
+import AddTaluka from "./Components/Admin/Area/AddTaluka";
+import AddCity from "./Components/Admin/Area/AddCity";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +34,26 @@ const router = createBrowserRouter([
       {
         path: "analysis",
         element: <Analysis />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addstate",
+        element: <AddState />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "adddistrict",
+        element: <AddDistrict />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addtaluka",
+        element: <AddTaluka />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addcity",
+        element: <AddCity />,
         errorElement: <ErrorPage />,
       },
     ],
