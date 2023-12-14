@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const TalukaSchema = new mongoose.Schema(
   {
-    state: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
+    state: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
     district: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "districts",
     },
     taluka: String,
