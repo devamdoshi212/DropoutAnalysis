@@ -87,7 +87,7 @@ const Login = () => {
             <div className="w-full p-4 sm:p-[3.125rem] xl:p-[4.375rem]">
               {/* <span className="mb-1.5 block font-medium">Start for free</span> */}
               <h1 className="mb-9 text-center text-2xl font-bold text-black dark:text-white sm:text-title-xl2 uppercase">
-                Sign In to education Authority of Gujarat
+                Sign In to Dropout Analysis Portal
               </h1>
 
               <form onSubmit={handleSubmit}>
@@ -142,7 +142,7 @@ const Login = () => {
                       autoComplete="current-password"
                       name="Password"
                       type="password"
-                      placeholder="6+ Characters, 1 Capital letter"
+                      placeholder="Enter your password"
                       className="w-full rounded-lg  py-3 pl-6 pr-10 border border-black"
                       value={values.Password}
                       onChange={handleChange}
