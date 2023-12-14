@@ -5,6 +5,7 @@ import Layout from "./Components/School/Layout";
 import SchoolDashboard from "./Components/School/Dashboard";
 import NewStudentForm from "./Components/School/Form/NewStudentForm";
 import ExistingStudentForm from "./Components/School/Form/ExistingStudentForm";
+import AdminLayout from "./Components/Admin/Layout";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,17 @@ const router = createBrowserRouter([
         path: "addexistingstudent",
         element: <ExistingStudentForm />,
         errorElement: <ErrorPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <div>Hello</div>,
       },
     ],
   },
