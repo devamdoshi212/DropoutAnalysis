@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
 const AddState = () => {
+  const [Name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+
   const [stateName, setStateName] = useState("");
 
   const handleSubmit = async (e) => {
@@ -29,6 +33,44 @@ const AddState = () => {
       console.log(result);
       if (result.rcode === 200) {
         console.log("State added successfully");
+
+        try {
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+
+          var raw = JSON.stringify({
+            Name: Name,
+            Email: email,
+            ContactNumber: contactNumber,
+            Role: 1,
+            State: result.data._id,
+          });
+
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+          };
+
+          const response = await fetch(
+            "http://localhost:9999/signup",
+            requestOptions
+          );
+          const result2 = await response.json();
+          console.log(result2);
+          if (result2.rcode === 200) {
+            console.log("State Authority assigned successfully");
+            setName("");
+            setEmail("");
+            setContactNumber("");
+          } else {
+            console.error("Failed to add State Authority assigned");
+          }
+        } catch (err) {
+          console.error("Error:", err);
+        }
+
         setStateName("");
       } else {
         console.error("Failed to add state");
@@ -49,6 +91,36 @@ const AddState = () => {
             className="mt-1 p-2 w-full border rounded-md"
             value={stateName}
             onChange={(e) => setStateName(e.target.value)}
+            required
+          />
+        </label>
+        <label className="block mb-4">
+          <span className="text-gray-700">Name:</span>
+          <input
+            type="text"
+            className="mt-1 p-2 w-full border rounded-md"
+            value={Name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </label>
+        <label className="block mb-4">
+          <span className="text-gray-700">Email:</span>
+          <input
+            type="email"
+            className="mt-1 p-2 w-full border rounded-md"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <label className="block mb-4">
+          <span className="text-gray-700">Contact Number:</span>
+          <input
+            type="tel"
+            className="mt-1 p-2 w-full border rounded-md"
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
             required
           />
         </label>

@@ -17,6 +17,7 @@ import AddDistrict from "./Components/Admin/Area/AddDistrict";
 import AddTaluka from "./Components/Admin/Area/AddTaluka";
 import AddCity from "./Components/Admin/Area/AddCity";
 import CurrentStudent from "./Components/School/StudentDetails/CurrentStudentDetails";
+import AddSchoolForm from "./Components/Authority/AddSchool/AddSchoolForm";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <AuthorityDashboard />,
+      },
+      {
+        path: "addSchool",
+        element: <AddSchoolForm />,
+        errorElement: <ErrorPage />,
       },
     ],
   },
