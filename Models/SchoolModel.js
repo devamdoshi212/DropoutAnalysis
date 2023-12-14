@@ -9,7 +9,7 @@ const SchoolSchema = new mongoose.Schema(
     },
     ContactNumber: { type: Number },
     Medium: { type: mongoose.Schema.Types.ObjectId, ref: "schooltypes" }, //English Medium , Gujarati , Hindi , Other....
-    Type: Number, //0 - govt , 1-private ,  2 semi govt
+    Type: Number, //0 - govt , 1-private ,  2 semi govt , 3 International
     State: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
     District: { type: mongoose.Schema.Types.ObjectId, ref: "districts" },
     Taluka: { type: mongoose.Schema.Types.ObjectId, ref: "talukas" },
