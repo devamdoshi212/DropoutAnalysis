@@ -1,8 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginValidationSchemas } from "../Schemas";
-//import { Button } from "@material-tailwind/react";
-// import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import image from "./../Assets/education.png";
@@ -15,7 +13,6 @@ const initialValues = {
 const Login = () => {
   const dispatch = useDispatch();
 
-  //   const [cookies, setCookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
   const LoginHandler = (values) => {
@@ -69,8 +66,7 @@ const Login = () => {
       onSubmit: (values, action) => {
         console.log(values);
         LoginHandler(values);
-        // navigate("/school");
-        // action.resetForm();
+        action.resetForm();
       },
     });
   return (
