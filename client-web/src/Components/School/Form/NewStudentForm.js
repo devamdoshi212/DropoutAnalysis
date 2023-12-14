@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 // import DatePicker from "react-datepicker";
+import Swal from "sweetalert2";
 import { Calendar } from "primereact/calendar";
 import "react-datepicker/dist/react-datepicker.css";
 import { RegistrationvalidationSchema } from "../../../Schemas";
@@ -58,7 +59,15 @@ const NewStudentForm = () => {
 
     fetch("http://localhost:9999/addStudent", requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
       .catch((error) => console.log("error", error));
 
     action.resetForm();
