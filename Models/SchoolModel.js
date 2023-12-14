@@ -8,12 +8,12 @@ const SchoolSchema = new mongoose.Schema(
       type: String,
     },
     ContactNumber: { type: Number },
-    Medium: { type: mongoose.SchemaTypes.ObjectId, ref: "schooltypes" }, //English Medium , Gujarati , Hindi , Other....
+    Medium: { type: mongoose.Schema.Types.ObjectId, ref: "schooltypes" }, //English Medium , Gujarati , Hindi , Other....
     Type: Number, //0 - govt , 1-private ,  2 semi govt
-    State: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
-    District: { type: mongoose.SchemaTypes.ObjectId, ref: "districts" },
-    Taluka: { type: mongoose.SchemaTypes.ObjectId, ref: "talukas" },
-    City: { type: mongoose.SchemaTypes.ObjectId, ref: "cities" },
+    State: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
+    District: { type: mongoose.Schema.Types.ObjectId, ref: "districts" },
+    Taluka: { type: mongoose.Schema.Types.ObjectId, ref: "talukas" },
+    City: { type: mongoose.Schema.Types.ObjectId, ref: "cities" },
   },
   { timestamps: true }
 );

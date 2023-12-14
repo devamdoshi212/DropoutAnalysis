@@ -25,18 +25,17 @@ const UserSchema = new mongoose.Schema(
     Role: {
       type: Number, //0 Admin , 1 State level  , 2 District level ,  3 Taluka level , 4 city level ,5 School
     },
-    State: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
-    District: { type: mongoose.SchemaTypes.ObjectId, ref: "districts" },
-    Taluka: { type: mongoose.SchemaTypes.ObjectId, ref: "talukas" },
-    City: { type: mongoose.SchemaTypes.ObjectId, ref: "cities" },
-    School: { type: mongoose.SchemaTypes.ObjectId, ref: "schools" },
-
+    State: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
+    District: { type: mongoose.Schema.Types.ObjectId, ref: "districts" },
+    Taluka: { type: mongoose.Schema.Types.ObjectId, ref: "talukas" },
+    City: { type: mongoose.Schema.Types.ObjectId, ref: "cities" },
+    School: { type: mongoose.Schema.Types.ObjectId, ref: "schools" },
     IsActive: {
       type: Number,
       default: 1,
     },
 
-    createdBy: { type: mongoose.SchemaTypes.ObjectId, ref: "users" },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
   },
   { timestamps: true }
 );

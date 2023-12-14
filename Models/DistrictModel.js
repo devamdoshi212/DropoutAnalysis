@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const DistrictSchema = new mongoose.Schema(
   {
-    state: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
+    state: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
     district: String,
   },
   {

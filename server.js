@@ -1,5 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+const cityRoutes=require("./routes/cityRoutes")
+const schoolRoutes=require("./routes/schoolRoutes")
+const studentRoutes=require("./routes/studentRoutes")
+const userRoutes=require("./routes/userRoutes")
+
+
+app.use("/",cityRoutes)
+app.use("/",schoolRoutes)
+app.use("/",studentRoutes)
+app.use("/",userRoutes)
+
+
 
 //dbconnection
 require('./config/dbconfig').getDbconnection()
