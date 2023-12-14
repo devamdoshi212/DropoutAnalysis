@@ -22,6 +22,10 @@ const initialValues = {
   cityArea: "",
   familyIncome: "",
   disability: "",
+  parentoccupation: "",
+  parentmaritalstatus: "",
+  contact: "",
+  address: "",
 };
 
 const NewStudentForm = () => {
@@ -301,6 +305,25 @@ const NewStudentForm = () => {
 
           <div className="mb-4">
             <label
+              htmlFor="address"
+              className="text-gray-700 text-sm font-bold mb-2"
+            >
+              Address
+            </label>
+            <Field
+              type="text"
+              name="address"
+              className="border-solid border-2 float-right w-44"
+            />
+            <ErrorMessage
+              name="address"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
               htmlFor="caste"
               className="text-gray-700 text-sm font-bold mb-2"
             >
@@ -360,6 +383,68 @@ const NewStudentForm = () => {
             </Field>
             <ErrorMessage
               name="familyIncome"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="parentoccupation"
+              className="text-gray-700 text-sm font-bold mb-2"
+            >
+              Parent's Occupation
+            </label>
+            <Field
+              type="text"
+              name="parentoccupation"
+              className="border-solid border-2 float-right w-44"
+            />
+            <ErrorMessage
+              name="parentoccupation"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="contact"
+              className="text-gray-700 text-sm font-bold mb-2"
+            >
+              Parent's Contact Number
+            </label>
+            <Field
+              type="text"
+              name="contact"
+              className="border-solid border-2 float-right w-44"
+            />
+            <ErrorMessage
+              name="contact"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="parentmaritalstatus"
+              className="text-gray-700 text-sm font-bold mb-2"
+            >
+              Parent Marrital Status
+            </label>
+            <Field
+              as="select"
+              name="parentmaritalstatus"
+              className="border-solid border-2 float-right w-44"
+            >
+              <option value="">Select Staus</option>
+              <option value="1">Staus 1</option>
+              <option value="1">Staus 2</option>
+              <option value="1">Staus 3</option>
+            </Field>
+            <ErrorMessage
+              name="parentmaritalstatus"
               component="div"
               className="text-red-500 text-sm"
             />
