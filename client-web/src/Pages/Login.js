@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-// import { LoginSchemas } from "../Schemas";
+import { LoginValidationSchemas } from "../Schemas";
 //import { Button } from "@material-tailwind/react";
 // import { useCookies } from "react-cookie";
 // import Swal from "sweetalert2";
@@ -72,7 +72,7 @@ const Login = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
-      //   validationSchema: LoginSchemas,
+      validationSchema: LoginValidationSchemas,
       onSubmit: (values, action) => {
         console.log(values);
         // LoginHandler(values);
@@ -106,7 +106,7 @@ const Login = () => {
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
-                  <div className="relative">
+                  {/* <div className="relative">
                     <input
                       autoComplete="username"
                       name="Email"
@@ -135,7 +135,8 @@ const Login = () => {
                         </g>
                       </svg>
                     </span>
-                  </div>
+                  </div> */}
+
                   {errors.Email && touched.Email ? (
                     <small className="text-ligth text-red-600">
                       {errors.Email}
