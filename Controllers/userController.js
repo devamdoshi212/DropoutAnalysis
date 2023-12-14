@@ -1,4 +1,4 @@
-const UserModel = require("../Models/UserModel");
+const UserModel = require("../models/UserModel");
 const { ACCESS_TOKEN_SECRET } = process.env;
 
 async function signup(req, res) {
@@ -23,7 +23,6 @@ async function login() {
   let User = await UserModel.findOne({ Email: Email });
 
   if (User && User.Password == Password) {
-    
     const accesstoken = jwt.sign(
       { Email: User.Email, Password: User.Password },
       ACCESS_TOKEN_SECRET,
