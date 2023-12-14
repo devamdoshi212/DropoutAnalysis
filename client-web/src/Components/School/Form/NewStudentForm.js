@@ -29,8 +29,39 @@ const initialValues = {
 };
 
 const NewStudentForm = () => {
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, action) => {
     console.log(values);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      Name: values.firstName + " " + values.middleName + " " + values.lastName,
+      DOB: values.dob,
+      Gender: values.gender,
+      AadharNumber: values.aadharCard,
+      ParentOccupation: values.parentoccupation,
+      Standard: values.standard,
+      FamilyIncome: values.familyIncome,
+      Caste: values.caste,
+      Disablity: values.disability,
+      Address: values.address,
+      ContactNumber: values.contact,
+      ParentMaritalStatus: values.parentmaritalstatus,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:9999/addStudent", requestOptions)
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
+    action.resetForm();
   };
 
   return (
@@ -112,8 +143,8 @@ const NewStudentForm = () => {
             >
               <option value="">Select Standard</option>
               <option value="1">Standard 1</option>
-              <option value="1">Standard 2</option>
-              <option value="1">Standard 3</option>
+              <option value="2">Standard 2</option>
+              <option value="3">Standard 3</option>
             </Field>
             <ErrorMessage
               name="standard"
@@ -159,6 +190,8 @@ const NewStudentForm = () => {
                   onChange={(e) => form.setFieldValue("dob", e.value)}
                   showIcon
                   className="border-2 w-44 float-right ml-4"
+                  maxDate={new Date()}
+                  style={{ width: "300px" }}
                 />
               )}
             </Field>
