@@ -17,11 +17,11 @@ const StudentSchema = new mongoose.Schema(
     Disablity: Number,
     FamilyIncome: String,
     Standard: Number,
-    SchoolID: [{ type: mongoose.SchemaTypes.ObjectId, ref: "schools" }],
-    State: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
-    District: { type: mongoose.SchemaTypes.ObjectId, ref: "districts" },
-    Taluka: { type: mongoose.SchemaTypes.ObjectId, ref: "talukas" },
-    City: { type: mongoose.SchemaTypes.ObjectId, ref: "cities" },
+    SchoolID: [{ type: mongoose.Schema.Types.ObjectId, ref: "schools" }],
+    State: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
+    District: { type: mongoose.Schema.Types.ObjectId, ref: "districts" },
+    Taluka: { type: mongoose.Schema.Types.ObjectId, ref: "talukas" },
+    City: { type: mongoose.Schema.Types.ObjectId, ref: "cities" },
 
     is_active: { type: Number, default: 3 }, //0 - inactive  , 1- Dropout with reason , 2 - dropout without reason , 3 - study
     Reasons: String, // hardcoded
