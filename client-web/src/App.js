@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { PrimeReactProvider } from "primereact/api";
+
 import Login from "./Pages/Login";
 import ErrorPage from "./Pages/ErrorPage";
 import Layout from "./Components/School/Layout";
@@ -66,7 +68,11 @@ const router = createBrowserRouter([
   },
 ]);
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <PrimeReactProvider>
+      <RouterProvider router={router} />
+    </PrimeReactProvider>
+  );
 };
 
 export default App;
