@@ -1,5 +1,7 @@
 const UserModel = require("../models/UserModel");
+require('dotenv').config()
 const { ACCESS_TOKEN_SECRET } = process.env;
+const jwt = require('jsonwebtoken')
 
 async function signup(req, res) {
   try {
@@ -18,7 +20,7 @@ async function signup(req, res) {
   }
 }
 
-async function login() {
+async function login(req,res) {
   const { Email, Password } = req.body;
   let User = await UserModel.findOne({ Email: Email });
 
