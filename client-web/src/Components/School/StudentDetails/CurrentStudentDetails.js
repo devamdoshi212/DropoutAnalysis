@@ -102,8 +102,51 @@ export default function CurrentStudent() {
     });
   };
 
-  const PromoteHandler = () => {};
-  const DropoutHandler = () => {};
+  const PromoteHandler = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      students: selectedStudents,
+    });
+
+    var requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`http://localhost:9999/promteStudent`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        setdeleterefresh(false);
+      })
+      .catch((error) => console.log("error", error));
+  };
+  const DropoutHandler = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      status: 0,
+      students: selectedStudents,
+    });
+
+    var requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        setdeleterefresh(false);
+      })
+      .catch((error) => console.log("error", error));
+  };
   const InactiveHandler = () => {};
   const renderHeader = () => {
     return (
@@ -126,7 +169,7 @@ export default function CurrentStudent() {
           type="button"
           label="Dropout"
           outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-red-700 hover:bg-gray-300"
           onClick={DropoutHandler}
         />
         <Button
