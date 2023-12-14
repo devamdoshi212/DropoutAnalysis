@@ -1,12 +1,20 @@
 const UserModel = require("../models/UserModel");
-require('dotenv').config()
+require("dotenv").config();
 const { ACCESS_TOKEN_SECRET } = process.env;
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
+const sendMail = require("../Controllers/SendMail");
 
 async function signup(req, res) {
   try {
+    
     let User = new UserModel(req.body);
+
+    const password = sendMail.passwordGenerate(8);
+    User.Password = password;
+    sendMail.SendEmail(User.Email, password);
+
     await User.save();
+
     res.json({
       data: User,
       rcode: 200,
@@ -20,7 +28,7 @@ async function signup(req, res) {
   }
 }
 
-async function login(req,res) {
+async function login(req, res) {
   const { Email, Password } = req.body;
   let User = await UserModel.findOne({ Email: Email });
 
