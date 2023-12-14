@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const LoginvalidationSchema = Yup.object().shape({
+export const RegistrationvalidationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
   middleName: Yup.string(),
   lastName: Yup.string().required("Last Name is required"),
@@ -17,4 +17,9 @@ export const LoginvalidationSchema = Yup.object().shape({
   cityArea: Yup.string().required("City Area is required"),
   familyIncome: Yup.number().required("Family Annual Income is required"),
   disability: Yup.string(),
+});
+
+export const LoginValidationSchemas = Yup.object().shape({
+  Email: Yup.string().required("Email is required"),
+  Password: Yup.string().required("Password is required"),
 });
