@@ -17,7 +17,7 @@ async function getCities(req, res) {
 
 async function addCities(req, res) {
   try {
-    let data = await cityModel.create(body);
+    let data = await cityModel.create(req.body);
     res.json({
       data: data,
       rcode: 200,

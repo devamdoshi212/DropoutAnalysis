@@ -17,7 +17,7 @@ async function getSchool(req, res) {
 
 async function addSchool(req, res) {
   try {
-    let data = new schoolModel(body);
+    let data = new schoolModel(req.body);
     await data.save();
     res.json({
       data: data,
