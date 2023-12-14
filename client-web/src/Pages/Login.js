@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import { LoginValidationSchemas } from "../Schemas";
 //import { Button } from "@material-tailwind/react";
 // import { useCookies } from "react-cookie";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
-// import { UserActions } from "../store/UserData";
 import image from "./../Assets/education.png";
+import { UserActions } from "../Store/UserData";
 const initialValues = {
   Email: "",
   Password: "",
@@ -18,65 +18,58 @@ const Login = () => {
   //   const [cookies, setCookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
-  //   const LoginHandler = (values) => {
-  //     var myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/json");
-  //     var raw = JSON.stringify({
-  //       Email: values.Email,
-  //       Password: values.Password,
-  //     });
-  //     var requestOptions = {
-  //       method: "POST",
-  //       headers: myHeaders,
-  //       body: raw,
-  //       redirect: "follow",
-  //     };
-  //     fetch("http://localhost:9999/login", requestOptions)
-  //       .then((response) => response.json())
-  //       .then((result) => {
-  //         console.log(result);
-  //         const errorCode = result.rcode;
-  //         // console.log(errorCode);
-  //         if (errorCode === -9) {
-  //           Swal.fire({
-  //             icon: "error",
-  //             title: "Oops...",
-  //             text: "Invalid Credentials",
-  //             timer: 1500,
-  //             // footer: '<a href="">Why do I have this issue?</a>',
-  //           });
-  //         }
-  //         if (errorCode === 200) {
-  //           // dispatch(UserActions.getuserdata(result.data));
-  //           dispatch(UserActions.getuserdata(result.data));
-  //           const maxAgeInSeconds = 86400; // 60 seconds
-  //           //   setCookies("token", result.token, {
-  //           //     maxAge: maxAgeInSeconds,
-  //           //     path: "/",
-  //           //   });
-  //         //   localStorage.setItem("token", result.token);
-  //           if (result.data.Role === 5) {
-  //             navigate("/admin");
-  //           } else if (result.data.Role === 4) {
-  //             navigate("/authority");
-  //           } else if (result.data.Role === 3) {
-  //             navigate("/manager");
-  //           } else if (result.data.Role === 2) {
-  //           } else if (result.data.Role === 1) {
-  //           } else if (result.data.Role === 0) {
-  //           }
-  //         }
-  //       })
-  //       .catch((error) => console.log("error", error));
-  //   };
+  const LoginHandler = (values) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({
+      Email: values.Email,
+      Password: values.Password,
+    });
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    fetch("http://localhost:9999/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        const errorCode = result.rcode;
+        if (errorCode === -9) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Invalid Credentials",
+            timer: 1500,
+            // footer: '<a href="">Why do I have this issue?</a>',
+          });
+        }
+        if (errorCode === 200) {
+          dispatch(UserActions.getuserdata(result.data));
+          localStorage.setItem("token", result.token);
+          if (result.data.Role === 0) {
+            navigate("/admin");
+          } else if (result.data.Role === 1) {
+            navigate("/authority");
+          } else if (result.data.Role === 2) {
+            navigate("/school");
+          } else if (result.data.Role === 3) {
+          } else if (result.data.Role === 4) {
+          } else if (result.data.Role === 5) {
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: LoginValidationSchemas,
       onSubmit: (values, action) => {
         console.log(values);
-        // LoginHandler(values);
-        navigate("/school");
+        LoginHandler(values);
+        // navigate("/school");
         // action.resetForm();
       },
     });
@@ -89,7 +82,7 @@ const Login = () => {
               {/* <Link className=" inline-block" to=""></Link> */}
 
               <span className="inline-block mx-auto">
-                { <img src={image} alt="symbol"  /> }
+                {<img src={image} alt="symbol" />}
               </span>
             </div>
           </div>
@@ -98,7 +91,7 @@ const Login = () => {
             <div className="w-full p-4 sm:p-[3.125rem] xl:p-[4.375rem]">
               {/* <span className="mb-1.5 block font-medium">Start for free</span> */}
               <h1 className="mb-9 text-center text-2xl font-bold text-black dark:text-white sm:text-title-xl2 uppercase">
-                Sign In to Sports Authority of Gujarat
+                Sign In to education Authority of Gujarat
               </h1>
 
               <form onSubmit={handleSubmit}>
@@ -106,7 +99,7 @@ const Login = () => {
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
-                  {/* <div className="relative">
+                  <div className="relative">
                     <input
                       autoComplete="username"
                       name="Email"
@@ -135,7 +128,7 @@ const Login = () => {
                         </g>
                       </svg>
                     </span>
-                  </div> */}
+                  </div>
 
                   {errors.Email && touched.Email ? (
                     <small className="text-ligth text-red-600">
