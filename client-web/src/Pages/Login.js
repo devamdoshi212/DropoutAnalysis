@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 // import { LoginSchemas } from "../Schemas";
-// import { Button } from "@material-tailwind/react";
+//import { Button } from "@material-tailwind/react";
 // import { useCookies } from "react-cookie";
 // import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 // import { UserActions } from "../store/UserData";
-// import image from "./../Assets/symbol.png";
+import image from "./../Assets/education.png";
 const initialValues = {
   Email: "",
   Password: "",
@@ -82,19 +82,19 @@ const Login = () => {
     });
   return (
     <>
-      <div className="min-h-screen rounded-sm border border-stroke bg-[#EEEEEE] shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="min-h-screen rounded-sm border border-stroke bg-[#EEEEEE] shadow-default dark:border-strokedark dark:bg-boxdark ">
         <div className="flex flex-wrap items-center m-4">
-          <div className="hidden w-full xl:block xl:w-1/2 min-h-screen">
-            <div className="py-[4.375rem] px-[6.5rem] text-center">
-              <Link className="mb-[1.375rem] inline-block" to=""></Link>
+          <div className="hidden w-full xl:block xl:w-1/2 min-h-screen m-auto justify-center items-center ">
+            <div className="py-[10.375rem] px-[6.5rem] text-center ">
+              {/* <Link className=" inline-block" to=""></Link> */}
 
-              <span className="mt-[3.75rem] inline-block">
-                {/* <img src={image} alt="symbol" /> */}
+              <span className="inline-block mx-auto">
+                { <img src={image} alt="symbol"  /> }
               </span>
             </div>
           </div>
 
-          <div className="w-full border-stroke rounded-2xl bg-black/40  dark:border-strokedark xl:w-1/2 xl:border-l-2">
+          <div className="w-full border-stroke rounded-2xl bg-black/30 dark:border-strokedark xl:w-1/2 xl:border-l-2 ">
             <div className="w-full p-4 sm:p-[3.125rem] xl:p-[4.375rem]">
               {/* <span className="mb-1.5 block font-medium">Start for free</span> */}
               <h1 className="mb-9 text-center text-2xl font-bold text-black dark:text-white sm:text-title-xl2 uppercase">
@@ -191,7 +191,7 @@ const Login = () => {
                 <div className="mb-5 ">
                   {/* <NavLink to={"/admin/dashboard"}> */}
                   <button
-                    className="w-full tracking-widest py-3 pl-6 pr-10 text-md"
+                    className="w-full tracking-widest py-3 pl-6 pr-10 text-xl text-white bg-black font-bold rounded-lg hover:opacity-80"
                     type="submit"
                   >
                     Submit
