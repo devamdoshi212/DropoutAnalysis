@@ -6,11 +6,6 @@ const studentRoutes = require("./routes/studentRoutes");
 const userRoutes = require("./routes/userRoutes");
 const app = express();
 
-app.use("/", cityRoutes);
-app.use("/", schoolRoutes);
-app.use("/", studentRoutes);
-app.use("/", userRoutes);
-
 //dbconnection
 require("./config/dbconfig").getDbconnection();
 
@@ -18,6 +13,11 @@ require("./config/dbconfig").getDbconnection();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+
+app.use("/", cityRoutes);
+app.use("/", schoolRoutes);
+app.use("/", studentRoutes);
+app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("hello");
