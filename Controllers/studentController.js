@@ -17,6 +17,8 @@ async function getStudents(req, res) {
 
 async function addStudents(req, res) {
   try {
+    console.log(req.body);
+    
     let data = await StudentModel.create(req.body);
     res.json({
       data: data,
