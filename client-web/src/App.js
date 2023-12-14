@@ -16,6 +16,8 @@ import AddState from "./Components/Admin/Area/AddState";
 import AddDistrict from "./Components/Admin/Area/AddDistrict";
 import AddTaluka from "./Components/Admin/Area/AddTaluka";
 import AddCity from "./Components/Admin/Area/AddCity";
+import CurrentStudent from "./Components/School/StudentDetails/CurrentStudentDetails";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -86,6 +88,11 @@ const router = createBrowserRouter([
       {
         path: "addexistingstudent",
         element: <ExistingStudentForm />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "currentstudent",
+        element: <CurrentStudent />,
         errorElement: <ErrorPage />,
       },
     ],
