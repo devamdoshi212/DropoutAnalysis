@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const CitySchema = new mongoose.Schema(
   {
-    state: { type: mongoose.SchemaTypes.ObjectId, ref: "states" },
+    state: { type: mongoose.Schema.Types.ObjectId, ref: "states" },
     district: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "districts",
     },
     taluka: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "talukas",
     },
     city: String,
