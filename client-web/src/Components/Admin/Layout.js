@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
-// import { FetchDistrict } from "../../API/FetchDistrict";
 // import image from "./../../Assets/symbol.png";
-// import { FetchComplaintType } from "../../API/FetchComplaintType";
+import Swal from "sweetalert2";
+
 const AdminLayout = () => {
-  //   FetchDistrict();
-  //   FetchComplaintType();
   const [isOpen, setIsOpen] = useState(false);
-  //   const navigate = useNavigate();
-  //   const LogoutHandler = () => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You redirect to Login page...",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Logout",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         localStorage.removeItem("token");
-  //         navigate("/");
-  //       }
-  // });
-  //   };
+  const navigate = useNavigate();
+  const LogoutHandler = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You redirect to Login page...",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        navigate("/");
+      }
+    });
+  };
   return (
     <div className="bg-[#f8f9fa] font-family-karla flex ">
       <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
@@ -94,7 +92,7 @@ const AdminLayout = () => {
             {/* <NavLink to={""}> */}
 
             <button
-              //   onClick={LogoutHandler}
+              onClick={LogoutHandler}
               className="realtive z-10 flex  px-2 rounded-lg h-12 hover:shadow-md hover:shadow-gray-800 bg-white overflow-hidden hover:bg-gray-200 hover:border-gray-300 focus:border-gray-300 focus:outline-none "
             >
               <svg
