@@ -1,3 +1,4 @@
+const SchoolModel = require("../models/SchoolModel");
 const schoolModel = require("../models/SchoolModel");
 
 async function getSchool(req, res) {
@@ -17,7 +18,12 @@ async function getSchool(req, res) {
 
 async function addSchool(req, res) {
   try {
+
+    const lastSchool = await SchoolModel.findOne().sort({createdAt:-1}).exec();
+     const newSchool_id = lastSchool ? lastSchool.SchoolID + 1 : 100000;
+
     let data = new schoolModel(req.body);
+    data.SchoolID = newSchool_id;
     await data.save();
     res.json({
       data: data,
