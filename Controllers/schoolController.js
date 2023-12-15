@@ -4,7 +4,13 @@ const SchoolTypeModel = require("./../models/SchoolType");
 
 async function getSchool(req, res) {
   try {
-    let data = await schoolModel.find({});
+    let data = await schoolModel
+      .find({})
+      .populate("Medium")
+      .populate("State")
+      .populate("District")
+      .populate("Taluka")
+      .populate("City");
     res.json({
       data: data,
       rcode: 200,
@@ -59,6 +65,7 @@ async function addSchoolType(req, res) {
 async function getSchoolType(req, res) {
   try {
     let data = await SchoolTypeModel.find({});
+
     res.json({
       data: data,
       rcode: 200,
