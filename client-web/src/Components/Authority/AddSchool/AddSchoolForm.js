@@ -125,9 +125,8 @@ const AddSchoolForm = () => {
       <h2 className="text-2xl font-semibold mb-4 text-center">Add School</h2>
       <form onSubmit={handleSubmit}>
         <label className="mb-4 flex ">
-         
           <span className="text-gray-500 font-bold w-1/3 ">Name</span>
-         
+
           <input
             type="text"
             className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
@@ -283,13 +282,13 @@ const AddSchoolForm = () => {
             ))}
           </select>
         </label>
-         <div className="flex items-center justify-center">
-        <button
-          type="submit"
-          className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
-        >
-          Add School
-        </button>
+        <div className="flex items-center justify-center">
+          <button
+            type="submit"
+            className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+          >
+            Add School
+          </button>
         </div>
       </form>
     </div>
