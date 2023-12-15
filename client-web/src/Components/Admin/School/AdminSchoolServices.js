@@ -1,7 +1,12 @@
 export const AdminSchoolServices = {
-  getData(selectedDistrict, selectedTaluka, selectedCity, selectedState) {
+  getData(selectedState, selectedDistrict, selectedTaluka, selectedCity) {
+    console.log(selectedDistrict);
     return fetch(
-      `http://localhost:9999/getSchool?state=${selectedState}&district=${selectedDistrict}&taluka=${selectedTaluka}&city=${selectedCity}`
+      `http://localhost:9999/getSchool` +
+        (selectedState && `?State=${selectedState}`) +
+        (selectedDistrict && `&District=${selectedDistrict}`) +
+        (selectedTaluka && `&Taluka=${selectedTaluka}`) +
+        (selectedCity && `&City=${selectedCity}`)
     )
       .then((res) => res.json())
       .then((res) => {
