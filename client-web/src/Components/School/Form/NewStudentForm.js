@@ -428,7 +428,7 @@ const NewStudentForm = () => {
             />
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <div className="flex">
               <label
                 htmlFor="cityArea"
@@ -451,7 +451,7 @@ const NewStudentForm = () => {
               component="div"
               className="text-red-500 text-sm  text-center mx-4"
             />
-          </div>
+          </div> */}
 
           <div className="mb-4">
             <div className="flex">
