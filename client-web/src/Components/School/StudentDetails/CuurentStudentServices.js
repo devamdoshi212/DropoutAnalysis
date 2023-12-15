@@ -1,5 +1,6 @@
 export const CurrentStudentServices = {
   getData(id) {
+    console.log(id);
     return fetch(
       `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=3`
     )

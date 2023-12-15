@@ -14,7 +14,7 @@ export const RegistrationvalidationSchema = Yup.object().shape({
   // taluka: Yup.string().required("Taluka is required"),
   // city: Yup.string().required("City is required"),
   caste: Yup.string().required("Caste is required"),
-  cityArea: Yup.string().required("City Area is required"),
+  // cityArea: Yup.string().required("City Area is required"),
   address: Yup.string().required("Address is required"),
   familyIncome: Yup.string().required("Family Annual Income is required"),
   disability: Yup.string(),
