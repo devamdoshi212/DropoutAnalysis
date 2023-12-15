@@ -10,6 +10,7 @@ import { Calendar } from "primereact/calendar";
 import { Link } from "react-router-dom";
 import { CurrentStudentServices } from "./CuurentStudentServices";
 import { useSelector } from "react-redux";
+
 export default function CurrentStudent() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
@@ -151,7 +152,70 @@ export default function CurrentStudent() {
       })
       .catch((error) => console.log("error", error));
   };
-  const DropoutHandler = () => {};
+
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const DropoutHandler = () => {
+    return (
+      <div>
+        <button
+          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-red-700 hover:bg-gray-300"
+          onClick={openModal}
+        >Dropout
+        </button>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center">
+            <div className="bg-white p-6 rounded shadow-md">
+              <button className="p-2 float-right" onClick={closeModal}>
+                X
+              </button>
+              <h2 className="font-bold mb-4">Choose Dropout Reason</h2>
+              <select name="dropoutreason" className="p-2 border border-gray-300 rounded w-full">
+                <option value="">
+                  Choose
+                </option>
+                <option value="Cultural or Language Barriers">
+                  Cultural or Language Barriers
+                </option>
+                <option value="Repeating Grades">Repeating Grades</option>
+                <option value="Inadequate Support Systems">
+                  Inadequate Support Systems
+                </option>
+                <option value="Transportation and Access">
+                  Transportation and Access
+                </option>
+                <option value="Early Employment">Early Employment</option>
+                <option value="Peer Pressure">Peer Pressure</option>
+                <option value="School Environment">School Environment</option>
+                <option value="Health and Personal Issues">
+                  Health and Personal Issues
+                </option>
+                <option value="Family and Economic Factors">
+                  Family and Economic Factors
+                </option>
+                <option value="Bullying and Social Issues">
+                  Bullying and Social Issues
+                </option>
+                <option value="Lack of Interest or Engagement">
+                  Lack of Interest or Engagement
+                </option>
+                <option value="Academic Struggles">Academic Struggles</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const renderHeader = () => {
     return (
       <div className="flex justify-between mr-2">
@@ -169,13 +233,14 @@ export default function CurrentStudent() {
           className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
           onClick={PromoteHandler}
         />
-        <Button
+        {/* <Button
           type="button"
           label="Dropout"
           outlined
           className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-red-700 hover:bg-gray-300"
           onClick={DropoutHandler}
-        />
+        /> */}
+        {DropoutHandler()}
         <Button
           type="button"
           label="Inactive"
@@ -359,7 +424,7 @@ export default function CurrentStudent() {
           filterField="School_medium" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{ backgroundColor: "#DDE6ED" }} // filterMatchMode={FilterMatchMode.CONTAINS}
-          // filterValue={globalFilterValues.District}
+        // filterValue={globalFilterValues.District}
         />
         <Column
           header="Address"
