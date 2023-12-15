@@ -6,7 +6,7 @@ const xlsx = require("xlsx");
 
 async function getStudents(req, res) {
   try {
-    let data = await StudentModel.find({});
+    let data = await StudentModel.find(req.query);
     res.json({
       data: data,
       rcode: 200,
@@ -110,10 +110,38 @@ async function addStudentsFromExcel(req, res) {
   }
 }
 
+async function getSchoolWiseStudents(req, res) {
+  try {
+    const lastSchoolId = req.query.schoolId;
+    const status = req.query.status;
+    console.log(lastSchoolId, status);
+    let data = await StudentModel.find({
+      $expr: {
+        $eq: [
+          lastSchoolId,
+          { $arrayElemAt: ["$SchoolID", -1] }, // Get the last element of the School_name array
+        ],
+      },
+      is_active: status,
+    });
+
+    res.json({
+      data: data,
+      rcode: 200,
+    });
+  } catch (err) {
+    res.json({
+      err: err.msg,
+      rcode: -9,
+    });
+  }
+}
+
 module.exports = {
   getStudents,
   addStudents,
   deactivateStudent,
   promoteStudent,
   addStudentsFromExcel,
+  getSchoolWiseStudents,
 };

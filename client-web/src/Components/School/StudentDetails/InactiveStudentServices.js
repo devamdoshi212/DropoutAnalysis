@@ -1,7 +1,7 @@
-export const CurrentStudentServices = {
+export const InactiveStudentServices = {
   getData(id) {
     return fetch(
-      `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=3`
+      `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=0`
     )
       .then((res) => res.json())
       .then((res) => {
