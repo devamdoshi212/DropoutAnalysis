@@ -20,7 +20,8 @@ import CurrentStudent from "./Components/School/StudentDetails/CurrentStudentDet
 import AddSchoolForm from "./Components/Authority/AddSchool/AddSchoolForm";
 import LoginVerify from "./Components/Auth/LoginVerify";
 import Verify from "./Components/Auth/Verify";
-import SchoolDataTable from './Components/Authority/AddSchool/SchoolDataTable'
+import SchoolDataTable from "./Components/Authority/AddSchool/SchoolDataTable";
+import AdminSchoolDataTable from "./Components/Admin/School/SchoolDataTable";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,11 @@ const router = createBrowserRouter([
       {
         path: "addcity",
         element: <AddCity />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "schooldetails",
+        element: <AdminSchoolDataTable />,
         errorElement: <ErrorPage />,
       },
     ],
