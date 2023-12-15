@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { FilterMatchMode } from "primereact/api";
@@ -15,6 +15,7 @@ export default function CurrentStudent() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [selectedValue, setSelectedValue] = useState("");
 
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -153,67 +154,8 @@ export default function CurrentStudent() {
       .catch((error) => console.log("error", error));
   };
 
-
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
-  const DropoutHandler = () => {
-    return (
-      <div>
-        <button
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-red-700 hover:bg-gray-300"
-          onClick={openModal}
-        >Dropout
-        </button>
-
-        {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center">
-            <div className="bg-white p-6 rounded shadow-md">
-              <button className="p-2 float-right" onClick={closeModal}>
-                X
-              </button>
-              <h2 className="font-bold mb-4">Choose Dropout Reason</h2>
-              <select name="dropoutreason" className="p-2 border border-gray-300 rounded w-full">
-                <option value="">
-                  Choose
-                </option>
-                <option value="Cultural or Language Barriers">
-                  Cultural or Language Barriers
-                </option>
-                <option value="Repeating Grades">Repeating Grades</option>
-                <option value="Inadequate Support Systems">
-                  Inadequate Support Systems
-                </option>
-                <option value="Transportation and Access">
-                  Transportation and Access
-                </option>
-                <option value="Early Employment">Early Employment</option>
-                <option value="Peer Pressure">Peer Pressure</option>
-                <option value="School Environment">School Environment</option>
-                <option value="Health and Personal Issues">
-                  Health and Personal Issues
-                </option>
-                <option value="Family and Economic Factors">
-                  Family and Economic Factors
-                </option>
-                <option value="Bullying and Social Issues">
-                  Bullying and Social Issues
-                </option>
-                <option value="Lack of Interest or Engagement">
-                  Lack of Interest or Engagement
-                </option>
-                <option value="Academic Struggles">Academic Struggles</option>
-              </select>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  const handleDropdownChange = (event) => {
+    setSelectedValue(event.target.value);
   };
 
   const renderHeader = () => {
@@ -233,14 +175,13 @@ export default function CurrentStudent() {
           className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
           onClick={PromoteHandler}
         />
-        {/* <Button
+        <Button
           type="button"
           label="Dropout"
           outlined
           className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-red-700 hover:bg-gray-300"
-          onClick={DropoutHandler}
-        /> */}
-        {DropoutHandler()}
+          onClick={openModal}
+        />
         <Button
           type="button"
           label="Inactive"
@@ -287,161 +228,279 @@ export default function CurrentStudent() {
     );
   };
 
+  const dropOutHandler = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      status: 1,
+      students: selectedStudents,
+      reason: selectedValue,
+    });
+
+    var requestOptions = {
+      method: "PATCH",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        setdeleterefresh(false);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImages, setModalImages] = useState("");
+  const [selectedRowData, setSelectedRowData] = useState(null);
+  const modalOverlayRef = useRef(null);
+
+  const openModal = (rowdata) => {
+    setModalImages(rowdata.image);
+    setSelectedRowData(rowdata);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalImages([]);
+    setSelectedRowData(null);
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        modalOverlayRef.current &&
+        !modalOverlayRef.current.contains(event.target)
+      ) {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isModalOpen]);
   const header = renderHeader();
   const [first, setFirst] = useState(0);
 
   const calculateIndex = (currentPage, rowIndex) => {
     return currentPage * 10 + rowIndex + 1;
   };
-  console.log(selectedStudents);
+  // console.log(selectedStudents);
   return (
-    <div className="card p-10">
-      <DataTable
-        value={customers}
-        paginator
-        showGridlines
-        stripedRows
-        rows={10}
-        rowsPerPageOptions={[10, 25, 50]}
-        loading={loading}
-        dataKey="_id"
-        filters={filters}
-        globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
-        header={header}
-        emptyMessage="No Students found."
-        removableSort
-        selection={selectedStudents}
-        onSelectionChange={(e) => setSelectedStudents(e.value)}
-      >
-        <Column
-          selectionMode="multiple"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
+    <>
+      {isModalOpen && (
+        <div
+          ref={modalOverlayRef}
+          className="fixed inset-0 z-50 flex items-center justify-center modal-overlay bg-gray-900 bg-opacity-80"
+        >
+          <div className="modal-above-screen bg-white rounded-lg p-4 relative">
+            <span
+              className="close absolute top-2 right-2 text-3xl cursor-pointer"
+              onClick={closeModal}
+            >
+              &times;
+            </span>
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full"
+              onChange={handleDropdownChange}
+            >
+              <option value="">Choose</option>
+              <option value="Cultural or Language Barriers">
+                Cultural or Language Barriers
+              </option>
+              <option value="Repeating Grades">Repeating Grades</option>
+              <option value="Inadequate Support Systems">
+                Inadequate Support Systems
+              </option>
+              <option value="Transportation and Access">
+                Transportation and Access
+              </option>
+              <option value="Early Employment">Early Employment</option>
+              <option value="Peer Pressure">Peer Pressure</option>
+              <option value="School Environment">School Environment</option>
+              <option value="Health and Personal Issues">
+                Health and Personal Issues
+              </option>
+              <option value="Family and Economic Factors">
+                Family and Economic Factors
+              </option>
+              <option value="Bullying and Social Issues">
+                Bullying and Social Issues
+              </option>
+              <option value="Lack of Interest or Engagement">
+                Lack of Interest or Engagement
+              </option>
+              <option value="Academic Struggles">Academic Struggles</option>
+            </select>
+            <button
+              className="p-4 bg-blue-500 rounded-lg"
+              onClick={dropOutHandler}
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="card p-10">
+        <DataTable
+          value={customers}
+          paginator
+          showGridlines
+          stripedRows
+          rows={10}
+          rowsPerPageOptions={[10, 25, 50]}
+          loading={loading}
+          dataKey="_id"
+          filters={filters}
+          globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+          header={header}
+          emptyMessage="No Students found."
+          removableSort
+          selection={selectedStudents}
+          onSelectionChange={(e) => setSelectedStudents(e.value)}
+        >
+          <Column
+            selectionMode="multiple"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
 
-        <Column
-          field="index"
-          header="Index"
-          body={(rowData) => {
-            const rowIndex = customers.indexOf(rowData);
-            return calculateIndex(Math.floor(first / 10), rowIndex);
-          }}
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
+          <Column
+            field="index"
+            header="Index"
+            body={(rowData) => {
+              const rowIndex = customers.indexOf(rowData);
+              return calculateIndex(Math.floor(first / 10), rowIndex);
+            }}
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
 
-        <Column
-          header="Name"
-          field="Name"
-          filterField="Name"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          sortable
-          header="UID"
-          field="UID"
-          filterField="UID"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          sortable
-          header="Gender"
-          field="Gender"
-          filterField="location"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          header="Aadhar Number"
-          field="AadharNumber"
-          filterField="AadharNumber"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
+          <Column
+            header="Name"
+            field="Name"
+            filterField="Name"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            sortable
+            header="UID"
+            field="UID"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            sortable
+            header="Gender"
+            field="Gender"
+            filterField="location"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            header="Aadhar Number"
+            field="AadharNumber"
+            filterField="AadharNumber"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
 
-        <Column
-          sortable
-          header="School Standard"
-          field="Standard"
-          filterField="Standard"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          header="DOB"
-          field="DOB"
-          filterField="DOB"
-          body={dateBodyTemplate}
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          sortable
-          header="District"
-          field="District"
-          filterField="District"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          header="City"
-          field="City"
-          filterField="City"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          sortable
-          header="Taluka"
-          field="Taluka"
-          filterField="Taluka"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          sortable
-          header="Caste"
-          field="Caste"
-          filterField="Caste"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
+          <Column
+            sortable
+            header="School Standard"
+            field="Standard"
+            filterField="Standard"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            header="DOB"
+            field="DOB"
+            filterField="DOB"
+            body={dateBodyTemplate}
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            sortable
+            header="District"
+            field="District"
+            filterField="District"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            header="City"
+            field="City"
+            filterField="City"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            sortable
+            header="Taluka"
+            field="Taluka"
+            filterField="Taluka"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            sortable
+            header="Caste"
+            field="Caste"
+            filterField="Caste"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
 
-        <Column
-          header="City Type"
-          field="City_type"
-          filterField="City_type"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
+          <Column
+            header="City Type"
+            field="City_type"
+            filterField="City_type"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
 
-        <Column
-          sortable
-          header="School_medium"
-          field="School_medium" // Replace 'districtName' with the actual field name
-          filterField="School_medium" // Make sure this matches the actual field name
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }} // filterMatchMode={FilterMatchMode.CONTAINS}
-        // filterValue={globalFilterValues.District}
-        />
-        <Column
-          header="Address"
-          field="Address"
-          filterField="Address"
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-        />
-        <Column
-          header="Created At"
-          field="createdAt" // Replace 'districtName' with the actual field name
-          filterField="createdAt" // Make sure this matches the actual field name
-          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
-          body={dateBodyTemplate}
-        />
-      </DataTable>
-    </div>
+          <Column
+            sortable
+            header="School_medium"
+            field="School_medium" // Replace 'districtName' with the actual field name
+            filterField="School_medium" // Make sure this matches the actual field name
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }} // filterMatchMode={FilterMatchMode.CONTAINS}
+            // filterValue={globalFilterValues.District}
+          />
+          <Column
+            header="Address"
+            field="Address"
+            filterField="Address"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+          />
+          <Column
+            header="Created At"
+            field="createdAt" // Replace 'districtName' with the actual field name
+            filterField="createdAt" // Make sure this matches the actual field name
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{ backgroundColor: "#DDE6ED" }}
+            body={dateBodyTemplate}
+          />
+        </DataTable>
+      </div>
+    </>
   );
 }
