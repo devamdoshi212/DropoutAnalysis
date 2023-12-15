@@ -47,7 +47,7 @@ async function deactivateStudent(req, res) {
     const status = req.body.status;
     const id = req.body.students;
     const change = { is_active: status };
-    if (status == 1 || 2) {
+    if (status == 1 || status == 2) {
       change.SchoolId = { $push: 0 };
     }
     if (status == 1) {
