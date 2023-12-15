@@ -1,11 +1,15 @@
 export const SchoolServices = {
-  getData(selectedDistrict, selectedTaluka, selectedCity) {
+  getData(selectedState, selectedDistrict, selectedTaluka, selectedCity) {
     return fetch(
-      `http://localhost:9999/getSchool?district=${selectedDistrict}&taluka=${selectedTaluka}&city=${selectedCity}`
+      `http://localhost:9999/getSchool` +
+        (selectedState && `?State=${selectedState}`) +
+        (selectedDistrict && `&District=${selectedDistrict}`) +
+        (selectedTaluka && `&Taluka=${selectedTaluka}`) +
+        (selectedCity && `&City=${selectedCity}`)
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         return res.data;
       });
   },
@@ -22,9 +26,19 @@ export const SchoolServices = {
     return Promise.resolve(this.getData().slice(0, 200));
   },
 
-  getCustomersXLarge(selectedDistrict, selectedTaluka, selectedCity) {
+  getCustomersXLarge(
+    selectedState,
+    selectedDistrict,
+    selectedTaluka,
+    selectedCity
+  ) {
     return Promise.resolve(
-      this.getData(selectedDistrict, selectedTaluka, selectedCity)
+      this.getData(
+        selectedState,
+        selectedDistrict,
+        selectedTaluka,
+        selectedCity
+      )
     );
   },
 
