@@ -20,11 +20,10 @@ const initialValues = {
   gender: "",
   dob: null,
   aadharCard: "",
-  // schoolName: "",
-  state: "",
-  district: "",
-  taluka: "",
-  city: "",
+  // state: "",
+  // district: "",
+  // taluka: "",
+  // city: "",
   caste: "",
   cityArea: "",
   familyIncome: "",
@@ -353,27 +352,6 @@ const NewStudentForm = () => {
             />
           </div>
 
-          {/* <div className="mb-4">
-            <div className="flex">
-              <label
-                htmlFor="schoolName"
-                className="w-1/3 text-gray-500 text-md font-bold mb-2"
-              >
-                School Name
-              </label>
-              <Field
-                type="text"
-                name="schoolName"
-                className="w-2/3 border-solid border-2 float-right p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
-              />
-            </div>
-            <ErrorMessage
-              name="schoolName"
-              component="div"
-              className="text-red-500 text-sm  text-center mx-4"
-            />
-          </div> */}
-
           <label className="flex mb-4">
             <span className="text-gray-500 font-bold w-1/3">Select State</span>
             <select
@@ -514,32 +492,6 @@ const NewStudentForm = () => {
               className="text-red-500 text-sm  text-center mx-4"
             />
           </div>
-
-          {/* <div className="mb-4">
-            <div className="flex">
-              <label
-                htmlFor="cityArea"
-                className="text-gray-500 text-md font-bold mb-2 w-1/3"
-              >
-                City Area (Urban/Rural)
-              </label>
-              <Field
-                as="select"
-                name="cityArea"
-                className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
-              >
-                <option value="">Select City Area</option>
-                <option value="urban">Urban</option>
-                <option value="rural">Rural</option>
-              </Field>
-            </div>
-            <ErrorMessage
-              name="cityArea"
-              component="div"
-              className="text-red-500 text-sm  text-center mx-4"
-            />
-          </div> */}
-
           <div className="mb-4">
             <div className="flex">
               <label
