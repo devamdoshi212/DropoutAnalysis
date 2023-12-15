@@ -9,6 +9,7 @@ router.get("/getStudent", StudentController.getStudents);
 router.post("/addStudent", StudentController.addStudents);
 router.patch("/deactivateStudent", StudentController.deactivateStudent);
 router.patch("/promteStudent", StudentController.promoteStudent);
+router.get("/getSchoolWiseStudents", StudentController.getSchoolWiseStudents);
 
 //add student from excel sheet
 router.post(
