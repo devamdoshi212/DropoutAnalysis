@@ -96,30 +96,30 @@ module.exports.FilterStudentinGroup = async (req, res) => {
 module.exports.yearWiseData = async (req, res) => {
   try {
     //   const type = req.params.id;
-    // const lastSchoolName = req.query.School_id;
-    const state = req.query.state;
-    const district = req.query.district;
-    const city = req.query.city;
-    const taluka = req.query.taluka;
+    // // const lastSchoolName = req.query.School_id;
+    // const state = req.query.state;
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
     const standard = req.query.standard;
     // const citytype=req.body.
     const gender = req.query.gender;
     const pipeline = [];
     // console.log(state);
 
-    if (state) {
+    if (req.query.state != "") {
       pipeline.push({ $match: { State: state } });
     }
 
-    if (district) {
+    if (req.query.district != "") {
       pipeline.push({ $match: { District: district } });
     }
 
-    if (city) {
+    if (req.query.city != "") {
       pipeline.push({ $match: { City: city } });
     }
 
-    if (taluka) {
+    if (req.query.taluka != "") {
       pipeline.push({ $match: { Taluka: taluka } });
     }
 
@@ -202,38 +202,46 @@ module.exports.FilterStudentinGroupByTwo = async (req, res) => {
     const type1 = req.query.type1;
     const type2 = req.query.type2;
     // const lastSchoolName = req.query.School_id;
-    const state = req.query.state;
-    const district = req.query.district;
-    const city = req.query.city;
-    const taluka = req.query.taluka;
-    const school = req.query.school;
+    // const state = req.query.state;
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
     // const citytype=req.body.
 
     const pipeline = [];
 
-    if (state) {
-      pipeline.push({ $match: { State: state } });
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
     }
 
-    if (district) {
-      pipeline.push({ $match: { District: district } });
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
     }
 
-    if (city) {
-      pipeline.push({ $match: { City: city } });
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
     }
 
-    if (taluka) {
-      pipeline.push({ $match: { Taluka: taluka } });
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
     }
 
-    if (school) {
+    if (req.query.school) {
       pipeline.push({
         $match: {
           SchoolID: {
             $expr: {
               $eq: [
-                lastSchoolId,
+                new mongoose.Types.ObjectId(req.query.school),
                 { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
               ],
             },
