@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  Outlet,
+  NavLink,
+  Link,
+  useNavigate,
+  useLoaderData,
+} from "react-router-dom";
 // import image from "./../../Assets/symbol.png";
 import Swal from "sweetalert2";
+import { UserActions } from "../../Store/UserData";
 
 const AuthorityLayout = () => {
+  const dispatch = useDispatch();
+  dispatch(UserActions.getuserdata(useLoaderData()));
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const LogoutHandler = () => {

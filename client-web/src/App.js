@@ -18,16 +18,22 @@ import AddTaluka from "./Components/Admin/Area/AddTaluka";
 import AddCity from "./Components/Admin/Area/AddCity";
 import CurrentStudent from "./Components/School/StudentDetails/CurrentStudentDetails";
 import AddSchoolForm from "./Components/Authority/AddSchool/AddSchoolForm";
+import LoginVerify from "./Components/Auth/LoginVerify";
+import Verify from "./Components/Auth/Verify";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />,
+    loader: LoginVerify,
     errorElement: <ErrorPage />,
   },
   {
     path: "/admin",
     element: <AdminLayout />,
+    loader: () => {
+      return Verify(0);
+    },
     errorElement: <ErrorPage />,
     children: [
       {
@@ -64,6 +70,9 @@ const router = createBrowserRouter([
   {
     path: "/authority",
     element: <AuthorityLayout />,
+    loader: () => {
+      return Verify(1);
+    },
     errorElement: <ErrorPage />,
     children: [
       {
@@ -80,6 +89,9 @@ const router = createBrowserRouter([
   {
     path: "/school",
     element: <Layout />,
+    loader: () => {
+      return Verify(5);
+    },
     errorElement: <ErrorPage />,
     children: [
       {

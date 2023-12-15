@@ -42,6 +42,7 @@ const Login = () => {
             // footer: '<a href="">Why do I have this issue?</a>',
           });
         }
+        //0 Admin , 1 State level  , 2 District level ,  3 Taluka level , 4 city level ,5 School
         if (errorCode === 200) {
           dispatch(UserActions.getuserdata(result.data));
           localStorage.setItem("token", result.token);
@@ -50,10 +51,10 @@ const Login = () => {
           } else if (result.data.Role === 1) {
             navigate("/authority");
           } else if (result.data.Role === 2) {
-            navigate("/school");
           } else if (result.data.Role === 3) {
           } else if (result.data.Role === 4) {
           } else if (result.data.Role === 5) {
+            navigate("/school");
           }
         }
       })
