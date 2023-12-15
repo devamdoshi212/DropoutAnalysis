@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 
-require('dotenv').config()
+require("dotenv").config();
 const { ACCESS_TOKEN_SECRET } = process.env;
 
 module.exports.decodedToken = async function (req, res) {
@@ -10,7 +10,9 @@ module.exports.decodedToken = async function (req, res) {
   try {
     const decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
 
-    let User = await UserModel.findOne({ Email: decodedToken.Email });
+    let User = await UserModel.findOne({ Email: decodedToken.Email })
+      .populate("State")
+      .populate("School");
 
     if (User && User.Password == decodedToken.Password)
       res.json({ data: User, msg: "Verified", rcode: 200 });

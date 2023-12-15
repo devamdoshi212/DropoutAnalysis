@@ -29,7 +29,9 @@ async function signup(req, res) {
 
 async function login(req, res) {
   const { Email, Password } = req.body;
-  let User = await UserModel.findOne({ Email: Email });
+  let User = await UserModel.findOne({ Email: Email })
+    .populate("State")
+    .populate("School");
 
   if (User && User.Password == Password) {
     const accesstoken = jwt.sign(

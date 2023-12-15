@@ -13,6 +13,7 @@ import { UserActions } from "../../Store/UserData";
 
 const AuthorityLayout = () => {
   const dispatch = useDispatch();
+  const userData = useLoaderData();
   dispatch(UserActions.getuserdata(useLoaderData()));
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -35,6 +36,15 @@ const AuthorityLayout = () => {
   return (
     <div className="bg-[#f8f9fa] font-family-karla flex ">
       <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
+        <div className=" top-0 left-0 p-6 text-center">
+          {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
+          <Link
+            to={"/authority"}
+            className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
+          >
+            {userData.State.name}
+          </Link>
+        </div>
         <div className=" top-0 left-0 p-6 text-center">
           {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
           <Link
