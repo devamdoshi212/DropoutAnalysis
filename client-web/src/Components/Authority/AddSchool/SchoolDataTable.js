@@ -12,6 +12,7 @@ import FetchTaluka from "../../../API/FetchTaluka";
 import { useSelector } from "react-redux";
 import FetchDistrict from "../../../API/FetchDistrict";
 import FetchCity from "../../../API/FetchCity";
+import UserData from "../../../Store/UserData";
 
 export default function SchoolDataTable() {
   const [deleterefresh, setdeleterefresh] = useState(true);
@@ -38,6 +39,7 @@ export default function SchoolDataTable() {
   const userData = useSelector((state) => state.user.user);
 
   useEffect(() => {
+    console.log(userData);
     FetchDistrict(userData.State).then((res) => {
       setDistrictName(res);
     });
@@ -75,6 +77,7 @@ export default function SchoolDataTable() {
 
   useEffect(() => {
     SchoolServices.getCustomersXLarge(
+      selectedState,
       selectedDistrict,
       selectedTaluka,
       selectedCity
@@ -203,6 +206,7 @@ export default function SchoolDataTable() {
           value={selectedDistrict}
           onChange={(e) => {
             setSelectedDistrict(e.target.value);
+            setSelectedState(userData.State);
             FetchTaluka(userData.State, e.target.value).then((res) => {
               setTalukaName(res);
             });
