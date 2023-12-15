@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
 const ExistingStudentForm = () => {
-  const [uidInput, setUidInput] = useState('');
-  const [aadharInput, setAadharInput] = useState('');
+  const [uidInput, setUidInput] = useState("");
+  const [aadharInput, setAadharInput] = useState("");
   const [selectedStudent, setSelectedStudent] = useState([]);
   const [studentFlage, setStudentFlage] = useState(null);
 
-  const findStudentByUid = () => {
-
-  };
+  const findStudentByUid = () => {};
 
   const findStudentByAadhar = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch(`http://localhost:9999/getStudent?AadharNumber=${aadharInput}`, requestOptions)
-      .then(response => response.json())
-      .then(result => {
+    fetch(
+      `http://localhost:9999/getStudent?AadharNumber=${aadharInput}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
         const data = result.data[0];
         setSelectedStudent(data);
         setStudentFlage(1);
-
       })
-      .catch(error => console.log('error', error));
-
+      .catch((error) => console.log("error", error));
   };
 
   console.log(selectedStudent.AadharNumber);
@@ -39,14 +38,23 @@ const ExistingStudentForm = () => {
     if (selectedStudent) {
       console.log(`Added student ${selectedStudent.name} to the school.`);
     } else {
-      console.log('No student selected.');
+      console.log("No student selected.");
     }
   };
 
   const initialValues = {
-    firstName: selectedStudent.Name,
-    middleName: selectedStudent.Name,
-    lastName: selectedStudent.Name,
+    firstName:
+      selectedStudent && selectedStudent.Name
+        ? selectedStudent.Name.split(" ")[0]
+        : "",
+    middleName:
+      selectedStudent && selectedStudent.Name
+        ? selectedStudent.Name.split(" ")[1]
+        : "",
+    lastName:
+      selectedStudent && selectedStudent.Name
+        ? selectedStudent.Name.split(" ")[2]
+        : "",
     standard: selectedStudent.Standard,
     gender: selectedStudent.Gender,
     dob: selectedStudent.DOB,
@@ -68,11 +76,19 @@ const ExistingStudentForm = () => {
 
   return (
     <>
-      <div className="mx-auto mt-8 p-8 border rounded bg-white shadow-md" style={{ width: "50%" }}>
-        <h2 className="text-xl font-bold mb-4">Add Existing Student to School</h2>
+      <div
+        className="mx-auto mt-8 p-8 border rounded bg-white shadow-md"
+        style={{ width: "50%" }}
+      >
+        <h2 className="text-xl font-bold mb-4">
+          Add Existing Student to School
+        </h2>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="uidInput">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="uidInput"
+          >
             Student UID Number
           </label>
           <input
@@ -86,7 +102,10 @@ const ExistingStudentForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="aadharInput">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="aadharInput"
+          >
             Aadhar Number
           </label>
           <input
@@ -118,9 +137,7 @@ const ExistingStudentForm = () => {
 
         {studentFlage && (
           <div>
-            <Formik
-              initialValues={initialValues}
-            >
+            <Formik initialValues={initialValues}>
               <Form className="min-w-fit w-3/5 mx-auto my-8 p-8 border rounded bg-gray-100 shadow-md shadow-gray-400 space-y-5">
                 <div className="mb-4">
                   <div className="flex">

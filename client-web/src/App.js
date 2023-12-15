@@ -22,6 +22,8 @@ import LoginVerify from "./Components/Auth/LoginVerify";
 import Verify from "./Components/Auth/Verify";
 import SchoolDataTable from "./Components/Authority/AddSchool/SchoolDataTable";
 import AdminSchoolDataTable from "./Components/Admin/School/SchoolDataTable";
+import DropedStudents from "./Components/School/StudentDetails/DropedStudents";
+import InactiveStudent from "./Components/School/StudentDetails/InactiveStudents";
 
 const router = createBrowserRouter([
   {
@@ -123,6 +125,16 @@ const router = createBrowserRouter([
       {
         path: "currentstudent",
         element: <CurrentStudent />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "dropedstudent",
+        element: <DropedStudents />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "inactivetudent",
+        element: <InactiveStudent />,
         errorElement: <ErrorPage />,
       },
     ],
