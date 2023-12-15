@@ -4,10 +4,11 @@ const districtModel = require("../models/DistrictModel");
 const talukaModel = require("../models/TalukaModel");
 const cityModel = require("../models/CityModel");
 const studentModel = require("../models/StudentModel");
+const { default: mongoose } = require("mongoose");
 
 async function dashboardCount(req, res) {
   try {
-    const filter = req.query
+    const filter ={State:new mongoose.Types.ObjectId(req.query.state)}
     const schools = await schoolModel.find(filter);
     const states = await stateModel.countDocuments(filter);
     const districts = await districtModel.countDocuments(filter);
