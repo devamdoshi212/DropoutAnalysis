@@ -81,7 +81,7 @@ const AddState = () => {
   };
 
   return (
-    <div className="bg-[#f8f9fa] m-5 h-screen scrollbar">
+    <div className="bg-[#f8f9fa] m-5 h-screen ">
     <div className="w-1/3  mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600">
       <h2 className="text-2xl font-semibold mb-4 text-center">Add State</h2>
       <form onSubmit={handleSubmit}>

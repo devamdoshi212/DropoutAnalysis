@@ -64,11 +64,12 @@ const AddCity = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add City/Village</h2>
+    <div className="bg-[#f8f9fa] m-5 h-screen">
+    <div className=" mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600 w-2/5">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Add City/Village</h2>
       <form onSubmit={handleSubmit}>
         <label className="block mb-4">
-          <span className="text-gray-700">Select State:</span>
+          <span className="font-bold text-md text-gray-500">Select State</span>
           <select
             className="mt-1 p-2 w-full border rounded-md"
             value={selectedState}
@@ -89,7 +90,7 @@ const AddCity = () => {
           </select>
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Select District:</span>
+          <span className="font-bold text-md text-gray-500">Select District</span>
           <select
             className="mt-1 p-2 w-full border rounded-md"
             value={selectedDistrict}
@@ -110,9 +111,9 @@ const AddCity = () => {
           </select>
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Select Taluka:</span>
+          <span className="font-bold text-md text-gray-500">Select Taluka</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={selectedTaluka}
             onChange={(e) => setSelectedTaluka(e.target.value)}
             required
@@ -126,9 +127,9 @@ const AddCity = () => {
           </select>
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">Select Area Type:</span>
+          <span className="font-bold text-md text-gray-500">Select Area Type</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={selectedCityType}
             onChange={(e) => setSelectedCityType(e.target.value)}
             required
@@ -140,22 +141,25 @@ const AddCity = () => {
         </label>
 
         <label className="block mb-4">
-          <span className="text-gray-700">City/Village Name:</span>
+          <span className="font-bold text-md text-gray-500">City/Village Name</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={cityName}
             onChange={(e) => setCityName(e.target.value)}
             required
           />
         </label>
+        <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add City/Village
         </button>
+        </div>
       </form>
+    </div>
     </div>
   );
 };

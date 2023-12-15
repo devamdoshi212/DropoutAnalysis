@@ -50,13 +50,14 @@ const AddDistrict = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add District</h2>
+    <div className="bg-[#f8f9fa] m-5 h-screen">
+    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Add District</h2>
       <form onSubmit={handleSubmit}>
         <label className="block mb-4">
-          <span className="text-gray-700">Select State:</span>
+          <span className="font-bold text-md text-gray-500">Select State</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
             required
@@ -71,22 +72,25 @@ const AddDistrict = () => {
           </select>
         </label>
         <label className="block mb-4">
-          <span className="text-gray-700">District Name:</span>
+          <span className="font-bold text-md text-gray-500">District Name</span>
           <input
             type="text"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={districtName}
             onChange={(e) => setDistrictName(e.target.value)}
             required
           />
         </label>
+        <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add District
         </button>
+        </div>
       </form>
+    </div>
     </div>
   );
 };
