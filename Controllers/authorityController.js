@@ -8,13 +8,17 @@ const { default: mongoose } = require("mongoose");
 
 async function dashboardCount(req, res) {
   try {
-    const filter ={State:new mongoose.Types.ObjectId(req.query.state)}
-    const schools = await schoolModel.find(filter);
-    const states = await stateModel.countDocuments(filter);
+    const filter = { state: new mongoose.Types.ObjectId(req.query.state) };
+    const schools = await schoolModel.find({
+      State: new mongoose.Types.ObjectId(req.query.state),
+    });
+    const states = await stateModel.countDocuments();
     const districts = await districtModel.countDocuments(filter);
     const taluka = await talukaModel.countDocuments(filter);
     const city = await cityModel.countDocuments(filter);
-    const students = await studentModel.find(filter);
+    const students = await studentModel.find({
+      State: new mongoose.Types.ObjectId(req.query.state),
+    });
     const malestudents = students.filter((ele) => {
       return ele.Gender == "male";
     });
@@ -63,7 +67,7 @@ async function dashboardCount(req, res) {
       semigovtschools: semigovtschools,
       privateschools: privateschools,
       internationalschools: internationalschools,
-    
+
       rcode: 200,
     });
   } catch (err) {
