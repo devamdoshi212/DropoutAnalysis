@@ -6,7 +6,11 @@ const xlsx = require("xlsx");
 
 async function getStudents(req, res) {
   try {
-    let data = await StudentModel.find(req.query);
+    let data = await StudentModel.find(req.query)
+      .populate("State")
+      .populate("District")
+      .populate("Taluka")
+      .populate("City");
     res.json({
       data: data,
       rcode: 200,

@@ -32,7 +32,7 @@ const ExistingStudentForm = () => {
       .catch((error) => console.log("error", error));
   };
 
-  console.log(selectedStudent.AadharNumber);
+  console.log(selectedStudent);
 
   const addStudentToSchool = () => {
     if (selectedStudent) {
@@ -55,23 +55,48 @@ const ExistingStudentForm = () => {
       selectedStudent && selectedStudent.Name
         ? selectedStudent.Name.split(" ")[2]
         : "",
-    standard: selectedStudent.Standard,
+    standard:
+      selectedStudent && selectedStudent.Standard
+        ? selectedStudent.Standard
+        : "",
     gender: selectedStudent.Gender,
     dob: selectedStudent.DOB,
     aadharCard: selectedStudent.AadharNumber,
     schoolName: selectedStudent.Name,
-    state: "a",
-    district: "a",
-    taluka: "a",
-    city: "a",
-    caste: "a",
-    cityArea: "a",
-    familyIncome: "a",
-    disability: "a",
-    parentoccupation: "a",
-    parentmaritalstatus: "a",
-    contact: "a",
-    address: "a",
+    state:
+      selectedStudent && selectedStudent.State && selectedStudent.State.name
+        ? selectedStudent.State.name
+        : "",
+    district:
+      selectedStudent &&
+      selectedStudent.District &&
+      selectedStudent.District.district
+        ? selectedStudent.District.district
+        : "",
+    taluka:
+      selectedStudent && selectedStudent.Taluka && selectedStudent.Taluka.taluka
+        ? selectedStudent.Taluka.taluka
+        : "",
+    city:
+      selectedStudent && selectedStudent.City && selectedStudent.City.city
+        ? selectedStudent.City.city
+        : "",
+    caste: selectedStudent.Caste,
+    cityArea:
+      selectedStudent &&
+      selectedStudent.City &&
+      selectedStudent.City.cityType !== undefined
+        ? selectedStudent.City.cityType === 1
+          ? "Rural"
+          : "Urban"
+        : "",
+
+    familyIncome: selectedStudent.FamilyIncome,
+    disability: selectedStudent.Disablity,
+    parentoccupation: selectedStudent.ParentOccupation,
+    parentmaritalstatus: selectedStudent.ParentMaritalStatus,
+    contact: selectedStudent.ContactNumber,
+    address: selectedStudent.Address,
   };
 
   return (
