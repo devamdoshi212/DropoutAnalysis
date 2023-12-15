@@ -134,8 +134,17 @@ async function getSchoolWiseStudents(req, res) {
         ],
       },
       is_active: status,
-    });
-
+    })
+      .populate("State")
+      .populate("District")
+      .populate("Taluka")
+      .populate("City")
+      .populate({
+        path: "SchoolID",
+        populate: {
+          path: "Medium",
+        },
+      });
     res.json({
       data: data,
       rcode: 200,
