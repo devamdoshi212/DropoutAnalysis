@@ -47,19 +47,22 @@ async function deactivateStudent(req, res) {
     const status = req.body.status;
     const id = req.body.students;
     const change = { is_active: status };
+    let changeQuery = {
+      $set: change,
+    };
     if (status == 1 || status == 2) {
-      change.SchoolID = { $push: 0 };
+      changeQuery = {
+        $set: change,
+        $push: { SchoolID: null },
+      };
+    }
+    if (status == 1 || 2) {
     }
     if (status == 1) {
       change.Reasons = req.body.reason;
     }
     console.log(change);
-    let data = await StudentModel.updateMany(
-      { _id: id },
-      {
-        $set: change,
-      }
-    );
+    let data = await StudentModel.updateMany({ _id: id }, changeQuery);
 
     res.json({
       data: data,
