@@ -8,15 +8,41 @@ const initialValues = {
 };
 
 const AddStudentExcel = () => {
-  const handleSubmit = (values, action) => {
+  const handleSubmit = async (values, action) => {
     console.log(values);
+
+    // Use FormData and append the file from the ref
+    var formdata = new FormData();
+    formdata.append("excelfile", values.excelfile[0], values.excelfile[0].name);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:9999/addStudentExcel",
+        requestOptions
+      );
+      const result = await response.json();
+
+      if (result.rcode === 200) {
+        console.log(result.message);
+      } else {
+        console.log("Error");
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    }
   };
 
   // Use useFormik hook to access formik methods, including setFieldValue
   const formik = useFormik({
     initialValues,
     validationSchema: excelFileSchema,
-    onSubmit: handleSubmit,
+    onSubmit: handleSubmit, // Use onSubmit for form submission
   });
 
   const onDrop = (acceptedFiles) => {
@@ -46,7 +72,7 @@ const AddStudentExcel = () => {
                   isDragActive ? "border-blue-500" : ""
                 }`}
               >
-                <input {...getInputProps()} name="excelfile" />
+                <input {...getInputProps()} name="excelfile" id="fileInput" />
                 {isDragActive ? (
                   <p>Drop the file here ...</p>
                 ) : (
