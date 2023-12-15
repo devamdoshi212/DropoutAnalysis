@@ -47,6 +47,68 @@ const NewStudentForm = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const schoolData = useSelector((state) => state.user.user);
   const sId = schoolData.School._id;
+
+  const parentOccupations = [
+    "Engineer",
+    "Doctor",
+    "Teacher",
+    "Lawyer",
+    "Business Owner",
+    "IT Professional",
+    "Artist",
+    "Nurse",
+    "Police Officer",
+    "Chef",
+    "Scientist",
+    "Construction Worker",
+    "Pilot",
+    "Pharmacist",
+    "Social Worker",
+    "Financial Analyst",
+    "Writer",
+    "Graphic Designer",
+    "Veterinarian",
+    "Librarian",
+    "Athlete",
+    "Marketing Specialist",
+    "Human Resources Manager",
+    "Actor/Actress",
+    "Fitness Instructor",
+    "Journalist",
+    "Military Personnel",
+    "Event Planner",
+    "Public Relations Specialist",
+    "Travel Agent",
+    "Interior Designer",
+    "Dentist",
+    "Orthodontist",
+    "Psychologist",
+    "Real Estate Agent",
+    "Electrician",
+    "Plumber",
+    "Carpenter",
+    "Taxi Driver",
+    "Phlebotomist",
+    "Biologist",
+    "Meteorologist",
+    "Architect",
+    "Translator",
+    "Firefighter",
+    "Paramedic",
+    "Zookeeper",
+    "Dancer",
+    "Librarian",
+    "Geologist",
+    "Podcast Host",
+    "Video Game Developer",
+    "Cartoonist",
+    "Botanist",
+    "Magician",
+    "Ethical Hacker",
+    "Cryptocurrency Trader",
+    "None",
+  ];
+
   const handleSubmit = (values, action) => {
     console.log(values);
     var myHeaders = new Headers();
@@ -192,9 +254,18 @@ const NewStudentForm = () => {
                 className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
               >
                 <option value="">Select Standard</option>
+                <option value="-1">Junior KG</option>
+                <option value="0">Senior KG</option>
                 <option value="1">Standard 1</option>
                 <option value="2">Standard 2</option>
                 <option value="3">Standard 3</option>
+                <option value="4">Standard 4</option>
+                <option value="5">Standard 5</option>
+                <option value="6">Standard 6</option>
+                <option value="7">Standard 7</option>
+                <option value="8">Standard 8</option>
+                <option value="9">Standard 9</option>
+                <option value="10">Standard 10</option>
               </Field>
             </div>
             <ErrorMessage
@@ -217,6 +288,10 @@ const NewStudentForm = () => {
                 <label className="ml-4">
                   <Field type="radio" name="gender" value="female" />
                   Female
+                </label>
+                <label className="ml-4">
+                  <Field type="radio" name="gender" value="other" />
+                  Other
                 </label>
               </div>
             </div>
@@ -415,11 +490,23 @@ const NewStudentForm = () => {
               >
                 Caste
               </label>
-              <Field
+              {/* <Field
                 type="text"
                 name="caste"
                 className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
-              />
+              /> */}
+              <Field
+                as="select"
+                name="caste"
+                className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+              >
+                <option value="">Select Caste</option>
+                <option value="Open">Open</option>
+                <option value="General">General</option>
+                <option value="SEBC">SEBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+              </Field>
             </div>
             <ErrorMessage
               name="caste"
@@ -466,10 +553,11 @@ const NewStudentForm = () => {
                 name="familyIncome"
                 className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
               >
-                <option value="">Select Income</option>
-                <option value="1">Income 1</option>
-                <option value="1">Income 2</option>
-                <option value="1">Income 3</option>
+                <option value="">Select Family Income</option>
+                <option value="1-2 Lakh">1-2 Lakh</option>
+                <option value="2-4 Lakh">2-4 Lakh</option>
+                <option value="4-6 Lakh">4-6 Lakh</option>
+                <option value="More than 6 lakh">More than 6 lakh</option>
               </Field>
             </div>
             <ErrorMessage
@@ -488,10 +576,20 @@ const NewStudentForm = () => {
                 Parent's Occupation
               </label>
               <Field
+                as="select"
+                name="parentoccupation"
+                className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+              >
+                <option value="">Select Father Occupation</option>
+                {parentOccupations.map((occupation, index) => (
+                  <option key={index} value={occupation} label={occupation} />
+                ))}
+              </Field>
+              {/* <Field
                 type="text"
                 name="parentoccupation"
                 className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
-              />
+              /> */}
             </div>
             <ErrorMessage
               name="parentoccupation"
@@ -527,17 +625,18 @@ const NewStudentForm = () => {
                 htmlFor="parentmaritalstatus"
                 className="text-gray-500 text-md font-bold mb-2 w-1/3"
               >
-                Parent Marrital Status
+                Parent Marital Status
               </label>
               <Field
                 as="select"
                 name="parentmaritalstatus"
                 className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
               >
-                <option value="">Select Staus</option>
-                <option value="1">Staus 1</option>
-                <option value="1">Staus 2</option>
-                <option value="1">Staus 3</option>
+                <option value="">Select Status</option>
+                <option value="0">Without Parent</option>
+                <option value="1">Without Father</option>
+                <option value="2">Without Mother</option>
+                <option value="3">With Both</option>
               </Field>
             </div>
             <ErrorMessage
