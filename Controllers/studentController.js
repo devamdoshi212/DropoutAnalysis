@@ -45,12 +45,18 @@ async function deactivateStudent(req, res) {
   try {
     const status = req.body.status;
     const id = req.body.students;
+    const change = { is_active: status };
+    if (status == 1) {
+      change.Reasons = req.body.reason;
+    }
+    console.log(change);
     let data = await StudentModel.updateMany(
       { _id: id },
       {
-        $set: { is_active: status },
+        $set: change,
       }
     );
+
     res.json({
       data: data,
       rcode: 200,
