@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Link } from "react-router-dom";
 import { CurrentStudentServices } from "./CuurentStudentServices";
+import { useSelector } from "react-redux";
 export default function CurrentStudent() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
@@ -52,9 +53,12 @@ export default function CurrentStudent() {
   //       }
   //     });
   //   };
+  const schoolData = useSelector((state) => state.user.user);
+
+  const sId = schoolData.School._id;
 
   useEffect(() => {
-    CurrentStudentServices.getCustomersXLarge().then((data) => {
+    CurrentStudentServices.getCustomersXLarge(sId).then((data) => {
       setCustomers(getCustomers(data));
       setLoading(false);
     });
@@ -124,7 +128,7 @@ export default function CurrentStudent() {
       })
       .catch((error) => console.log("error", error));
   };
-  const DropoutHandler = () => {
+  const InactiveHandler = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -147,7 +151,7 @@ export default function CurrentStudent() {
       })
       .catch((error) => console.log("error", error));
   };
-  const InactiveHandler = () => {};
+  const DropoutHandler = () => {};
   const renderHeader = () => {
     return (
       <div className="flex justify-between mr-2">
