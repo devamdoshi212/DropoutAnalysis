@@ -7,5 +7,9 @@ router.get(
   analysisController.FilterStudentinGroup
 );
 router.get("/yearWiseData", analysisController.yearWiseData);
+router.get(
+  "/FilterStudentinGroupByTwo",
+  analysisController.FilterStudentinGroupByTwo
+);
 
 module.exports = router;
