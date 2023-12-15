@@ -19,11 +19,31 @@ export const RegistrationvalidationSchema = Yup.object().shape({
   familyIncome: Yup.number().required("Family Annual Income is required"),
   disability: Yup.string(),
   parentoccupation: Yup.string().required("Parent's occupation is required"),
-  parentmaritalstatus: Yup.string().required("Parent's marital Status is required"),
+  parentmaritalstatus: Yup.string().required(
+    "Parent's marital Status is required"
+  ),
   contact: Yup.string().required("Contact Number is required"),
 });
 
 export const LoginValidationSchemas = Yup.object().shape({
   Email: Yup.string().required("Email is required"),
   Password: Yup.string().required("Password is required"),
+});
+
+export const excelFileSchema = Yup.object().shape({
+  excelfile: Yup.mixed()
+    .required("Excel file is required")
+    .test(
+      "fileType",
+      "Only Excel files are allowed",
+      (value) =>
+        value &&
+        value[0].type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    .test(
+      "fileSize",
+      "File size must be less than 5MB",
+      (value) => value && value[0].size <= 5242880
+    ),
 });
