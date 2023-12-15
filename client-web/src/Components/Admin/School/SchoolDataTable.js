@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -7,16 +6,14 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import { SchoolServices } from "./SchoolServices";
 import FetchTaluka from "../../../API/FetchTaluka";
-import { useSelector } from "react-redux";
 import FetchDistrict from "../../../API/FetchDistrict";
 import FetchCity from "../../../API/FetchCity";
-
-export default function SchoolDataTable() {
+import FetchState from "../../../API/FetchState";
+import { AdminSchoolServices } from "./AdminSchoolServices";
+export default function AdminSchoolDataTable() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
-  const [selectedStudents, setSelectedStudents] = useState([]);
 
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,17 +28,16 @@ export default function SchoolDataTable() {
   const [selectedTaluka, setSelectedTaluka] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [TalukaName, setTalukaName] = useState([]);
+  const [stateName, setStateName] = useState([]);
+
   const [DistrictName, setDistrictName] = useState([]);
   const [CityName, setCityName] = useState([]);
   const [selectedState, setSelectedState] = useState("");
-
-  const userData = useSelector((state) => state.user.user);
-
   useEffect(() => {
-    FetchDistrict(userData.State).then((res) => {
-      setDistrictName(res);
+    FetchState().then((res) => {
+      setStateName(res);
     });
-  }, [userData.State]);
+  }, []);
 
   //   const DeleteHandler = (rowdata) => {
   //     Swal.fire({
@@ -74,7 +70,8 @@ export default function SchoolDataTable() {
   //   };
 
   useEffect(() => {
-    SchoolServices.getCustomersXLarge(
+    AdminSchoolServices.getCustomersXLarge(
+      selectedState,
       selectedDistrict,
       selectedTaluka,
       selectedCity
@@ -83,7 +80,13 @@ export default function SchoolDataTable() {
       setLoading(false);
     });
     initFilters();
-  }, [deleterefresh, selectedDistrict, selectedCity, selectedTaluka]);
+  }, [
+    deleterefresh,
+    selectedDistrict,
+    selectedState,
+    selectedCity,
+    selectedTaluka,
+  ]);
 
   const getCustomers = (data) => {
     return [...(data || [])].map((d) => {
@@ -197,13 +200,34 @@ export default function SchoolDataTable() {
   return (
     <>
       <label className="flex mb-4">
+        <span className="text-gray-500 font-bold w-1/3">Select State</span>
+        <select
+          className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+          value={selectedState}
+          onChange={(e) => {
+            setSelectedState(e.target.value);
+            FetchDistrict(e.target.value).then((res) => {
+              setDistrictName(res);
+            });
+          }}
+          required
+        >
+          <option value="">Select State</option>
+          {stateName.map((item, index) => (
+            <option key={index} value={item._id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="flex mb-4">
         <span className="text-gray-500 font-bold w-1/3">Select District</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
           value={selectedDistrict}
           onChange={(e) => {
             setSelectedDistrict(e.target.value);
-            FetchTaluka(userData.State, e.target.value).then((res) => {
+            FetchTaluka(selectedState, e.target.value).then((res) => {
               setTalukaName(res);
             });
           }}
@@ -224,7 +248,7 @@ export default function SchoolDataTable() {
           value={selectedTaluka}
           onChange={(e) => {
             setSelectedTaluka(e.target.value);
-            FetchCity(userData.State, selectedDistrict, e.target.value).then(
+            FetchCity(selectedState, selectedDistrict, e.target.value).then(
               (res) => {
                 console.log(res);
                 setCityName(res);
@@ -259,7 +283,6 @@ export default function SchoolDataTable() {
           ))}
         </select>
       </label>
-
       <div className="card p-10">
         <DataTable
           value={customers}

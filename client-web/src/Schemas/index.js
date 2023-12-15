@@ -47,3 +47,10 @@ export const excelFileSchema = Yup.object().shape({
       (value) => value && value[0].size <= 5242880
     ),
 });
+
+export const schoolvalidationSchema = Yup.object().shape({
+  Name: Yup.string().required("Name is required"),
+  Email: Yup.string().email("Invalid email").required("Email is required"),
+  Address: Yup.string().required("Address is required"),
+  ContactNumber: Yup.string().required("Contact Number is required"),
+});
