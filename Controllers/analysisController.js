@@ -133,7 +133,7 @@ module.exports.yearWiseData = async (req, res) => {
       pipeline.push({
         $group: {
           _id: {
-            is_active: "$is_active",
+            // is_active: "$is_active",
             year: { $year: "$updatedAt" },
             Gender: "$Gender",
           },
@@ -161,7 +161,7 @@ module.exports.yearWiseData = async (req, res) => {
     if (gender == 1) {
       pipeline.push({
         $project: {
-          is_active: "$_id.is_active",
+        //   is_active: "$_id.is_active",
           year: "$_id.year",
           gender: "$_id.Gender",
           numOfStudent: 1,
