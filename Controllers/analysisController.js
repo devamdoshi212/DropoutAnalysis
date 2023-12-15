@@ -1,42 +1,50 @@
 const studentModel = require("../models/StudentModel");
-
+const mongoose = require("mongoose");
 //admin
 module.exports.FilterStudentinGroup = async (req, res) => {
   try {
     const type = req.params.id;
     // const lastSchoolName = req.query.School_id;
-    const state = req.query.state;
-    const district = req.query.district;
-    const city = req.query.city;
-    const taluka = req.query.taluka;
-    const school = req.query.school;
+    // const state =
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
     // const citytype=req.body.
 
     const pipeline = [];
 
-    if (state) {
-      pipeline.push({ $match: { State: state } });
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
     }
 
-    if (district) {
-      pipeline.push({ $match: { District: district } });
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
     }
 
-    if (city) {
-      pipeline.push({ $match: { City: city } });
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
     }
 
-    if (taluka) {
-      pipeline.push({ $match: { Taluka: taluka } });
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
     }
 
-    if (school) {
+    if (req.query.school) {
       pipeline.push({
         $match: {
           SchoolID: {
             $expr: {
               $eq: [
-                lastSchoolId,
+                new mongoose.Types.ObjectId(req.query.school),
                 { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
               ],
             },
@@ -93,10 +101,11 @@ module.exports.yearWiseData = async (req, res) => {
     const district = req.query.district;
     const city = req.query.city;
     const taluka = req.query.taluka;
-    const standard=req.query.standard
+    const standard = req.query.standard;
     // const citytype=req.body.
-    
+    const gender = req.query.gender;
     const pipeline = [];
+    // console.log(state);
 
     if (state) {
       pipeline.push({ $match: { State: state } });
@@ -115,21 +124,33 @@ module.exports.yearWiseData = async (req, res) => {
     }
 
     if (standard) {
-        pipeline.push({ $match: { Standard: standard } });
-      }
-    
+      pipeline.push({ $match: { Standard: standard } });
+    }
+
     pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
-
-    pipeline.push({
-      $group: {
-        _id: {
-          is_active: "$is_active",
-          year: { $year: "$updatedAt" },
+    if (gender == 1) {
+      pipeline.push({
+        $group: {
+          _id: {
+            is_active: "$is_active",
+            year: { $year: "$updatedAt" },
+            Gender: "$Gender",
+          },
+          numOfStudent: { $sum: 1 },
         },
-        numOfStudent: { $sum: 1 },
-      },
-    });
+      });
+    } else {
+      pipeline.push({
+        $group: {
+          _id: {
+            is_active: "$is_active",
+            year: { $year: "$updatedAt" },
+          },
+          numOfStudent: { $sum: 1 },
+        },
+      });
+    }
 
     pipeline.push({
       $sort: {
@@ -137,14 +158,27 @@ module.exports.yearWiseData = async (req, res) => {
         "_id.is_active": 1,
       },
     });
-    pipeline.push({
-      $project: {
-        is_active: "$_id.is_active",
-        year: "$_id.year",
-        numOfStudent: 1,
-        _id: 0, // Exclude the _id field
-      },
-    });
+    if (gender == 1) {
+      pipeline.push({
+        $project: {
+          is_active: "$_id.is_active",
+          year: "$_id.year",
+          gender: "$_id.Gender",
+          numOfStudent: 1,
+          _id: 0, // Exclude the _id field
+        },
+      });
+    } else {
+      pipeline.push({
+        $project: {
+          is_active: "$_id.is_active",
+          year: "$_id.year",
+          //   gender: "$_id.Gender",
+          numOfStudent: 1,
+          _id: 0, // Exclude the _id field
+        },
+      });
+    }
 
     const StudentsData = await studentModel.aggregate(pipeline);
 
