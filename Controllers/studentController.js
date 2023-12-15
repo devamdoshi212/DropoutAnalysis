@@ -1,5 +1,6 @@
 const StudentModel = require("../models/StudentModel");
 const xlsx = require("xlsx");
+const mongoose = require("mongoose");
 // const multer = require("multer");
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
@@ -122,9 +123,9 @@ async function addStudentsFromExcel(req, res) {
 
 async function getSchoolWiseStudents(req, res) {
   try {
-    const lastSchoolId = req.query.schoolId;
+    const lastSchoolId = new mongoose.Types.ObjectId(req.query.schoolId);
     const status = req.query.status;
-    console.log(lastSchoolId, status);
+    // console.log(lastSchoolId, status);
     let data = await StudentModel.find({
       $expr: {
         $eq: [
