@@ -4,6 +4,9 @@ import FetchDistrict from "../../../API/FetchDistrict";
 import FetchTaluka from "../../../API/FetchTaluka";
 import FetchCity from "../../../API/FetchCity";
 import FetchSchoolMedium from "../../../API/FetchSchoolMedium";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import {schoolvalidationSchema} from '../../../Schemas'
 
 const AddSchoolForm = () => {
   const [stateName, setStateName] = useState([]);
@@ -33,17 +36,17 @@ const AddSchoolForm = () => {
     });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e, action) => {
+    // e.preventDefault();
 
     try {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify({
-        Name: name,
-        Address: address,
-        ContactNumber: contactNumber,
+        Name: e.Name,
+        Address: e.Address,
+        ContactNumber: e.ContactNumber,
         Medium: selectedMedium,
         Type: type,
         State: selectedState,
@@ -73,9 +76,9 @@ const AddSchoolForm = () => {
           myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify({
-            Name: name,
-            Email: email,
-            ContactNumber: contactNumber,
+            Name: e.Name,
+            Email: e.Email,
+            ContactNumber: e.ContactNumber,
             Role: 5,
             School: result.data._id,
           });
@@ -102,10 +105,7 @@ const AddSchoolForm = () => {
           console.error("Error:", err);
         }
 
-        setEmail("");
-        setName("");
-        setAddress("");
-        setContactNumber("");
+        action.resetForm();
         setSelectedMedium("");
         setType("");
         setSelectedState("");
@@ -121,177 +121,202 @@ const AddSchoolForm = () => {
   };
 
   return (
-    <div className="mx-auto my-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-400 w-3/5">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Add School</h2>
-      <form onSubmit={handleSubmit}>
-        <label className="mb-4 flex ">
-          <span className="text-gray-500 font-bold w-1/3 ">Name</span>
+    <>
+      <div className="mx-auto my-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-400 w-3/5">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Add School</h2>
+        <Formik
+          initialValues={{
+            Name: "",
+            Email: "",
+            Address: "",
+            ContactNumber: "",
+          }}
+          validationSchema={schoolvalidationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form>
+            <label className="mb-4 flex ">
+              <span className="text-gray-500 font-bold w-1/3 ">Name</span>
 
-          <input
-            type="text"
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Email</span>
-          <input
-            type="text"
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Address</span>
-          <input
-            type="text"
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          />
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Contact Number</span>
-          <input
-            type="tel"
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={contactNumber}
-            onChange={(e) => setContactNumber(e.target.value)}
-            required
-          />
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Medium</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedMedium}
-            onChange={(e) => setSelectedMedium(e.target.value)}
-            required
-          >
-            <option value="">Select Medium</option>
-            {medium.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.name}
-              </option>
-            ))}
-            {/* <option value="English">English</option>
+              <Field
+                type="text"
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                name="Name"
+              />
+              <ErrorMessage
+              name="Name"
+              component="div"
+              className="text-red-500 text-sm text-center mx-4"
+            />
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Email</span>
+              <Field
+                type="text"
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                name="Email"
+              />
+              <ErrorMessage
+              name="Email"
+              component="div"
+              className="text-red-500 text-sm text-center mx-4"
+            />
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Address</span>
+              <Field
+                type="text"
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                name="Address"
+              />
+              <ErrorMessage
+              name="Address"
+              component="div"
+              className="text-red-500 text-sm text-center mx-4"
+            />
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Contact Number</span>
+              <Field
+                type="tel"
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                name="ContactNumber"
+              />
+              <ErrorMessage
+              name="ContactNumber"
+              component="div"
+              className="text-red-500 text-sm text-center mx-4"
+            />
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Medium</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={selectedMedium}
+                onChange={(e) => setSelectedMedium(e.target.value)}
+                required
+              >
+                <option value="">Select Medium</option>
+                {medium.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+                {/* <option value="English">English</option>
             <option value="Other">Other</option> */}
-          </select>
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Type</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            required
-          >
-            <option value="">Select Type</option>
-            <option value="0">Government</option>
-            <option value="1">Private</option>
-            <option value="2">Semi-Government</option>
-            <option value="3">International</option>
-          </select>
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Select State</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedState}
-            onChange={(e) => {
-              setSelectedState(e.target.value);
-              FetchDistrict(e.target.value).then((res) => {
-                setDistrictName(res);
-              });
-            }}
-            required
-          >
-            <option value="">Select State</option>
-            {stateName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Select District</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedDistrict}
-            onChange={(e) => {
-              setSelectedDistrict(e.target.value);
-              FetchTaluka(selectedState, e.target.value).then((res) => {
-                setTalukaName(res);
-              });
-            }}
-            required
-          >
-            <option value="">Select District</option>
-            {DistrictName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.district}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedTaluka}
-            onChange={(e) => {
-              setSelectedTaluka(e.target.value);
-              FetchCity(selectedState, selectedDistrict, e.target.value).then(
-                (res) => {
-                  console.log(res);
-                  setCityName(res);
-                }
-              );
-            }}
-            required
-          >
-            <option value="">Select Taluka</option>
-            {TalukaName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.taluka}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex mb-4">
-          <span className="text-gray-500 font-bold w-1/3">Select City</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedCity}
-            onChange={(e) => {
-              setSelectedCity(e.target.value);
-            }}
-            required
-          >
-            <option value="">Select City/Village</option>
-            {CityName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.city}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
-          >
-            Add School
-          </button>
-        </div>
-      </form>
-    </div>
+              </select>
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Type</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                required
+              >
+                <option value="">Select Type</option>
+                <option value="0">Government</option>
+                <option value="1">Private</option>
+                <option value="2">Semi-Government</option>
+                <option value="3">International</option>
+              </select>
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Select State</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={selectedState}
+                onChange={(e) => {
+                  setSelectedState(e.target.value);
+                  FetchDistrict(e.target.value).then((res) => {
+                    setDistrictName(res);
+                  });
+                }}
+                required
+              >
+                <option value="">Select State</option>
+                {stateName.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Select District</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={selectedDistrict}
+                onChange={(e) => {
+                  setSelectedDistrict(e.target.value);
+                  FetchTaluka(selectedState, e.target.value).then((res) => {
+                    setTalukaName(res);
+                  });
+                }}
+                required
+              >
+                <option value="">Select District</option>
+                {DistrictName.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.district}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={selectedTaluka}
+                onChange={(e) => {
+                  setSelectedTaluka(e.target.value);
+                  FetchCity(selectedState, selectedDistrict, e.target.value).then(
+                    (res) => {
+                      console.log(res);
+                      setCityName(res);
+                    }
+                  );
+                }}
+                required
+              >
+                <option value="">Select Taluka</option>
+                {TalukaName.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.taluka}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex mb-4">
+              <span className="text-gray-500 font-bold w-1/3">Select City</span>
+              <select
+                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                value={selectedCity}
+                onChange={(e) => {
+                  setSelectedCity(e.target.value);
+                }}
+                required
+              >
+                <option value="">Select City/Village</option>
+                {CityName.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.city}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="flex items-center justify-center">
+              <button
+                type="submit"
+                className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+              >
+                Add School
+              </button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
+    </>
   );
 };
 
