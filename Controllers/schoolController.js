@@ -1,6 +1,8 @@
 const SchoolModel = require("../models/SchoolModel");
 const schoolModel = require("../models/SchoolModel");
-const SchoolTypeModel = require("./../models/SchoolType");
+const studentmodel = require("../models/StudentModel");
+const SchoolTypeModel = require("../models/SchoolType");
+const { default: mongoose } = require("mongoose");
 
 async function getSchool(req, res) {
   try {
@@ -78,9 +80,63 @@ async function getSchoolType(req, res) {
   }
 }
 
+async function schoolDashboardCount(req, res) {
+  try {
+    const lastSchoolId = new mongoose.Types.ObjectId(req.query.School_ID);
+
+    // The entire expression { $eq: [lastSchoolName, { $arrayElemAt: ["$School_name", -1] }] } compares the lastSchoolName variable with the last element of the School_name array within each document.
+
+    const students = await studentmodel.find({
+      $expr: {
+        $eq: [
+          lastSchoolId,
+          { $arrayElemAt: ["$SchoolID", -1] }, // Get the last element of the School_name array
+        ],
+      },
+    });
+
+    const malestudents = students.filter((ele) => {
+      return ele.Gender == "male";
+    });
+    const femalestudents = students.filter((ele) => {
+      return ele.Gender == "female";
+    });
+    const inactivestudents = students.filter((ele) => {
+      return ele.is_active == 0;
+    });
+    const dropwithreason = students.filter((ele) => {
+      return ele.is_active == 1;
+    });
+    const dropwithoutreason = students.filter((ele) => {
+      return ele.is_active == 2;
+    });
+    const activestudents = students.filter((ele) => {
+      return ele.is_active == 3;
+    });
+
+    res.json({
+      students: students.length,
+      malestudents: malestudents.length,
+      femalestudents: femalestudents.length,
+      inactivestudents: inactivestudents.length,
+      dropwithreason: dropwithreason.length,
+      dropwithoutreason: dropwithoutreason.length,
+      activestudents: activestudents.length,
+      rcode: 200,
+    });
+  } catch (error) {
+    console.log(err);
+    res.json({
+      data: err,
+      rcode: -9,
+    });
+  }
+}
+
 module.exports = {
   addSchool,
   getSchool,
   addSchoolType,
   getSchoolType,
+  schoolDashboardCount,
 };
