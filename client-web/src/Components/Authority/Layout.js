@@ -7,7 +7,7 @@ import {
   useNavigate,
   useLoaderData,
 } from "react-router-dom";
-// import image from "./../../Assets/symbol.png";
+import image from "./../../Assets/logo.jpg";
 import Swal from "sweetalert2";
 import { UserActions } from "../../Store/UserData";
 
@@ -37,7 +37,7 @@ const AuthorityLayout = () => {
     <div className="bg-[#f8f9fa] font-family-karla flex ">
       <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
         <div className=" top-0 left-0 p-6 text-center">
-          {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
+           <img src={image} alt="symbol" className="opacity-70 m-auto w-36 h-36 rounded-full " /> 
           <Link
             to={"/authority"}
             className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
@@ -76,26 +76,32 @@ const AuthorityLayout = () => {
               </svg>
               Dashboard
             </Link>
+            </div>
+
+            <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"schooldetails"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
             >
-              <svg
+            <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
                 />
               </svg>
               School Details
             </Link>
+            </div>
+
+            <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addSchool"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
@@ -104,14 +110,14 @@ const AuthorityLayout = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
                 />
               </svg>
               Add School

@@ -52,8 +52,9 @@ fetch("http://localhost:9999/addStudentExcel", requestOptions)
   };
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div>
-        <label htmlFor="file">Choose Excel File:</label>
+    <div className='min-w-fit w-3/5 mx-auto my-5 mt-8 p-5 border rounded bg-gray-100 shadow-md shadow-gray-400 space-y-5'>
+      <div className='mx-5 space-x-3'>
+        <label htmlFor="file" className='font-semibold text-gray-500'>Choose Excel File :</label>
         <input
           id="fileInput"
           name="file"
@@ -66,7 +67,8 @@ fetch("http://localhost:9999/addStudentExcel", requestOptions)
           <div style={{ color: 'red' }}>{formik.errors.file}</div>
         )}
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit" className='mx-5 bg-blue-700 text-white font-bold tracking-wider py-2 px-5  rounded-md hover:bg-blue-600 uppercase'>Submit</button>
+      </div>
     </form>
   );
 };
