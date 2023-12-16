@@ -48,6 +48,7 @@ async function addStudents(req, res) {
   }
 }
 
+//0 inactive , 1 dropout with reason , 2 dropout w/o reason , 3 studying
 async function deactivateStudent(req, res) {
   try {
     const status = req.body.status;
@@ -63,12 +64,107 @@ async function deactivateStudent(req, res) {
       };
     }
 
+    //   {
+    //     "Gender": "female",
+    //     "District": "Anand",
+    //     "School_name[0]": 24060101339,
+    //     "City_type": "Urban",
+    //     "School_medium": "English",
+    //     "School_std": 8,
+    //     "Family_income": "4-6 Lakh",
+    //     "Cast": "ST",
+    //     "Disabled": 0
+    // }
     if (status == 1) {
       change.Reasons = req.body.reason;
     }
     console.log(change);
     let data = await StudentModel.updateMany({ _id: id }, changeQuery);
+    console.log(JSON.stringify(data));
+    if (status === 1) {
+      let studentarray = await StudentModel.find({ _id: { $in: id } })
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        })
+        .lean();
 
+      studentarray.forEach((ele) => {
+        fetch("http://127.0.0.1:5000/newData", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Gender: ele.Gender,
+            State: ele.State.name,
+            District: ele.District.district,
+            Taluka: ele.Taluka.taluka,
+            City: ele.City.city,
+            "School_name[0]": ele.SchoolID[ele.SchoolID.length - 1]._id,
+            City_type: ele.City.cityType === 0 ? "Urban" : "Rural",
+            School_medium: ele.SchoolID[ele.SchoolID.length - 1].Medium.name,
+            School_std: ele.Standard,
+            ParentOccupation: ele.ParentOccupation,
+            ParentMaritalStatus: ele.ParentMaritalStatus,
+            Family_income: ele.FamilyIncome,
+            Cast: ele.Caste,
+            Disabled: ele.Disablity,
+            Reason: ele.Reasons,
+          }),
+        });
+      });
+    }
+
+    if (status === 2) {
+      let studentarray = await StudentModel.find({ _id: { $in: id } })
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        })
+        .lean();
+
+      for (let index = 0; index < studentarray.length; index++) {
+        const ele = studentarray[index];
+        const result = await fetch("http://127.0.0.1:5000/predictModel", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Gender: ele.Gender,
+            State: ele.State.name,
+            District: ele.District.district,
+            Taluka: ele.Taluka.taluka,
+            City: ele.City.city,
+            "School_name[0]": ele.SchoolID[ele.SchoolID.length - 1]._id,
+            City_type: ele.City.cityType === 0 ? "Urban" : "Rural",
+            School_medium: ele.SchoolID[ele.SchoolID.length - 1].Medium.name,
+            School_std: ele.Standard,
+            ParentOccupation: ele.ParentOccupation,
+            ParentMaritalStatus: ele.ParentMaritalStatus,
+            Family_income: ele.FamilyIncome,
+            Cast: ele.Caste,
+            Disabled: ele.Disablity,
+          }),
+        });
+        const response = await result.json();
+        console.log(response);
+        if (response.message != "NO REASON FOUND") {
+          let Student = await StudentModel.findOne({ _id: ele._id });
+          Student.Reasons = response.message;
+          await Student.save();
+        }
+      }
+    }
     res.json({
       data: data,
       rcode: 200,
