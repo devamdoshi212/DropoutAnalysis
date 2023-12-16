@@ -83,7 +83,7 @@ module.exports.FilterStudentinGroup = async (req, res) => {
     const StudentsData = await studentModel.aggregate(pipeline);
 
     pipeline.shift();
-    pipeline.unshift({ $match: { is_active: 3 } });
+    // pipeline.unshift({ $match: { is_active: 3 } });
     const total = await studentModel.aggregate(pipeline);
 
     res.status(200).json({
