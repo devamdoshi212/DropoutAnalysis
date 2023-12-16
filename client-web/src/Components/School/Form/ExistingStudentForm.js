@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useSelector } from "react-redux";
 
 const ExistingStudentForm = () => {
   const [uidInput, setUidInput] = useState("");
   const [aadharInput, setAadharInput] = useState("");
   const [selectedStudent, setSelectedStudent] = useState([]);
   const [studentFlage, setStudentFlage] = useState(null);
-
+  const [selectedOption, setSelectedOption] = useState("");
   const findStudentByUid = () => {};
 
   const findStudentByAadhar = () => {
@@ -33,14 +34,22 @@ const ExistingStudentForm = () => {
       .catch((error) => console.log("error", error));
   };
 
-  console.log(selectedStudent);
+  const schoolData = useSelector((state) => state.user.user);
+  const sId = schoolData.School._id;
 
   const addStudentToSchool = () => {
-    if (selectedStudent) {
-      console.log(`Added student ${selectedStudent.name} to the school.`);
-    } else {
-      console.log("No student selected.");
-    }
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      `http://localhost:9999/addExistingStudent?schoolID=${sId}&standard=${selectedOption}&studentId=${selectedStudent._id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   const initialValues = {
@@ -62,13 +71,21 @@ const ExistingStudentForm = () => {
         : "",
     gender:
       selectedStudent && selectedStudent.Gender ? selectedStudent.Gender : "",
-    dob: selectedStudent && selectedStudent.DOB ? selectedStudent.DOB : "",
+    dob:
+      selectedStudent && selectedStudent.DOB
+        ? selectedStudent.DOB.split("T")[0]
+        : "",
     aadharCard:
       selectedStudent && selectedStudent.AadharNumber
         ? selectedStudent.AadharNumber
         : "",
     schoolName:
-      selectedStudent && selectedStudent.Name ? selectedStudent.Name : "",
+      selectedStudent &&
+      selectedStudent.SchoolID &&
+      selectedStudent.SchoolID[selectedStudent.SchoolID.length - 1].Name
+        ? selectedStudent.SchoolID[selectedStudent.SchoolID.length - 1].Name
+        : "",
+
     state:
       selectedStudent && selectedStudent.State && selectedStudent.State.name
         ? selectedStudent.State.name
@@ -105,7 +122,7 @@ const ExistingStudentForm = () => {
     disability:
       selectedStudent && selectedStudent.Disablity
         ? selectedStudent.Disablity
-        : "",
+        : "0 %",
     parentoccupation:
       selectedStudent && selectedStudent.ParentOccupation
         ? selectedStudent.ParentOccupation
@@ -121,68 +138,92 @@ const ExistingStudentForm = () => {
     address:
       selectedStudent && selectedStudent.Address ? selectedStudent.Address : "",
   };
+  const options = [
+    { value: "", label: "Select Standard" },
+    { value: "-1", label: "Junior KG" },
+    { value: "0", label: "Senior KG" },
+    { value: "1", label: "Standard 1" },
+    { value: "2", label: "Standard 2" },
+    { value: "3", label: "Standard 3" },
+    { value: "4", label: "Standard 4" },
+    { value: "5", label: "Standard 5" },
+    { value: "6", label: "Standard 6" },
+    { value: "7", label: "Standard 7" },
+    { value: "8", label: "Standard 8" },
+    { value: "9", label: "Standard 9" },
+    { value: "10", label: "Standard 10" },
+  ];
+  useEffect(() => {
+    initialValues.standard = selectedOption;
+  }, [selectedOption]);
+  useEffect(() => {
+    if (selectedStudent && selectedStudent.Standard) {
+      setSelectedOption(selectedStudent.Standard.toString());
+    }
+  }, [selectedStudent]);
 
+  console.log(selectedStudent.SchoolID.Name);
   return (
     <>
       <div className="bg-[#f8f9fa] m-5 h-screen">
-      <div
-        className="mx-auto mt-8 p-8 border rounded bg-gray-100 shadow-md shadow-gray-700 "
-        style={{ width: "50%" }}
-      >
-        <h2 className="text-xl font-bold mb-4">
-          Add Existing Student to School
-        </h2>
+        <div
+          className="mx-auto mt-8 p-8 border rounded bg-gray-100 shadow-md shadow-gray-700 "
+          style={{ width: "50%" }}
+        >
+          <h2 className="text-xl font-bold mb-4">
+            Add Existing Student to School
+          </h2>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-600 text-md font-bold mb-2"
-            htmlFor="uidInput"
-          >
-            Student UID Number
-          </label>
-          <input
-            type="text"
-            id="uidInput"
-            className="border rounded-md p-2 focus:outline-gray-500 outline-2"
-            style={{ width: "100%" }}
-            value={uidInput}
-            onChange={(e) => setUidInput(e.target.value)}
-          />
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-600 text-md font-bold mb-2"
+              htmlFor="uidInput"
+            >
+              Student UID Number
+            </label>
+            <input
+              type="text"
+              id="uidInput"
+              className="border rounded-md p-2 focus:outline-gray-500 outline-2"
+              style={{ width: "100%" }}
+              value={uidInput}
+              onChange={(e) => setUidInput(e.target.value)}
+            />
+          </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-600 text-md font-bold mb-2"
-            htmlFor="aadharInput"
-          >
-            Aadhar Number
-          </label>
-          <input
-            type="text"
-            id="aadharInput"
-            className="border rounded-md p-2 focus:outline-gray-500 outline-2"
-            style={{ width: "100%" }}
-            value={aadharInput}
-            onChange={(e) => setAadharInput(e.target.value)}
-          />
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-600 text-md font-bold mb-2"
+              htmlFor="aadharInput"
+            >
+              Aadhar Number
+            </label>
+            <input
+              type="text"
+              id="aadharInput"
+              className="border rounded-md p-2 focus:outline-gray-500 outline-2"
+              style={{ width: "100%" }}
+              value={aadharInput}
+              onChange={(e) => setAadharInput(e.target.value)}
+            />
+          </div>
 
-        <div className="mb-4">
-          <button
-            type="button"
-            className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
-            onClick={findStudentByUid}
-          >
-            Find by UID
-          </button>
-          <button
-            type="button"
-            className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 ml-2 rounded"
-            onClick={findStudentByAadhar}
-          >
-            Find by Aadhar
-          </button>
-        </div>
+          <div className="mb-4">
+            <button
+              type="button"
+              className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
+              onClick={findStudentByUid}
+            >
+              Find by UID
+            </button>
+            <button
+              type="button"
+              className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 ml-2 rounded"
+              onClick={findStudentByAadhar}
+            >
+              Find by Aadhar
+            </button>
+          </div>
         </div>
 
         {studentFlage && (
@@ -200,6 +241,7 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="firstName"
+                      disabled
                       className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
                     />
                   </div>
@@ -216,6 +258,7 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="middleName"
+                      disabled
                       className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
                     />
                   </div>
@@ -232,6 +275,7 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="lastName"
+                      disabled
                       className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
                     />
                   </div>
@@ -248,12 +292,20 @@ const ExistingStudentForm = () => {
                     <Field
                       as="select"
                       name="standard"
+                      onChange={(e) => setSelectedOption(e.target.value)}
                       className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
                     >
-                      <option value="">Select Standard</option>
-                      <option value="1">Standard 1</option>
-                      <option value="2">Standard 2</option>
-                      <option value="3">Standard 3</option>
+                      {options
+                        .filter(
+                          (option) =>
+                            parseInt(option.value, 10) >
+                            parseInt(initialValues.standard, 10)
+                        )
+                        .map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                     </Field>
                   </div>
                   <ErrorMessage
@@ -276,6 +328,10 @@ const ExistingStudentForm = () => {
                       <label className="ml-4">
                         <Field type="radio" name="gender" value="female" />
                         Female
+                      </label>
+                      <label className="ml-4">
+                        <Field type="radio" name="gender" value="other" />
+                        Other
                       </label>
                     </div>
                   </div>
@@ -491,14 +547,25 @@ const ExistingStudentForm = () => {
                       htmlFor="parentmaritalstatus"
                       className="text-gray-500 text-md font-bold mb-2 w-1/3"
                     >
-                      Parent Marrital Status
+                      Parent Marital Status
                     </label>
                     <Field
-                      type="text"
+                      as="select"
                       name="parentmaritalstatus"
                       className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
-                    />
+                    >
+                      <option value="">Select Status</option>
+                      <option value="0">Without Parent</option>
+                      <option value="1">Without Father</option>
+                      <option value="2">Without Mother</option>
+                      <option value="3">With Both</option>
+                    </Field>
                   </div>
+                  <ErrorMessage
+                    name="parentmaritalstatus"
+                    component="div"
+                    className="text-red-500 text-sm  text-center mx-4"
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -528,7 +595,6 @@ const ExistingStudentForm = () => {
           </div>
         )}
       </div>
-      
     </>
   );
 };
