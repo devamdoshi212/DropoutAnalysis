@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -53,26 +53,71 @@ export default function DomainDataTable() {
     });
   };
 
+  const dt = useRef(null);
+  let schoolData = [];
+  const exportExcel = () => {
+    console.log(customers);
+    customers.map((customer) => {
+      let newObject = {
+        "State": customer.State.name,
+        "District": customer.District.district,
+        "Taluka": customer.Taluka.taluka,
+        "City": customer.City.city,
+      }
+      schoolData.push(newObject);
+    });
+
+    import('xlsx').then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(schoolData);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array'
+      });
+
+      saveAsExcelFile(excelBuffer, 'School Data');
+    });
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import('file-saver').then((module) => {
+      if (module && module.default) {
+        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        let EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE
+        });
+
+        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      }
+    });
+  };
+
   const renderHeader = () => {
     return (
-      <div className="flex justify-between mr-2">
-        <Button
-          type="button"
-          label="Clear"
-          outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
-          onClick={clearFilter}
-        />
-
-        <span className="p-input-icon-left">
-          <InputText
-            value={globalFilterValues.Name}
-            onChange={onGlobalFilterChange}
-            placeholder="Keyword Search"
-            className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+      <>
+        <div className="flex align-items-center justify-content-end gap-2">
+          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        </div>
+        <div className="flex justify-between mr-2">
+          <Button
+            type="button"
+            label="Clear"
+            outlined
+            className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+            onClick={clearFilter}
           />
-        </span>
-      </div>
+
+          <span className="p-input-icon-left">
+            <InputText
+              value={globalFilterValues.Name}
+              onChange={onGlobalFilterChange}
+              placeholder="Keyword Search"
+              className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+            />
+          </span>
+        </div>
+      </>
     );
   };
 
@@ -113,6 +158,7 @@ export default function DomainDataTable() {
       </div>
       <div className="card p-10">
         <DataTable
+          ref={dt}
           value={customers}
           paginator
           showGridlines
