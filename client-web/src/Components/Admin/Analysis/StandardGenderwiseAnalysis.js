@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ReasonwiseGenderDropoutAnalysis = ({
+const StandardGenderwiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -44,7 +44,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
       },
       yaxis: {
         title: {
-          text: "Number of Athelte in Sport Complexes",
+          text: "Percentage of Dropout students",
           style: {
             fontSize: "12px",
             // fontWeight: "bold",
@@ -55,7 +55,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Reason wise Dropout Analysis",
+        text: "Standard wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -81,64 +81,68 @@ const ReasonwiseGenderDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=Gender`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Standard&type2=Gender`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        const data = result.data.StudentsData.filter(
+        const data = result.data.StudentsData;
+        const standardWiseCounts = data.reduce((result, item) => {
+          const standard = item.Standard;
+          const gender = item.Gender || "Unknown";
+
+          result[standard] = result[standard] || {
+            standard,
+            genderCounts: { other: 0, male: 0, female: 0 },
+          };
+          result[standard].genderCounts[gender] =
+            (result[standard].genderCounts[gender] || 0) + item.numOfStudent;
+
+          return result;
+        }, {});
+
+        // Convert the grouped data object into an array
+        const resultArray = Object.values(standardWiseCounts);
+        console.log(resultArray);
+
+        const female = resultArray.map((s) => s.genderCounts.female);
+        const male = resultArray.map((s) => s.genderCounts.other);
+        const other = resultArray.map((s) => s.genderCounts.other);
+        const categories = resultArray.map((s) => "Standard " + s.standard);
+        const total = resultArray.map(
           (s) =>
-            s.Reasons !== "undefined" &&
-            s.Reasons !== null &&
-            s.Reasons !== "" &&
-            s.Reasons !== undefined
+            s.genderCounts.other + s.genderCounts.male + s.genderCounts.female
         );
-        let reasonGenderCount = {};
+        // const student = data.map((s) =>
+        //   ((s.numOfStudent / total) * 100).toFixed(2)
+        // );
 
-        data.forEach((entry) => {
-          let reason = entry["Reasons"];
-          let gender = entry["Gender"];
-
-          if (!reasonGenderCount[reason]) {
-            reasonGenderCount[reason] = { male: 0, female: 0, other: 0 };
-          }
-
-          reasonGenderCount[reason][gender] += entry["numOfStudent"];
-        });
-        // console.log(reasonGenderCount);
-        const reason = Object.keys(reasonGenderCount);
-
-        const count = Object.values(reasonGenderCount);
-        const total = count.map((s) => s.male + s.female + s.other);
-        const male = count.map((s) => s.male);
-        const female = count.map((s) => s.female);
-        const other = count.map((s) => s.other);
         setChartData({
           ...chartData,
           series: [
             {
-              name: "Total",
-              data: total,
+              name: "Female",
+              data: female,
             },
             {
               name: "Male",
               data: male,
             },
             {
-              name: "Female",
-              data: female,
-            },
-            {
               name: "Other",
               data: other,
+            },
+            {
+              name: "Total",
+              data: total,
             },
           ],
           options: {
             ...chartData.options,
             xaxis: {
               ...chartData.options.xaxis,
-              categories: reason,
+              categories: categories,
             },
           },
         });
@@ -158,4 +162,4 @@ const ReasonwiseGenderDropoutAnalysis = ({
   );
 };
 
-export default ReasonwiseGenderDropoutAnalysis;
+export default StandardGenderwiseAnalysis;
