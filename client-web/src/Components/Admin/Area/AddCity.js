@@ -5,6 +5,7 @@ import FetchTaluka from "../../../API/FetchTaluka";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api"; // Import PrimeIcons
+import Swal from "sweetalert2";
 
 const AddCity = () => {
   const [stateName, setStateName] = useState([]);
@@ -52,7 +53,13 @@ const AddCity = () => {
       const result = await response.json();
       console.log(result);
       if (result.rcode === 200) {
-        console.log("City added successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "City Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setSelectedState("");
         setSelectedDistrict("");
         setSelectedTaluka("");
@@ -164,26 +171,28 @@ const AddCity = () => {
             </select>
           </label>
 
-        <label className="block mb-4">
-          <span className="font-bold text-md text-gray-500">City/Village Name</span>
-          <input
-            type="text"
-            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
-            value={cityName}
-            onChange={(e) => setCityName(e.target.value)}
-            required
-          />
-        </label>
-        <div className="flex items-center justify-center">
-        <button
-          type="submit"
-          className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
-        >
-          Add City/Village
-        </button>
-        </div>
-      </form>
-    </div>
+          <label className="block mb-4">
+            <span className="font-bold text-md text-gray-500">
+              City/Village Name
+            </span>
+            <input
+              type="text"
+              className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
+              value={cityName}
+              onChange={(e) => setCityName(e.target.value)}
+              required
+            />
+          </label>
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+            >
+              Add City/Village
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

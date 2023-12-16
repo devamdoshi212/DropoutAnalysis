@@ -95,6 +95,13 @@ export default function InactiveStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Active Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -118,6 +125,13 @@ export default function InactiveStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Dropout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -125,7 +139,6 @@ export default function InactiveStudent() {
 
   const dt = useRef(null);
 
-  // console.log(customers);
   let customerData = [];
 
   const exportExcel = async () => {
@@ -343,7 +356,7 @@ export default function InactiveStudent() {
         <Column
           sortable
           header="UID"
-          field="UID"
+          field="_id"
           filterField="UID"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{
@@ -492,8 +505,10 @@ export default function InactiveStudent() {
             borderCollapse: "collapse",
             borderColor: "#c0c0c0",
             borderWidth: "1px",
-          }} // filterMatchMode={FilterMatchMode.CONTAINS}
-          // filterValue={globalFilterValues.District}
+          }}
+          body={(e) => {
+            return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+          }}
         />
         <Column
           header="Address"

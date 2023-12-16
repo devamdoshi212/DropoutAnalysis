@@ -313,7 +313,7 @@ export default function DropedStudents() {
         <Column
           sortable
           header="UID"
-          field="UID"
+          field="_id"
           filterField="UID"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{
@@ -462,8 +462,10 @@ export default function DropedStudents() {
             borderCollapse: "collapse",
             borderColor: "#c0c0c0",
             borderWidth: "1px",
-          }} // filterMatchMode={FilterMatchMode.CONTAINS}
-          // filterValue={globalFilterValues.District}
+          }}
+          body={(e) => {
+            return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+          }}
         />
         <Column
           header="Address"

@@ -6,7 +6,8 @@ import FetchCity from "../../../API/FetchCity";
 import FetchSchoolMedium from "../../../API/FetchSchoolMedium";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {schoolvalidationSchema} from '../../../Schemas'
+import { schoolvalidationSchema } from "../../../Schemas";
+import Swal from "sweetalert2";
 
 const AddSchoolForm = () => {
   const [stateName, setStateName] = useState([]);
@@ -115,6 +116,13 @@ const AddSchoolForm = () => {
       } else {
         console.error("Failed to add school");
       }
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "New School Added Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -135,70 +143,71 @@ const AddSchoolForm = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-         
             <label className="mb-4 ">
               <div className=" flex">
-              <span className="text-gray-500 font-bold w-1/3 ">Name</span>
+                <span className="text-gray-500 font-bold w-1/3 ">Name</span>
 
-              <Field
-                type="text"
-                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                name="Name"
-              />
+                <Field
+                  type="text"
+                  className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                  name="Name"
+                />
               </div>
               <ErrorMessage
-              name="Name"
-              component="div"
-              className="text-red-500 text-sm text-center mx-4 "
-            />
+                name="Name"
+                component="div"
+                className="text-red-500 text-sm text-center mx-4 "
+              />
             </label>
 
             <label className="mb-4">
-               <div className="flex ">
-              <span className="text-gray-500 font-bold w-1/3">Email</span>
-              <Field
-                type="text"
-                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                name="Email"
-              />
+              <div className="flex ">
+                <span className="text-gray-500 font-bold w-1/3">Email</span>
+                <Field
+                  type="text"
+                  className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                  name="Email"
+                />
               </div>
               <ErrorMessage
-              name="Email"
-              component="div"
-              className="text-red-500 text-sm text-center mx-4"
-            />
+                name="Email"
+                component="div"
+                className="text-red-500 text-sm text-center mx-4"
+              />
             </label>
 
             <label className="  mb-4">
               <div className="flex">
-              <span className="text-gray-500 font-bold w-1/3">Address</span>
-              <Field
-                type="text"
-                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                name="Address"
-              />
+                <span className="text-gray-500 font-bold w-1/3">Address</span>
+                <Field
+                  type="text"
+                  className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                  name="Address"
+                />
               </div>
               <ErrorMessage
-              name="Address"
-              component="div"
-              className="text-red-500 text-sm text-center mx-4"
-            />
+                name="Address"
+                component="div"
+                className="text-red-500 text-sm text-center mx-4"
+              />
             </label>
 
             <label className="mb-4">
               <div className="flex">
-              <span className="text-gray-500 font-bold w-1/3">Contact Number</span>
-              <Field
-                type="tel"
-                className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                name="ContactNumber"
-              />
+                <span className="text-gray-500 font-bold w-1/3">
+                  Contact Number
+                </span>
+                <Field
+                  type="tel"
+                  className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                  name="ContactNumber"
+                />
               </div>
               <ErrorMessage
-              name="ContactNumber"
-              component="div"
-              className="text-red-500 text-sm text-center mx-4"
-            />
+                name="ContactNumber"
+                component="div"
+                className="text-red-500 text-sm text-center mx-4"
+              />
             </label>
 
             <label className="flex mb-4">
@@ -235,7 +244,9 @@ const AddSchoolForm = () => {
               </select>
             </label>
             <label className="flex mb-4">
-              <span className="text-gray-500 font-bold w-1/3">Select State</span>
+              <span className="text-gray-500 font-bold w-1/3">
+                Select State
+              </span>
               <select
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 value={selectedState}
@@ -256,7 +267,9 @@ const AddSchoolForm = () => {
               </select>
             </label>
             <label className="flex mb-4">
-              <span className="text-gray-500 font-bold w-1/3">Select District</span>
+              <span className="text-gray-500 font-bold w-1/3">
+                Select District
+              </span>
               <select
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 value={selectedDistrict}
@@ -277,18 +290,22 @@ const AddSchoolForm = () => {
               </select>
             </label>
             <label className="flex mb-4">
-              <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
+              <span className="text-gray-500 font-bold w-1/3">
+                Select Taluka
+              </span>
               <select
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 value={selectedTaluka}
                 onChange={(e) => {
                   setSelectedTaluka(e.target.value);
-                  FetchCity(selectedState, selectedDistrict, e.target.value).then(
-                    (res) => {
-                      console.log(res);
-                      setCityName(res);
-                    }
-                  );
+                  FetchCity(
+                    selectedState,
+                    selectedDistrict,
+                    e.target.value
+                  ).then((res) => {
+                    console.log(res);
+                    setCityName(res);
+                  });
                 }}
                 required
               >
