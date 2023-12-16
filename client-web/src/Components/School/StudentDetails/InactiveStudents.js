@@ -137,14 +137,14 @@ export default function InactiveStudent() {
           type="button"
           label="Active"
           outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+          className="px-4 py-2 rounded-lg bg-blue-800 ring-0  hover:bg-blue-700 text-white tracking-wider font-bold uppercase"
           onClick={ActiveHandler}
         />
         <Button
           type="button"
           label="Dropout"
           outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+          className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
           onClick={DropoutHandler}
         />
         <span className="p-input-icon-left">
@@ -215,7 +215,7 @@ export default function InactiveStudent() {
         <Column
           selectionMode="multiple"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
 
         <Column
@@ -226,7 +226,7 @@ export default function InactiveStudent() {
             return calculateIndex(Math.floor(first / 10), rowIndex);
           }}
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
 
         <Column
@@ -234,7 +234,7 @@ export default function InactiveStudent() {
           field="Name"
           filterField="Name"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           sortable
@@ -242,7 +242,7 @@ export default function InactiveStudent() {
           field="UID"
           filterField="UID"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           sortable
@@ -250,14 +250,14 @@ export default function InactiveStudent() {
           field="Gender"
           filterField="location"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
         />
         <Column
           header="Aadhar Number"
           field="AadharNumber"
           filterField="AadharNumber"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
 
         <Column
@@ -266,7 +266,7 @@ export default function InactiveStudent() {
           field="Standard"
           filterField="Standard"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           header="DOB"
@@ -274,7 +274,7 @@ export default function InactiveStudent() {
           filterField="DOB"
           body={dateBodyTemplate}
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           sortable
@@ -282,14 +282,14 @@ export default function InactiveStudent() {
           field="District"
           filterField="District"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           header="City"
           field="City"
           filterField="City"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           sortable
@@ -297,7 +297,7 @@ export default function InactiveStudent() {
           field="Taluka"
           filterField="Taluka"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           sortable
@@ -305,7 +305,7 @@ export default function InactiveStudent() {
           field="Caste"
           filterField="Caste"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
         />
 
         <Column
@@ -313,7 +313,7 @@ export default function InactiveStudent() {
           field="City_type"
           filterField="City_type"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
         />
 
         <Column
@@ -322,7 +322,7 @@ export default function InactiveStudent() {
           field="School_medium" // Replace 'districtName' with the actual field name
           filterField="School_medium" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }} // filterMatchMode={FilterMatchMode.CONTAINS}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}} // filterMatchMode={FilterMatchMode.CONTAINS}
           // filterValue={globalFilterValues.District}
         />
         <Column
@@ -330,14 +330,14 @@ export default function InactiveStudent() {
           field="Address"
           filterField="Address"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
         />
         <Column
           header="Created At"
           field="createdAt" // Replace 'districtName' with the actual field name
           filterField="createdAt" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#DDE6ED" }}
+          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           body={dateBodyTemplate}
         />
       </DataTable>

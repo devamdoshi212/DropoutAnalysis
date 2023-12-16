@@ -199,8 +199,10 @@ export default function AdminSchoolDataTable() {
 
   return (
     <>
-      <label className="flex mb-4">
-        <span className="text-gray-500 font-bold w-1/3">Select State</span>
+    <div className="m-5">
+     <div className="flex mb-5">
+      <label className="m-3 w-1/4">
+        <span className="text-gray-700 font-bold w-1/3">Select State</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
           value={selectedState}
@@ -220,8 +222,9 @@ export default function AdminSchoolDataTable() {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
-        <span className="text-gray-500 font-bold w-1/3">Select District</span>
+
+      <label className="w-1/4 m-3">
+        <span className="text-gray-700 font-bold w-1/3">Select District</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
           value={selectedDistrict}
@@ -241,8 +244,8 @@ export default function AdminSchoolDataTable() {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
-        <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
+      <label className="w-1/4 m-3">
+        <span className="text-gray-700 font-bold w-1/3">Select Taluka</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
           value={selectedTaluka}
@@ -265,8 +268,8 @@ export default function AdminSchoolDataTable() {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
-        <span className="text-gray-500 font-bold w-1/3">Select City</span>
+      <label className="w-1/4 m-3">
+        <span className="text-gray-700 font-bold w-1/3">Select City</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
           value={selectedCity}
@@ -283,7 +286,9 @@ export default function AdminSchoolDataTable() {
           ))}
         </select>
       </label>
-      <div className="card p-10">
+      </div>
+
+      <div className="card ">
         <DataTable
           value={customers}
           paginator
@@ -307,7 +312,7 @@ export default function AdminSchoolDataTable() {
               return calculateIndex(Math.floor(first / 10), rowIndex);
             }}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
           />
 
           <Column
@@ -315,7 +320,7 @@ export default function AdminSchoolDataTable() {
             field="Name"
             filterField="Name"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
           <Column
             sortable
@@ -323,7 +328,7 @@ export default function AdminSchoolDataTable() {
             field="SchoolID"
             filterField="SchoolID"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
 
           <Column
@@ -332,7 +337,7 @@ export default function AdminSchoolDataTable() {
             field="Medium.name"
             filterField="Medium.name"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
           <Column
             header="Type"
@@ -340,7 +345,7 @@ export default function AdminSchoolDataTable() {
             filterField="Type"
             body={typeBodyTemplate}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9" ,border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
           />
           <Column
             sortable
@@ -348,7 +353,7 @@ export default function AdminSchoolDataTable() {
             field="State.name"
             filterField="State.name"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
           <Column
             sortable
@@ -356,7 +361,7 @@ export default function AdminSchoolDataTable() {
             field="District.district"
             filterField="District.district"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
 
           <Column
@@ -364,7 +369,7 @@ export default function AdminSchoolDataTable() {
             field="Taluka.taluka"
             filterField="Taluka"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
 
           <Column
@@ -373,23 +378,24 @@ export default function AdminSchoolDataTable() {
             field="City.city"
             filterField="City"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
           <Column
             header="Address"
             field="Address"
             filterField="Address"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
           <Column
             header="Contact Number"
             field="ContactNumber"
             filterField="ContactNumber"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
           />
         </DataTable>
+      </div>
       </div>
     </>
   );

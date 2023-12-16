@@ -71,7 +71,7 @@ const AddCity = () => {
         <label className="block mb-4">
           <span className="font-bold text-md text-gray-500">Select State</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={selectedState}
             onChange={(e) => {
               setSelectedState(e.target.value);
@@ -92,7 +92,7 @@ const AddCity = () => {
         <label className="block mb-4">
           <span className="font-bold text-md text-gray-500">Select District</span>
           <select
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-1 p-2 w-full border rounded-md outline-2 focus:outline-gray-300"
             value={selectedDistrict}
             onChange={(e) => {
               setSelectedDistrict(e.target.value);
@@ -153,7 +153,7 @@ const AddCity = () => {
         <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 text-white py-2 px-4 my-3 rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add City/Village
         </button>

@@ -51,8 +51,8 @@ const AdminDashboard = () => {
   };
   return (
     <div className="m-5">
-      <h1>{userData.Name}</h1>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+      <h3 className="font-serif text-5xl text-gray-700 underline decoration-2 underline-offset-8 decoration-dashed">{userData.Name}</h3>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 my-5">
         {/* <Link to={"districtWiseSportsComplex"}> */}
         <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl">Test</div>

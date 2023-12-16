@@ -101,8 +101,9 @@ const ExistingStudentForm = () => {
 
   return (
     <>
+      <div className="bg-[#f8f9fa] m-5 h-screen">
       <div
-        className="mx-auto mt-8 p-8 border rounded bg-white shadow-md"
+        className="mx-auto mt-8 p-8 border rounded bg-gray-100 shadow-md shadow-gray-700 "
         style={{ width: "50%" }}
       >
         <h2 className="text-xl font-bold mb-4">
@@ -111,7 +112,7 @@ const ExistingStudentForm = () => {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-600 text-md font-bold mb-2"
             htmlFor="uidInput"
           >
             Student UID Number
@@ -119,7 +120,7 @@ const ExistingStudentForm = () => {
           <input
             type="text"
             id="uidInput"
-            className="border-2"
+            className="border rounded-md p-2 focus:outline-gray-500 outline-2"
             style={{ width: "100%" }}
             value={uidInput}
             onChange={(e) => setUidInput(e.target.value)}
@@ -128,7 +129,7 @@ const ExistingStudentForm = () => {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-600 text-md font-bold mb-2"
             htmlFor="aadharInput"
           >
             Aadhar Number
@@ -136,7 +137,7 @@ const ExistingStudentForm = () => {
           <input
             type="text"
             id="aadharInput"
-            className="border-2"
+            className="border rounded-md p-2 focus:outline-gray-500 outline-2"
             style={{ width: "100%" }}
             value={aadharInput}
             onChange={(e) => setAadharInput(e.target.value)}
@@ -146,18 +147,19 @@ const ExistingStudentForm = () => {
         <div className="mb-4">
           <button
             type="button"
-            className="btn bg-blue-500 text-white font-bold py-2 px-4 rounded"
+            className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
             onClick={findStudentByUid}
           >
             Find by UID
           </button>
           <button
             type="button"
-            className="btn bg-blue-500 text-white font-bold py-2 px-4 ml-2 rounded"
+            className="btn bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 ml-2 rounded"
             onClick={findStudentByAadhar}
           >
             Find by Aadhar
           </button>
+        </div>
         </div>
 
         {studentFlage && (
@@ -503,6 +505,7 @@ const ExistingStudentForm = () => {
           </div>
         )}
       </div>
+      
     </>
   );
 };

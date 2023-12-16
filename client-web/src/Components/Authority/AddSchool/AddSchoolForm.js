@@ -135,7 +135,9 @@ const AddSchoolForm = () => {
           onSubmit={handleSubmit}
         >
           <Form>
-            <label className="mb-4 flex ">
+         
+            <label className="mb-4 ">
+              <div className=" flex">
               <span className="text-gray-500 font-bold w-1/3 ">Name</span>
 
               <Field
@@ -143,51 +145,62 @@ const AddSchoolForm = () => {
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 name="Name"
               />
+              </div>
               <ErrorMessage
               name="Name"
               component="div"
-              className="text-red-500 text-sm text-center mx-4"
+              className="text-red-500 text-sm text-center mx-4 "
             />
             </label>
-            <label className="flex mb-4">
+
+            <label className="mb-4">
+               <div className="flex ">
               <span className="text-gray-500 font-bold w-1/3">Email</span>
               <Field
                 type="text"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 name="Email"
               />
+              </div>
               <ErrorMessage
               name="Email"
               component="div"
               className="text-red-500 text-sm text-center mx-4"
             />
             </label>
-            <label className="flex mb-4">
+
+            <label className="  mb-4">
+              <div className="flex">
               <span className="text-gray-500 font-bold w-1/3">Address</span>
               <Field
                 type="text"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 name="Address"
               />
+              </div>
               <ErrorMessage
               name="Address"
               component="div"
               className="text-red-500 text-sm text-center mx-4"
             />
             </label>
-            <label className="flex mb-4">
+
+            <label className="mb-4">
+              <div className="flex">
               <span className="text-gray-500 font-bold w-1/3">Contact Number</span>
               <Field
                 type="tel"
                 className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
                 name="ContactNumber"
               />
+              </div>
               <ErrorMessage
               name="ContactNumber"
               component="div"
               className="text-red-500 text-sm text-center mx-4"
             />
             </label>
+
             <label className="flex mb-4">
               <span className="text-gray-500 font-bold w-1/3">Medium</span>
               <select
@@ -308,7 +321,7 @@ const AddSchoolForm = () => {
             <div className="flex items-center justify-center">
               <button
                 type="submit"
-                className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+                className="bg-blue-700 my-5 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
               >
                 Add School
               </button>

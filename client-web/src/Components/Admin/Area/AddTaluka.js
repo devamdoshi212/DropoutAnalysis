@@ -110,7 +110,7 @@ const AddTaluka = () => {
         <div className="flex items-center justify-center">
         <button
           type="submit"
-          className="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
+          className="bg-blue-700 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue"
         >
           Add Taluka
         </button>

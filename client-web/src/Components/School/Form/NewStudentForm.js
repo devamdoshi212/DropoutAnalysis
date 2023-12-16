@@ -355,7 +355,7 @@ const NewStudentForm = () => {
           <label className="flex mb-4">
             <span className="text-gray-500 font-bold w-1/3">Select State</span>
             <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              className="mt-1 p-2 w-2/3 border rounded-md focus:outline-2 focus:outline-gray-400"
               value={selectedState}
               onChange={(e) => {
                 setSelectedState(e.target.value);
@@ -378,7 +378,7 @@ const NewStudentForm = () => {
               Select District
             </span>
             <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              className="w-2/3 mt-1 p-2  border rounded-md focus:outline-2 focus:outline-gray-400"
               value={selectedDistrict}
               onChange={(e) => {
                 setSelectedDistrict(e.target.value);
@@ -399,7 +399,7 @@ const NewStudentForm = () => {
           <label className="flex mb-4">
             <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
             <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              className="mt-1 p-2 w-2/3 border rounded-md focus:outline-2 focus:outline-gray-400"
               value={selectedTaluka}
               onChange={(e) => {
                 setSelectedTaluka(e.target.value);
@@ -423,7 +423,7 @@ const NewStudentForm = () => {
           <label className="flex mb-4">
             <span className="text-gray-500 font-bold w-1/3">Select City</span>
             <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              className="mt-1 p-2 w-2/3 border rounded-md focus:outline-2 focus:outline-gray-400"
               value={selectedCity}
               onChange={(e) => {
                 setSelectedCity(e.target.value);

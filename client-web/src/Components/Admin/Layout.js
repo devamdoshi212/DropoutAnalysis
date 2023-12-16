@@ -6,7 +6,7 @@ import {
   useNavigate,
   useLoaderData,
 } from "react-router-dom";
-// import image from "./../../Assets/symbol.png";
+import image from "./../../Assets/logo.jpg";
 import Swal from "sweetalert2";
 import { UserActions } from "../../Store/UserData";
 import { useDispatch } from "react-redux";
@@ -35,7 +35,11 @@ const AdminLayout = () => {
     <div className="bg-[#f8f9fa] font-family-karla flex ">
       <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
         <div className=" top-0 left-0 p-6 text-center">
-          {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
+          <img
+            src={image}
+            alt="symbol"
+            className="opacity-70  m-auto w-36 h-36 rounded-full "
+          />
           <Link
             to={"/admin"}
             className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
@@ -75,18 +79,20 @@ const AdminLayout = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
                 />
               </svg>
               Analysis
             </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"schooldetails"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
@@ -95,18 +101,20 @@ const AdminLayout = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
                 />
               </svg>
               School Details
             </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addstate"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
@@ -115,19 +123,20 @@ const AdminLayout = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
                 />
               </svg>
               Add State
             </Link>
-
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"adddistrict"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
@@ -136,54 +145,56 @@ const AdminLayout = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                stroke-width="1.5"
                 stroke="currentColor"
-                className="w-6 h-6"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
               Add District
             </Link>
+          </div>
+
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addtaluka"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
+                fill="currentColor"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  fill-rule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z"
+                  clip-rule="evenodd"
                 />
               </svg>
               Add Taluka
             </Link>
+          </div>
+
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addcity"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
+                fill="currentColor"
+                class="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+                  fill-rule="evenodd"
+                  d="M3 2.25a.75.75 0 000 1.5v16.5h-.75a.75.75 0 000 1.5H15v-18a.75.75 0 000-1.5H3zM6.75 19.5v-2.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-3a.75.75 0 01-.75-.75zM6 6.75A.75.75 0 016.75 6h.75a.75.75 0 010 1.5h-.75A.75.75 0 016 6.75zM6.75 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM6 12.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-.75 3.75A.75.75 0 0110.5 9h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM10.5 12a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zM16.5 6.75v15h5.25a.75.75 0 000-1.5H21v-12a.75.75 0 000-1.5h-4.5zm1.5 4.5a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008zm.75 2.25a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008zM18 17.25a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008z"
+                  clip-rule="evenodd"
                 />
               </svg>
               Add City/Village
