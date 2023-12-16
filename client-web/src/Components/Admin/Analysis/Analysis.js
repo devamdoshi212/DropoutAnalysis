@@ -9,6 +9,7 @@ import ReasonwiseDropoutAnalysis from "./ReasonwiseDropoutAnalysis";
 import CastewiseDropoutAnalysis from "./CastewiseDropoutAnalysis";
 import DisablitywiseDropoutAnalysis from "./DisablitywiseDropoutAnalysis";
 import FamilyIncomewiseDropoutAnalysis from "./IncomewiseDropoutAnalysis";
+import ReasonwiseGenderDropoutAnalysis from "./ReasonwiseGenderDropoutAnalysis";
 
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
@@ -27,7 +28,9 @@ const Analysis = () => {
   }, []);
   return (
     <>
-      <label className="flex mb-4">
+    <div className="m-5">
+    <div className="flex mb-5">
+      <label className="w-1/4 m-4">
         <span className="text-gray-500 font-bold w-1/3">Select State</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
@@ -48,7 +51,7 @@ const Analysis = () => {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
+      <label className="w-1/4 m-4">
         <span className="text-gray-500 font-bold w-1/3">Select District</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
@@ -69,7 +72,7 @@ const Analysis = () => {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
+      <label className="w-1/4 m-4">
         <span className="text-gray-500 font-bold w-1/3">Select Taluka</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
@@ -93,7 +96,7 @@ const Analysis = () => {
           ))}
         </select>
       </label>
-      <label className="flex mb-4">
+      <label className="w-1/4 m-4">
         <span className="text-gray-500 font-bold w-1/3">Select City</span>
         <select
           className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
@@ -111,6 +114,7 @@ const Analysis = () => {
           ))}
         </select>
       </label>
+      </div>
       <StandardwiseDropoutAnalysis
         selectedCity={selectedCity}
         selectedTaluka={selectedTaluka}
@@ -147,6 +151,13 @@ const Analysis = () => {
         selectedDistrict={selectedDistrict}
         selectedState={selectedState}
       />
+      <ReasonwiseGenderDropoutAnalysis
+        selectedCity={selectedCity}
+        selectedTaluka={selectedTaluka}
+        selectedDistrict={selectedDistrict}
+        selectedState={selectedState}
+      />
+      </div>
     </>
   );
 };
