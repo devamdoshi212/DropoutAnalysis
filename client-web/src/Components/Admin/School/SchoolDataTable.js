@@ -39,36 +39,6 @@ export default function AdminSchoolDataTable() {
     });
   }, []);
 
-  //   const DeleteHandler = (rowdata) => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You won't be able to revert this!",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, Delete it!",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         var myHeaders = new Headers();
-  //         myHeaders.append("token", cookies.token);
-  //         var requestOptions = {
-  //           method: "DELETE",
-  //           headers: myHeaders,
-  //           redirect: "follow",
-  //         };
-  //         fetch(`http://localhost:9999/deleteblog/${rowdata._id}`, requestOptions)
-  //           .then((response) => response.text())
-  //           .then((result) => {
-  //             setdeleterefresh(!deleterefresh);
-  //           })
-  //           .catch((error) => console.log("error", error));
-  //         console.log("Deleted !!");
-  //         Swal.fire("Deleted!", "Your file has been deleted.", "success");
-  //       }
-  //     });
-  //   };
-
   useEffect(() => {
     AdminSchoolServices.getCustomersXLarge(
       selectedState,
@@ -134,42 +104,46 @@ export default function AdminSchoolDataTable() {
     console.log(customers);
     customers.map((customer) => {
       let newObject = {
-        "SchoolID": customer.SchoolID,
-        "SchoolName": customer.Name,
-        "Medium": customer.Medium.name,
-        "Type": customer.Type,
-        "ContactNumber": customer.ContactNumber,
-        "State": customer.State.name,
-        "District": customer.District.district,
-        "Taluka": customer.Taluka.taluka,
-        "City": customer.City.city,
-        "Address": customer.Address,
-      }
+        SchoolID: customer.SchoolID,
+        SchoolName: customer.Name,
+        Medium: customer.Medium.name,
+        Type: customer.Type,
+        ContactNumber: customer.ContactNumber,
+        State: customer.State.name,
+        District: customer.District.district,
+        Taluka: customer.Taluka.taluka,
+        City: customer.City.city,
+        Address: customer.Address,
+      };
       schoolData.push(newObject);
     });
 
-    import('xlsx').then((xlsx) => {
+    import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(schoolData);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
+        bookType: "xlsx",
+        type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, 'School Data');
+      saveAsExcelFile(excelBuffer, "School Data");
     });
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
+    import("file-saver").then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
         const data = new Blob([buffer], {
-          type: EXCEL_TYPE
+          type: EXCEL_TYPE,
         });
 
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
       }
     });
   };
@@ -177,8 +151,17 @@ export default function AdminSchoolDataTable() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        <div className="flex align-items-center justify-end gap-2 m-2">
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+            className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md"
+          >
+            Download Excel File
+          </Button>
         </div>
         <div className="flex justify-between mr-2">
           <Button
@@ -275,7 +258,9 @@ export default function AdminSchoolDataTable() {
           </label>
 
           <label className="w-1/4 m-3">
-            <span className="text-gray-700 font-bold w-1/3">Select District</span>
+            <span className="text-gray-700 font-bold w-1/3">
+              Select District
+            </span>
             <select
               className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
               value={selectedDistrict}
@@ -351,7 +336,17 @@ export default function AdminSchoolDataTable() {
             loading={loading}
             dataKey="_id"
             filters={filters}
-            globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+            globalFilterFields={[
+              "Name",
+              "SchoolID",
+              "Medium.name",
+              "ContactNumber",
+              "City.city",
+              "Taluka.taluka",
+              "District.district",
+              "State.name",
+              "Type",
+            ]}
             header={header}
             emptyMessage="No School found."
             removableSort
@@ -364,7 +359,13 @@ export default function AdminSchoolDataTable() {
                 return calculateIndex(Math.floor(first / 10), rowIndex);
               }}
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
 
             <Column
@@ -372,7 +373,13 @@ export default function AdminSchoolDataTable() {
               field="Name"
               filterField="Name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               sortable
@@ -380,7 +387,13 @@ export default function AdminSchoolDataTable() {
               field="SchoolID"
               filterField="SchoolID"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
 
             <Column
@@ -389,7 +402,13 @@ export default function AdminSchoolDataTable() {
               field="Medium.name"
               filterField="Medium.name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               header="Type"
@@ -397,7 +416,13 @@ export default function AdminSchoolDataTable() {
               filterField="Type"
               body={typeBodyTemplate}
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               sortable
@@ -405,7 +430,13 @@ export default function AdminSchoolDataTable() {
               field="State.name"
               filterField="State.name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               sortable
@@ -413,7 +444,13 @@ export default function AdminSchoolDataTable() {
               field="District.district"
               filterField="District.district"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
 
             <Column
@@ -421,7 +458,13 @@ export default function AdminSchoolDataTable() {
               field="Taluka.taluka"
               filterField="Taluka"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
 
             <Column
@@ -430,21 +473,39 @@ export default function AdminSchoolDataTable() {
               field="City.city"
               filterField="City"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               header="Address"
               field="Address"
               filterField="Address"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
             <Column
               header="Contact Number"
               field="ContactNumber"
               filterField="ContactNumber"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
             />
           </DataTable>
         </div>

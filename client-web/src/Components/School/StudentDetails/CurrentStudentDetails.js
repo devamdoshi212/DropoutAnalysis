@@ -116,55 +116,57 @@ export default function CurrentStudent() {
   const exportExcel = async () => {
     await customers.map((customer) => {
       let newObject = {
-        "UID": customer._id,
-        "Name": customer.Name,
-        "Standard": customer.Standard,
-        "Gender": customer.Gender,
-        "AadharNumber": customer.AadharNumber,
-        "DOB": customer.DOB,
-        "Caste": customer.Caste,
-        "ContactNumber": customer.ContactNumber,
-        "SchoolID": customer.SchoolID[0].Name,
-        "State": customer.State.name,
-        "District": customer.District.district,
-        "Taluka": customer.Taluka.taluka,
-        "City": customer.City.city,
-        "Address": customer.Address,
-        "Disability": customer.Disability ? customer.Disability : 0,
-        "FamilyIncome": customer.FamilyIncome,
-        "ParentMaritalStatus": customer.ParentMaritalStatus,
-        "ParentOccupation": customer.ParentOccupation,
-      }
+        UID: customer._id,
+        Name: customer.Name,
+        Standard: customer.Standard,
+        Gender: customer.Gender,
+        AadharNumber: customer.AadharNumber,
+        DOB: customer.DOB,
+        Caste: customer.Caste,
+        ContactNumber: customer.ContactNumber,
+        SchoolID: customer.SchoolID[0].Name,
+        State: customer.State.name,
+        District: customer.District.district,
+        Taluka: customer.Taluka.taluka,
+        City: customer.City.city,
+        Address: customer.Address,
+        Disability: customer.Disability ? customer.Disability : 0,
+        FamilyIncome: customer.FamilyIncome,
+        ParentMaritalStatus: customer.ParentMaritalStatus,
+        ParentOccupation: customer.ParentOccupation,
+      };
       customerData.push(newObject);
     });
 
-    import('xlsx').then((xlsx) => {
+    import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(customerData);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
+        bookType: "xlsx",
+        type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, 'Student Data');
+      saveAsExcelFile(excelBuffer, "Student Data");
     });
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
+    import("file-saver").then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
         const data = new Blob([buffer], {
-          type: EXCEL_TYPE
+          type: EXCEL_TYPE,
         });
 
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
       }
     });
   };
-
-
 
   const PromoteHandler = () => {
     var myHeaders = new Headers();
@@ -184,6 +186,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/promteStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Promote Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -207,6 +216,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Inactive Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -219,47 +235,60 @@ export default function CurrentStudent() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
-        </div>
-        <div className="flex justify-between mr-2">
-          <Button
-            type="button"
-            label="Clear"
-            outlined
-            className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
-            onClick={clearFilter}
-          />
-          <Button
-            type="button"
-            label="Promote"
-            outlined
-            className="px-4 py-2  rounded-lg bg-green-800 ring-0  hover:bg-green-700 text-white tracking-wider font-bold uppercase"
-            onClick={PromoteHandler}
+        <div>
+          <div className="flex align-items-center justify-end gap-2 m-2 ">
+            <Button
+              type="button"
+              icon="pi pi-file-excel"
+              severity="success"
+              rounded
+              onClick={exportExcel}
+              data-pr-tooltip="XLS"
+              className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md"
+              label="Download Excel File"
+            >
+              {" "}
+            </Button>
+          </div>
 
-          />
-          <Button
-            type="button"
-            label="Dropout"
-            outlined
-            className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
-            onClick={openModal}
-          />
-          <Button
-            type="button"
-            label="Inactive"
-            outlined
-            className="px-4 py-2 rounded-lg bg-gray-800 ring-0  hover:bg-gray-700 text-white tracking-wider font-bold uppercase"
-            onClick={InactiveHandler}
-          />
-          <span className="p-input-icon-left">
-            <InputText
-              value={globalFilterValues.Name}
-              onChange={onGlobalFilterChange}
-              placeholder="Keyword Search"
-              className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+          <div className="flex justify-between mr-2">
+            <Button
+              type="button"
+              label="Clear"
+              outlined
+              className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+              onClick={clearFilter}
             />
-          </span>
+            <Button
+              type="button"
+              label="Promote"
+              outlined
+              className="px-4 py-2  rounded-lg bg-green-800 ring-0  hover:bg-green-700 text-white tracking-wider font-bold uppercase"
+              onClick={PromoteHandler}
+            />
+            <Button
+              type="button"
+              label="Dropout"
+              outlined
+              className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
+              onClick={openModal}
+            />
+            <Button
+              type="button"
+              label="Inactive"
+              outlined
+              className="px-4 py-2 rounded-lg bg-gray-800 ring-0  hover:bg-gray-700 text-white tracking-wider font-bold uppercase"
+              onClick={InactiveHandler}
+            />
+            <span className="p-input-icon-left">
+              <InputText
+                value={globalFilterValues.Name}
+                onChange={onGlobalFilterChange}
+                placeholder="Keyword Search"
+                className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+              />
+            </span>
+          </div>
         </div>
       </>
     );
@@ -312,6 +341,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Dropout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -435,7 +471,19 @@ export default function CurrentStudent() {
           loading={loading}
           dataKey="_id"
           filters={filters}
-          globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+          globalFilterFields={[
+            "Name",
+            "UID",
+            "AadharNumber",
+            "Standard",
+            "SchoolID.Medium.name",
+            "City.cityType",
+            "Caste",
+            "Taluka.taluka",
+            "City.city",
+            "District.district",
+            "Gender",
+          ]}
           header={header}
           emptyMessage="No Students found."
           removableSort
@@ -445,7 +493,13 @@ export default function CurrentStudent() {
           <Column
             selectionMode="multiple"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
 
           <Column
@@ -456,7 +510,13 @@ export default function CurrentStudent() {
               return calculateIndex(Math.floor(first / 10), rowIndex);
             }}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
 
           <Column
@@ -464,15 +524,27 @@ export default function CurrentStudent() {
             field="Name"
             filterField="Name"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             sortable
             header="UID"
-            field="UID"
+            field="_id"
             filterField="UID"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             sortable
@@ -480,14 +552,26 @@ export default function CurrentStudent() {
             field="Gender"
             filterField="location"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             header="Aadhar Number"
             field="AadharNumber"
             filterField="AadharNumber"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
 
           <Column
@@ -496,7 +580,13 @@ export default function CurrentStudent() {
             field="Standard"
             filterField="Standard"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             header="DOB"
@@ -504,7 +594,13 @@ export default function CurrentStudent() {
             filterField="DOB"
             body={dateBodyTemplate}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             sortable
@@ -512,14 +608,26 @@ export default function CurrentStudent() {
             field="District.district"
             filterField="District"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             header="City"
             field="City.city"
             filterField="City"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             sortable
@@ -527,7 +635,13 @@ export default function CurrentStudent() {
             field="Taluka.taluka"
             filterField="Taluka"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             sortable
@@ -535,7 +649,13 @@ export default function CurrentStudent() {
             field="Caste"
             filterField="Caste"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
 
           <Column
@@ -543,7 +663,13 @@ export default function CurrentStudent() {
             field="City.cityType"
             filterField="City_type"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
 
           <Column
@@ -552,22 +678,42 @@ export default function CurrentStudent() {
             field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
             filterField="School_medium" // Make sure this matches the actual field name
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }} // filterMatchMode={FilterMatchMode.CONTAINS}
-          // filterValue={globalFilterValues.District}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+            body={(e) => {
+              return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+            }}
           />
           <Column
             header="Address"
             field="Address"
             filterField="Address"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
           <Column
             header="Created At"
             field="createdAt" // Replace 'districtName' with the actual field name
             filterField="createdAt" // Make sure this matches the actual field name
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
             body={dateBodyTemplate}
           />
         </DataTable>

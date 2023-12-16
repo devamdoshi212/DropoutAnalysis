@@ -100,42 +100,46 @@ export default function SchoolDataTable() {
     console.log(customers);
     customers.map((customer) => {
       let newObject = {
-        "SchoolID": customer.SchoolID,
-        "SchoolName": customer.Name,
-        "Medium": customer.Medium.name,
-        "Type": customer.Type,
-        "ContactNumber": customer.ContactNumber,
-        "State": customer.State.name,
-        "District": customer.District.district,
-        "Taluka": customer.Taluka.taluka,
-        "City": customer.City.city,
-        "Address": customer.Address,
-      }
+        SchoolID: customer.SchoolID,
+        SchoolName: customer.Name,
+        Medium: customer.Medium.name,
+        Type: customer.Type,
+        ContactNumber: customer.ContactNumber,
+        State: customer.State.name,
+        District: customer.District.district,
+        Taluka: customer.Taluka.taluka,
+        City: customer.City.city,
+        Address: customer.Address,
+      };
       schoolData.push(newObject);
     });
 
-    import('xlsx').then((xlsx) => {
+    import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(schoolData);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
+        bookType: "xlsx",
+        type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, 'School Data');
+      saveAsExcelFile(excelBuffer, "School Data");
     });
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
+    import("file-saver").then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
         const data = new Blob([buffer], {
-          type: EXCEL_TYPE
+          type: EXCEL_TYPE,
         });
 
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
       }
     });
   };
@@ -143,8 +147,17 @@ export default function SchoolDataTable() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        <div className="flex align-items-center justify-end gap-2 m-2">
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+            className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md"
+          >
+            Download Excel File
+          </Button>
         </div>
         <div className="flex justify-between mr-2">
           <Button
@@ -217,7 +230,7 @@ export default function SchoolDataTable() {
   return (
     <>
       <div className="m-5">
-        <div className="flex mb-5">
+        <div className="flex mb-5 justify-between">
           <label className="w-1/4 m-3">
             <span className="text-gray-700 font-bold w-1/3">
               Select District
@@ -298,7 +311,17 @@ export default function SchoolDataTable() {
             loading={loading}
             dataKey="_id"
             filters={filters}
-            globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+            globalFilterFields={[
+              "Name",
+              "SchoolID",
+              "Medium.name",
+              "ContactNumber",
+              "City.city",
+              "Taluka.taluka",
+              "District.district",
+              "State.name",
+              "Type",
+            ]}
             header={header}
             emptyMessage="No School found."
             removableSort

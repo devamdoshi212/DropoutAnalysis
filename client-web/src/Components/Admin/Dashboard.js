@@ -49,56 +49,57 @@ const AdminDashboard = () => {
     return <div className="font-bold p-3 text-4xl">{count}</div>;
   };
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 my-5">
+    <div className="m-5">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 my-5  grid-rows-6">
       {/* <Link to={"districtWiseSportsComplex"}> */}
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Active Students</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Active Students</div>
         <AnimatedCount finalCount={visible && data.activestudents} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total States</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total States</div>
         <AnimatedCount finalCount={visible && data.states} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Talukas</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Talukas</div>
         <AnimatedCount finalCount={visible && data.taluka} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Students</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Students</div>
         <AnimatedCount finalCount={visible && data.students} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total City</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total City</div>
         <AnimatedCount finalCount={visible && data.city} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total Dropout Students without Reason
         </div>
         <AnimatedCount finalCount={visible && data.dropwithoutreason} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total Dropout Students with Reason
         </div>
         <AnimatedCount finalCount={visible && data.dropwithreason} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Female Students</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Female Students</div>
         <AnimatedCount finalCount={visible && data.femalestudents} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Male Students</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Male Students</div>
         <AnimatedCount finalCount={visible && data.malestudents} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total Government Schools
         </div>
         <AnimatedCount finalCount={visible && data.govtschools.length} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total InterNational Schools
         </div>
         <AnimatedCount
@@ -106,25 +107,26 @@ const AdminDashboard = () => {
         />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Private Schools</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Private Schools</div>
         <AnimatedCount finalCount={visible && data.privateschools.length} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total Semi-Government Schools
         </div>
         <AnimatedCount finalCount={visible && data.semigovtschools.length} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">
+        <div className="font-semibold p-5 text-2xl h-3/5">
           Total Inactive Students
         </div>
         <AnimatedCount finalCount={visible && data.inactivestudents} />
       </div>
       <div className=" text-center rounded-lg bg-gray-300 ">
-        <div className="font-semibold p-5 text-2xl">Total Schools</div>
+        <div className="font-semibold p-5 text-2xl h-3/5">Total Schools</div>
         <AnimatedCount finalCount={visible && data.schools} />
       </div>
+    </div>
     </div>
   );
 };

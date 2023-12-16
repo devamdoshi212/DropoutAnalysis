@@ -6,6 +6,7 @@ export const CurrentStudentServices = {
     )
       .then((res) => res.json())
       .then((res) => {
+        console.log(res.data);
         return res.data;
       });
   },
