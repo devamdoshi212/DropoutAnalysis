@@ -411,25 +411,50 @@ module.exports.statewiseDropout = async function (req, res) {
         },
       },
     ]);
-    // usee reduce to group by "State" and aggregate counts based on "is_active"
-    data = data.reduce((acc, entry) => {
-      let state = entry._id.State;
+    // usee reduce `to` group by "State" and aggregate counts based on "is_active"
+    // data = data.reduce((acc, entry) => {
+    //   let state = entry._id.State;
+    //   let isActive = entry._id.is_active;
+
+    //   // If the state is not in the accumulator, initialize it
+    //   if (!acc[state]) {
+    //     acc[state] = {}
+    //   }
+
+    //   // Update the count for the specific "is_active" value
+    //   acc[state][isActive] = (acc[state][isActive] || 0) + entry.numOfStudent;
+
+    //   return acc;
+    // }, {});
+    let stateCounts = {};
+    data.forEach((entry) => {
+      let stateId = entry._id.State;
       let isActive = entry._id.is_active;
 
-      // If the state is not in the accumulator, initialize it
-      if (!acc[state]) {
-        acc[state] = {};
+      // If the state is not in the mapping, initialize it
+      if (!stateCounts[stateId]) {
+        stateCounts[stateId] = {};
       }
 
-      // Update the count for the specific "is_active" value
-      acc[state][isActive] = (acc[state][isActive] || 0) + entry.numOfStudent;
+      // Update the count for the specific is_active value
+      // stateCounts[stateId].push({
+      //   is_active: isActive,
+      //   count: entry.numOfStudent,
+      // });
+      stateCounts[stateId][isActive] =
+        (stateCounts[stateId][isActive] || 0) + entry.numOfStudent;
+    });
 
-      return acc;
-    }, {});
+    // Convert the mapping object to an array
+    let resultArray = Object.entries(stateCounts).map(([state, counts]) => ({
+      State: state,
+      Counts: counts,
+    }));
 
     res.status(200).json({
       status: "success",
-      data: data,
+      data: resultArray,
+      // datas:data.
     });
   } catch (err) {
     console.log(err);

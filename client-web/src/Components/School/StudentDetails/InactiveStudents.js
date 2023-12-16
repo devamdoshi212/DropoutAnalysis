@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { FilterMatchMode } from "primereact/api";
@@ -123,39 +123,100 @@ export default function InactiveStudent() {
       .catch((error) => console.log("error", error));
   };
 
+  const dt = useRef(null);
+
+  // console.log(customers);
+  let customerData = [];
+
+  const exportExcel = async () => {
+    await customers.map((customer) => {
+      let newObject = {
+        "AadharNumber": customer.AadharNumber,
+        "Address": customer.Address,
+        "Caste": customer.Caste,
+        "City": customer.City.city,
+        "ContactNumber": customer.ContactNumber,
+        "DOB": customer.DOB,
+        "Disability": customer.Disability ? customer.Disability : 0,
+        "District": customer.District.district,
+        "FamilyIncome": customer.FamilyIncome,
+        "Gender": customer.Gender,
+        "Name": customer.Name,
+        "ParentMaritalStatus": customer.ParentMaritalStatus,
+        "ParentOccupation": customer.ParentOccupation,
+        "SchoolID": customer.SchoolID[0].Name,
+        "Standard": customer.Standard,
+        "State": customer.State.name,
+        "Taluka": customer.Taluka.taluka,
+        "_id": customer._id,
+      }
+      customerData.push(newObject);
+    });
+
+    import('xlsx').then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(customerData);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array'
+      });
+
+      saveAsExcelFile(excelBuffer, 'Inactive Student Data');
+    });
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import('file-saver').then((module) => {
+      if (module && module.default) {
+        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        let EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE
+        });
+
+        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      }
+    });
+  };
+
   const renderHeader = () => {
     return (
-      <div className="flex justify-between mr-2">
-        <Button
-          type="button"
-          label="Clear"
-          outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
-          onClick={clearFilter}
-        />
-        <Button
-          type="button"
-          label="Active"
-          outlined
-          className="px-4 py-2 rounded-lg bg-blue-800 ring-0  hover:bg-blue-700 text-white tracking-wider font-bold uppercase"
-          onClick={ActiveHandler}
-        />
-        <Button
-          type="button"
-          label="Dropout"
-          outlined
-          className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
-          onClick={DropoutHandler}
-        />
-        <span className="p-input-icon-left">
-          <InputText
-            value={globalFilterValues.Name}
-            onChange={onGlobalFilterChange}
-            placeholder="Keyword Search"
-            className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+      <>
+        <div className="flex align-items-center justify-content-end gap-2">
+          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        </div>
+        <div className="flex justify-between mr-2">
+          <Button
+            type="button"
+            label="Clear"
+            outlined
+            className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+            onClick={clearFilter}
           />
-        </span>
-      </div>
+          <Button
+            type="button"
+            label="Active"
+            outlined
+            className="px-4 py-2 rounded-lg bg-blue-800 ring-0  hover:bg-blue-700 text-white tracking-wider font-bold uppercase"
+            onClick={ActiveHandler}
+          />
+          <Button
+            type="button"
+            label="Dropout"
+            outlined
+            className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
+            onClick={DropoutHandler}
+          />
+          <span className="p-input-icon-left">
+            <InputText
+              value={globalFilterValues.Name}
+              onChange={onGlobalFilterChange}
+              placeholder="Keyword Search"
+              className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+            />
+          </span>
+        </div>
+      </>
     );
   };
 
@@ -407,7 +468,7 @@ export default function InactiveStudent() {
             borderColor: "#c0c0c0",
             borderWidth: "1px",
           }} // filterMatchMode={FilterMatchMode.CONTAINS}
-          // filterValue={globalFilterValues.District}
+        // filterValue={globalFilterValues.District}
         />
         <Column
           header="Address"
