@@ -87,7 +87,7 @@ const StandardwiseDropoutAnalysis = ({
       .then((response) => response.json())
       .then((result) => {
         let datas = result.data;
-        console.log(datas);
+        // console.log(datas);
         const categories = datas.StudentsData.map(
           (s) => "Standard " + s.Standard
         );
@@ -98,7 +98,7 @@ const StandardwiseDropoutAnalysis = ({
           );
         });
 
-        console.log(percentages);
+        // console.log(percentages);
 
         setChartData({
           ...chartData,

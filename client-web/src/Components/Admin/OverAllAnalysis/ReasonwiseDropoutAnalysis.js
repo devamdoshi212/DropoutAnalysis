@@ -87,34 +87,26 @@ const ReasonwiseDropoutAnalysis = ({
       .then((response) => response.json())
       .then((result) => {
         // console.log(result);
-        const data = result.data.StudentsData;
-        console.log(data);
-        const categories = data
+        const datas = result.data;
+        const categories = datas.StudentsData
           .filter(
             (s) =>
               s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
           )
           .map((s) => s.Reasons);
 
-        // const student = data
-        //   .filter(
-        //     (s) =>
-        //       s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-        //   )
-        //   .map((s) => s.numOfStudent);
-        let total = 0;
-        data.map((s) => {
-          total += s.numOfStudent;
+        const percentage = datas.StudentsData.map((student, index) => {
+          const totalStudent = datas.total[index].numOfStudent;
+          return parseFloat(
+            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+          );
         })
-        const student = data.filter(
-          (s) => s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-        ).map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
 
         setChartData({
           ...chartData,
           series: [
             {
-              data: student,
+              data: percentage,
             },
           ],
           options: {

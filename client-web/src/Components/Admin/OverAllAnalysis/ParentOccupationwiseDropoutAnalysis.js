@@ -87,20 +87,23 @@ const AreawiseDropoutAnalysis = ({
         )
             .then((response) => response.json())
             .then((result) => {
-                let datas = result.data.StudentsData;
-                let total = 0;
-                datas.map((s) => {
-                    total += s.numOfStudent;
-                })
-                const student = datas.map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
-                // const student = datas.map((s) => s.numOfStudent);
-                const categories = datas.map((s) => s.ParentOccupation);
+                // console.log(result)
+                let datas = result.data;
+                const categories = datas.StudentsData.map(
+                    (s) => s.ParentOccupation
+                );
+                const percentages = datas.StudentsData.map((student, index) => {
+                    const totalStudent = datas.total[index].numOfStudent;
+                    return parseFloat(
+                        ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+                    );
+                });
 
                 setChartData({
                     ...chartData,
                     series: [
                         {
-                            data: student,
+                            data: percentages,
                         },
                     ],
                     options: {
