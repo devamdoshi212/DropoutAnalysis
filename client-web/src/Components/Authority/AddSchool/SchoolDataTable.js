@@ -144,7 +144,9 @@ export default function SchoolDataTable() {
     return (
       <>
         <div className="flex align-items-center justify-end gap-2 m-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" className=" bg-green-900 text-white hover:bg-green-700" />
+          <Button type="button" icon="pi pi-file-excel" severity="success" onClick={exportExcel} data-pr-tooltip="XLS" className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md" >
+          Download Excel File
+          </Button>
         </div>
         <div className="flex justify-between mr-2">
           <Button
@@ -217,7 +219,7 @@ export default function SchoolDataTable() {
   return (
     <>
       <div className="m-5">
-        <div className="flex mb-5">
+        <div className="flex mb-5 justify-between">
           <label className="w-1/4 m-3">
             <span className="text-gray-700 font-bold w-1/3">
               Select District
