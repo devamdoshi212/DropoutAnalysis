@@ -12,6 +12,7 @@ router.get(
   analysisController.FilterStudentinGroupByTwo
 );
 router.get("/statewiseDropout", analysisController.statewiseDropout);
-router.get("/GroupPopulateData", analysisController.GroupPopulateData);
+router.get("/mediumWise", analysisController.mediumWise);
+router.get("/areaWise", analysisController.areaWise);
 
 module.exports = router;
