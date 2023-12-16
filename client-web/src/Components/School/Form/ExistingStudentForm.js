@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const ExistingStudentForm = () => {
   const [uidInput, setUidInput] = useState("");
@@ -67,7 +68,15 @@ const ExistingStudentForm = () => {
       requestOptions
     )
       .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Successfully in Your School",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
       .catch((error) => console.log("error", error));
   };
 

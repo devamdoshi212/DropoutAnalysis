@@ -186,6 +186,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/promteStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Promote Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -209,6 +216,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Inactive Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -327,6 +341,13 @@ export default function CurrentStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Dropout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -514,7 +535,7 @@ export default function CurrentStudent() {
           <Column
             sortable
             header="UID"
-            field="UID"
+            field="_id"
             filterField="UID"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
             style={{
@@ -663,8 +684,10 @@ export default function CurrentStudent() {
               borderCollapse: "collapse",
               borderColor: "#c0c0c0",
               borderWidth: "1px",
-            }} // filterMatchMode={FilterMatchMode.CONTAINS}
-            // filterValue={globalFilterValues.District}
+            }}
+            body={(e) => {
+              return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+            }}
           />
           <Column
             header="Address"

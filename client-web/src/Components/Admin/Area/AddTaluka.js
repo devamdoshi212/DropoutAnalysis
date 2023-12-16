@@ -4,6 +4,7 @@ import FetchDistrict from "../../../API/FetchDistrict";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api"; // Import PrimeIcons
+import Swal from "sweetalert2";
 
 const AddTaluka = () => {
   const [stateName, setStateName] = useState([]);
@@ -46,7 +47,13 @@ const AddTaluka = () => {
       const result = await response.json();
       console.log(result);
       if (result.rcode === 200) {
-        console.log("Taluka added successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Taluka Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setSelectedState("");
         setSelectedDistrict("");
         setTalukaName("");
