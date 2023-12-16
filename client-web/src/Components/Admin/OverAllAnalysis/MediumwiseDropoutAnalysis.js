@@ -86,20 +86,23 @@ const MediumwiseDropoutAnalysis = ({
         )
             .then((response) => response.json())
             .then((result) => {
-                let datas = result.data.StudentsData;
-                let total = 0;
-                datas.map((s) => {
-                    total += s.numOfStudent;
-                })
-                const student = datas.map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
-                // const student = datas.map((s) => s.numOfStudent) 
-                const categories = datas.map((s) => s.schoolType)
+                console.log(result)
+                let datas = result.data;
+                const categories = datas.StudentsData.map(
+                    (s) => s.schoolType
+                );
+                const percentages = datas.StudentsData.map((student, index) => {
+                    const totalStudent = datas.total[index].numOfStudent;
+                    return parseFloat(
+                        ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+                    );
+                });
 
                 setChartData({
                     ...chartData,
                     series: [
                         {
-                            data: student,
+                            data: percentages,
                         },
                     ],
                     options: {

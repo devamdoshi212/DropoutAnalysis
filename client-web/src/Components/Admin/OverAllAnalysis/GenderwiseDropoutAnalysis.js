@@ -73,18 +73,18 @@ const GenderwiseDropoutAnalysis = ({
       .then((response) => response.json())
       .then((result) => {
         // console.log(result);
-        const data = result.data.StudentsData;
-        const categories = data.map((s) => s.Gender.toUpperCase());
-        const student = data.map((s) => s.numOfStudent);
+        const datas = result.data;
+        const categories = datas.StudentsData.map(
+          (s) => s.Gender
+        );
+        const percentages = datas.StudentsData.map((student, index) => {
+          const totalStudent = datas.total[index].numOfStudent;
+          return totalStudent;
+        });
 
-        // let total = 0;
-        // data.map((s) => {
-        //   total += s.numOfStudent;
-        // })
-        // const student = data.map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
         setChartData({
           ...chartData,
-          series: student,
+          series: percentages,
           options: {
             ...chartData.options,
             labels: categories,
