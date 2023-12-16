@@ -95,6 +95,13 @@ export default function InactiveStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Active Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -118,6 +125,13 @@ export default function InactiveStudent() {
     fetch(`http://localhost:9999/deactivateStudent`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Student Dropout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setdeleterefresh(false);
       })
       .catch((error) => console.log("error", error));
@@ -125,56 +139,59 @@ export default function InactiveStudent() {
 
   const dt = useRef(null);
 
-  // console.log(customers);
   let customerData = [];
 
   const exportExcel = async () => {
     await customers.map((customer) => {
       let newObject = {
-        "AadharNumber": customer.AadharNumber,
-        "Address": customer.Address,
-        "Caste": customer.Caste,
-        "City": customer.City.city,
-        "ContactNumber": customer.ContactNumber,
-        "DOB": customer.DOB,
-        "Disability": customer.Disability ? customer.Disability : 0,
-        "District": customer.District.district,
-        "FamilyIncome": customer.FamilyIncome,
-        "Gender": customer.Gender,
-        "Name": customer.Name,
-        "ParentMaritalStatus": customer.ParentMaritalStatus,
-        "ParentOccupation": customer.ParentOccupation,
-        "SchoolID": customer.SchoolID[0].Name,
-        "Standard": customer.Standard,
-        "State": customer.State.name,
-        "Taluka": customer.Taluka.taluka,
-        "_id": customer._id,
-      }
+        AadharNumber: customer.AadharNumber,
+        Address: customer.Address,
+        Caste: customer.Caste,
+        City: customer.City.city,
+        ContactNumber: customer.ContactNumber,
+        DOB: customer.DOB,
+        Disability: customer.Disability ? customer.Disability : 0,
+        District: customer.District.district,
+        FamilyIncome: customer.FamilyIncome,
+        Gender: customer.Gender,
+        Name: customer.Name,
+        ParentMaritalStatus: customer.ParentMaritalStatus,
+        ParentOccupation: customer.ParentOccupation,
+        SchoolID: customer.SchoolID[0].Name,
+        Standard: customer.Standard,
+        State: customer.State.name,
+        Taluka: customer.Taluka.taluka,
+        _id: customer._id,
+      };
       customerData.push(newObject);
     });
 
-    import('xlsx').then((xlsx) => {
+    import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(customerData);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
+        bookType: "xlsx",
+        type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, 'Inactive Student Data');
+      saveAsExcelFile(excelBuffer, "Inactive Student Data");
     });
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
+    import("file-saver").then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
         const data = new Blob([buffer], {
-          type: EXCEL_TYPE
+          type: EXCEL_TYPE,
         });
 
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
       }
     });
   };
@@ -182,8 +199,17 @@ export default function InactiveStudent() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        <div className="flex align-items-center justify-end gap-2 m-2">
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+            className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md"
+          >
+            Download Excel File
+          </Button>
         </div>
         <div className="flex justify-between mr-2">
           <Button
@@ -266,7 +292,19 @@ export default function InactiveStudent() {
         loading={loading}
         dataKey="_id"
         filters={filters}
-        globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+        globalFilterFields={[
+          "Name",
+          "UID",
+          "AadharNumber",
+          "Standard",
+          "SchoolID.Medium.name",
+          "City.cityType",
+          "Caste",
+          "Taluka.taluka",
+          "City.city",
+          "District.district",
+          "Gender",
+        ]}
         header={header}
         emptyMessage="No Students found."
         removableSort
@@ -318,7 +356,7 @@ export default function InactiveStudent() {
         <Column
           sortable
           header="UID"
-          field="UID"
+          field="_id"
           filterField="UID"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{
@@ -467,8 +505,10 @@ export default function InactiveStudent() {
             borderCollapse: "collapse",
             borderColor: "#c0c0c0",
             borderWidth: "1px",
-          }} // filterMatchMode={FilterMatchMode.CONTAINS}
-        // filterValue={globalFilterValues.District}
+          }}
+          body={(e) => {
+            return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+          }}
         />
         <Column
           header="Address"

@@ -13,10 +13,10 @@ export default function StatewiseDropoutAnalysis() {
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValues, setGlobalFilterValues] = useState({
-    // Name: "",
-    // ContactNum: "",
-    // Email: "",
-    // District: "",
+    Name: "",
+    ContactNum: "",
+    Email: "",
+    District: "",
   });
 
   useEffect(() => {
@@ -45,10 +45,10 @@ export default function StatewiseDropoutAnalysis() {
     _filters["global"].value = value;
     // Update the global filter value for all fields
     setGlobalFilterValues({
-      //   Name: value,
-      //   ContactNum: value,
-      //   Email: value,
-      //   District: value,
+      Name: value,
+      ContactNum: value,
+      Email: value,
+      District: value,
     });
 
     setFilters(_filters);
@@ -60,10 +60,10 @@ export default function StatewiseDropoutAnalysis() {
     });
 
     setGlobalFilterValues({
-      //   Name: "",
-      //   ContactNum: "",
-      //   Email: "",
-      //   District: "",
+      Name: "",
+      ContactNum: "",
+      Email: "",
+      District: "",
     });
   };
 
@@ -136,6 +136,7 @@ export default function StatewiseDropoutAnalysis() {
     return currentPage * 10 + rowIndex + 1;
   };
 
+  console.log(customers);
   return (
     <>
       <div className="m-5">
@@ -150,7 +151,7 @@ export default function StatewiseDropoutAnalysis() {
             loading={loading}
             dataKey="_id"
             filters={filters}
-            // globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+            globalFilterFields={["State"]}
             header={header}
             emptyMessage="No Data found."
             removableSort
@@ -174,7 +175,7 @@ export default function StatewiseDropoutAnalysis() {
 
             <Column
               header="State"
-              field="Name"
+              field="State"
               filterField="Name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
               style={{
@@ -198,6 +199,9 @@ export default function StatewiseDropoutAnalysis() {
                 borderColor: "#c0c0c0",
                 borderWidth: "1px",
               }}
+              body={(e) => {
+                return e.Counts[3] + e.Counts[0] + e.Counts[1] + e.Counts[2];
+              }}
             />
 
             <Column
@@ -213,12 +217,14 @@ export default function StatewiseDropoutAnalysis() {
                 borderColor: "#c0c0c0",
                 borderWidth: "1px",
               }}
+              body={(e) => {
+                return e.Counts[3];
+              }}
             />
             <Column
               header="Total Inactive Students"
               field="Type"
               filterField="Type"
-              body={typeBodyTemplate}
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
               style={{
                 backgroundColor: "#e9e9e9",
@@ -226,6 +232,9 @@ export default function StatewiseDropoutAnalysis() {
                 borderCollapse: "collapse",
                 borderColor: "#c0c0c0",
                 borderWidth: "1px",
+              }}
+              body={(e) => {
+                return e.Counts[0];
               }}
             />
             <Column
@@ -241,7 +250,11 @@ export default function StatewiseDropoutAnalysis() {
                 borderColor: "#c0c0c0",
                 borderWidth: "1px",
               }}
+              body={(e) => {
+                return e.Counts[1] + e.Counts[2];
+              }}
             />
+
             <Column
               sortable
               header="Dropout Ratio"
@@ -254,6 +267,12 @@ export default function StatewiseDropoutAnalysis() {
                 borderCollapse: "collapse",
                 borderColor: "#c0c0c0",
                 borderWidth: "1px",
+              }}
+              body={(e) => {
+                const total =
+                  e.Counts[3] + e.Counts[0] + e.Counts[1] + e.Counts[2];
+                const dropout = e.Counts[1] + e.Counts[2];
+                return ((dropout / total) * 100).toFixed(2);
               }}
             />
           </DataTable>

@@ -86,7 +86,14 @@ const ReasonwiseGenderDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        const data = result.data.StudentsData;
+        console.log(result);
+        const data = result.data.StudentsData.filter(
+          (s) =>
+            s.Reasons !== "undefined" &&
+            s.Reasons !== null &&
+            s.Reasons !== "" &&
+            s.Reasons !== undefined
+        );
         let reasonGenderCount = {};
 
         data.forEach((entry) => {
@@ -101,6 +108,9 @@ const ReasonwiseGenderDropoutAnalysis = ({
         });
         // console.log(reasonGenderCount);
         const reason = Object.keys(reasonGenderCount);
+        // const newReason = reason.filter(
+        //   (s) => s !== "undefined" && s !== null && s !== "" && s !== undefined
+        // );
         const count = Object.values(reasonGenderCount);
         // console.log(count);
         const total = count.map((s) => s.male + s.female + s.other);
