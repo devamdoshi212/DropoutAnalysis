@@ -1,5 +1,6 @@
 export const SchoolServices = {
   getData(selectedState, selectedDistrict, selectedTaluka, selectedCity) {
+    console.log(selectedDistrict);
     return fetch(
       `http://localhost:9999/getSchool` +
         (selectedState && `?State=${selectedState}`) +
@@ -9,7 +10,7 @@ export const SchoolServices = {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         return res.data;
       });
   },
@@ -27,17 +28,17 @@ export const SchoolServices = {
   },
 
   getCustomersXLarge(
-    selectedState,
     selectedDistrict,
     selectedTaluka,
-    selectedCity
+    selectedCity,
+    selectedState
   ) {
     return Promise.resolve(
       this.getData(
-        selectedState,
         selectedDistrict,
         selectedTaluka,
-        selectedCity
+        selectedCity,
+        selectedState
       )
     );
   },

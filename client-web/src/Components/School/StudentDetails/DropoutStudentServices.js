@@ -1,7 +1,7 @@
 export const DropedStudentsServices = {
   getData(id) {
     return fetch(
-      `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=1`
+      `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=5`
     )
       .then((res) => res.json())
       .then((res) => {
