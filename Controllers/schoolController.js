@@ -155,6 +155,7 @@ async function addExistingStudent(req, res) {
         rcode: 200,
       });
     }
+    
   } catch (err) {
     console.log(err);
     res.json({
