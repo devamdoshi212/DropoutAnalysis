@@ -26,6 +26,7 @@ import DropedStudents from "./Components/School/StudentDetails/DropedStudents";
 import InactiveStudent from "./Components/School/StudentDetails/InactiveStudents";
 import StatewiseDropoutAnalysis from "./Components/Admin/State/StatewiseDropoutRatioTable";
 import DomainDataTable from "./Components/Admin/Area/DomianTable";
+import OverAllAnalysis from './Components/Admin/OverAllAnalysis/OverAllAnalysis'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <AdminDashboard />,
+      },
+      {
+        path: "overallanalysis",
+        element: <OverAllAnalysis />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "analysis",

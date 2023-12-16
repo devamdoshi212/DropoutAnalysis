@@ -14,6 +14,7 @@ import YearwiseGenderAnalysis from "./YearwiseGenderAnalysis";
 import MediumwiseDropoutAnalysis from "./MediumwiseDropoutAnalysis";
 import AreawiseDropoutAnalysis from "./AreawiseDropoutAnalysis";
 import ParentOccupationwiseDropoutAnalysis from "./ParentOccupationwiseDropoutAnalysis";
+import Top5Dropout from "./Top5Dropout";
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
   const [TalukaName, setTalukaName] = useState([]);
@@ -186,6 +187,7 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
+        <Top5Dropout />
       </div>
     </>
   );

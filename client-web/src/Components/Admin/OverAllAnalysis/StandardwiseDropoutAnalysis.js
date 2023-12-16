@@ -86,20 +86,25 @@ const StandardwiseDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
-        const data = result.data.StudentsData;
-        const categories = data.map((s) => "Standard " + s.Standard);
-        // const student = data.map((s) => s.numOfStudent);
-        let total = 0;
-        data.map((s) => {
-          total += s.numOfStudent;
-        })
-        const student = data.map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
+        let datas = result.data;
+        console.log(datas);
+        const categories = datas.StudentsData.map(
+          (s) => "Standard " + s.Standard
+        );
+        const percentages = datas.StudentsData.map((student, index) => {
+          const totalStudent = datas.total[index].numOfStudent;
+          return parseFloat(
+            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+          );
+        });
+
+        console.log(percentages);
+
         setChartData({
           ...chartData,
           series: [
             {
-              data: student,
+              data: percentages,
             },
           ],
           options: {
