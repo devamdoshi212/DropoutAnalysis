@@ -438,6 +438,11 @@ module.exports.statewiseDropout = async function (req, res) {
           numOfStudent: { $sum: 1 },
         },
       },
+      {
+        $sort: {
+          "_id.State": 1,
+        },
+      },
     ]);
 
     let stateCounts = {};
@@ -447,7 +452,7 @@ module.exports.statewiseDropout = async function (req, res) {
 
       // If the state is not in the mapping, initialize it
       if (!stateCounts[stateId]) {
-        stateCounts[stateId] = {};
+        stateCounts[stateId] = { 0: 0, 1: 0, 2: 0, 3: 0 };
       }
 
       // Update the count for the specific is_active value
