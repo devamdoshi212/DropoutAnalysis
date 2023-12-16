@@ -279,14 +279,14 @@ export default function InactiveStudent() {
         <Column
           sortable
           header="District"
-          field="District"
+          field="District.district"
           filterField="District"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
         />
         <Column
           header="City"
-          field="City"
+          field="City.city"
           filterField="City"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
@@ -294,7 +294,7 @@ export default function InactiveStudent() {
         <Column
           sortable
           header="Taluka"
-          field="Taluka"
+          field="Taluka.taluka"
           filterField="Taluka"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
@@ -310,7 +310,7 @@ export default function InactiveStudent() {
 
         <Column
           header="City Type"
-          field="City_type"
+          field="City.cityType"
           filterField="City_type"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
@@ -318,8 +318,8 @@ export default function InactiveStudent() {
 
         <Column
           sortable
-          header="School_medium"
-          field="School_medium" // Replace 'districtName' with the actual field name
+          header="School Medium"
+          field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
           filterField="School_medium" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}} // filterMatchMode={FilterMatchMode.CONTAINS}

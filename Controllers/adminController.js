@@ -57,11 +57,11 @@ async function dashboardCount(req, res) {
       dropwithreason: dropwithreason.length,
       dropwithoutreason: dropwithoutreason.length,
       activestudents: activestudents.length,
-      govtschools: govtschools,
-      semigovtschools: semigovtschools,
-      privateschools: privateschools,
-      internationalschools: internationalschools,
-    
+      govtschools: govtschools.length,
+      semigovtschools: semigovtschools.length,
+      privateschools: privateschools.length,
+      internationalschools: internationalschools.length,
+
       rcode: 200,
     });
   } catch (err) {

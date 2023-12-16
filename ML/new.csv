@@ -1,0 +1,17 @@
+﻿Gender,District,School_name[0],City_type,School_medium,School_std,Family_income,Cast,Disabled,Reason
+female,Surat,24060101339,Urban,English,8,1-2 Lakh,Open,0,School Environment
+male,Sabarkantha,24060101339,Urban,English,5,2-4 Lakh,Open,50,Health and Personal Issues
+female,Surat,24060101339,Urban,English,2,1-2 Lakh,Open,0,Health and Personal Issues
+male,Anand,24060101337,Urban,Gujarati,5,1-2 Lakh,General,0,Early Employment
+female,Anand,24060101337,Urban,Gujarati,5,1-2 Lakh,General,0,Early Employment
+male,Anand,24060101337,Urban,Gujarati,5,1-2 Lakh,General,0,Early Employment
+male,Anand,24060101337,Urban,Gujarati,5,1-2 Lakh,General,0,Early Employment
+male,Sabarkantha,24060101337,Rural,Gujarati,4,2-4 Lakh,SEBC,0,Health and Personal Issues
+female,Surat,24060101337,Urban,Gujarati,1,More than 6 lakh,General,0,Health and Personal Issues
+female,Sabarkantha,24060101337,Urban,Gujarati,5,4-6 Lakh,Open,0,Transportation and Access
+female,Sabarkantha,24060101337,Rural,Gujarati,5,1-2 Lakh,SEBC,0,Early Employment
+male,Anand,24060101337,Urban,Gujarati,5,1-2 Lakh,SEBC,0,Health and Personal Issues
+male,Anand,24060101325,Rural,Gujarati,7,2-4 Lakh,ST,5,School Environment
+female,Anand,24060101339,Urban,English,8,4-6 Lakh,ST,0,Bullying and Social Issues
+female,Sabarkantha,24060101337,Urban,Gujarati,6,2-4 Lakh,ST,40,Early Employment
+male,Surat,24060101337,Urban,Gujarati,6,2-4 Lakh,General,0,School Environment
