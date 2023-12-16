@@ -56,8 +56,7 @@ async function deactivateStudent(req, res) {
         $push: { SchoolID: null },
       };
     }
-    if (status == 1 || 2) {
-    }
+
     if (status == 1) {
       change.Reasons = req.body.reason;
     }
@@ -132,30 +131,56 @@ async function getSchoolWiseStudents(req, res) {
     const lastSchoolId = new mongoose.Types.ObjectId(req.query.schoolId);
     const status = req.query.status;
     // console.log(lastSchoolId, status);
-    let data = await StudentModel.find({
-      $expr: {
-        $eq: [
-          lastSchoolId,
-          { $arrayElemAt: ["$SchoolID", -1] }, // Get the last element of the School_name array
-        ],
-      },
-      is_active: status,
-    })
-      .populate("State")
-      .populate("District")
-      .populate("Taluka")
-      .populate("City")
-      .populate({
-        path: "SchoolID",
-        populate: {
-          path: "Medium",
+    let data;
+    if (status != 0 && status != 3) {
+      data = await StudentModel.find({
+        $expr: {
+          $eq: [
+            lastSchoolId,
+            { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+          ],
         },
-      });
+        is_active: { $in: [1, 2] },
+      })
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        });
+    } else {
+      data = await StudentModel.find({
+        $expr: {
+          $eq: [
+            lastSchoolId,
+            { $arrayElemAt: ["$SchoolID", -1] }, // Get the last element of the School_name array
+          ],
+        },
+        is_active: status,
+      })
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        });
+    }
+
     res.json({
+      results: data.length,
       data: data,
       rcode: 200,
     });
   } catch (err) {
+    console.log(err);
     res.json({
       err: err.msg,
       rcode: -9,
