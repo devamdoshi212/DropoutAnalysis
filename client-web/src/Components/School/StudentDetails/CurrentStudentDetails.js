@@ -108,6 +108,64 @@ export default function CurrentStudent() {
     });
   };
 
+  const dt = useRef(null);
+
+  // console.log(customers);
+  let customerData = [];
+
+  const exportExcel = async () => {
+    await customers.map((customer) => {
+      let newObject = {
+        "AadharNumber": customer.AadharNumber,
+        "Address": customer.Address,
+        "Caste": customer.Caste,
+        "City": customer.City.city,
+        "ContactNumber": customer.ContactNumber,
+        "DOB": customer.DOB,
+        "Disability": customer.Disability ? customer.Disability : 0,
+        "District": customer.District.district,
+        "FamilyIncome": customer.FamilyIncome,
+        "Gender": customer.Gender,
+        "Name": customer.Name,
+        "ParentMaritalStatus": customer.ParentMaritalStatus,
+        "ParentOccupation": customer.ParentOccupation,
+        "SchoolID": customer.SchoolID[0].Name,
+        "Standard": customer.Standard,
+        "State": customer.State.name,
+        "Taluka": customer.Taluka.taluka,
+        "_id": customer._id,
+      }
+      customerData.push(newObject);
+    });
+
+    import('xlsx').then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(customerData);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array'
+      });
+
+      saveAsExcelFile(excelBuffer, 'Student Data');
+    });
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import('file-saver').then((module) => {
+      if (module && module.default) {
+        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        let EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE
+        });
+
+        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      }
+    });
+  };
+
+
+
   const PromoteHandler = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -160,45 +218,50 @@ export default function CurrentStudent() {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between mr-2">
-        <Button
-          type="button"
-          label="Clear"
-          outlined
-          className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
-          onClick={clearFilter}
-        />
-        <Button
-          type="button"
-          label="Promote"
-          outlined
-          className="px-4 py-2  rounded-lg bg-green-800 ring-0  hover:bg-green-700 text-white tracking-wider font-bold uppercase"
-          onClick={PromoteHandler}
-         
-        />
-        <Button
-          type="button"
-          label="Dropout"
-          outlined
-          className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
-          onClick={openModal}
-        />
-        <Button
-          type="button"
-          label="Inactive"
-          outlined
-          className="px-4 py-2 rounded-lg bg-gray-800 ring-0  hover:bg-gray-700 text-white tracking-wider font-bold uppercase"
-          onClick={InactiveHandler}
-        />
-        <span className="p-input-icon-left">
-          <InputText
-            value={globalFilterValues.Name}
-            onChange={onGlobalFilterChange}
-            placeholder="Keyword Search"
-            className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+      <>
+        <div className="flex align-items-center justify-content-end gap-2">
+          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        </div>
+        <div className="flex justify-between mr-2">
+          <Button
+            type="button"
+            label="Clear"
+            outlined
+            className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
+            onClick={clearFilter}
           />
-        </span>
-      </div>
+          <Button
+            type="button"
+            label="Promote"
+            outlined
+            className="px-4 py-2  rounded-lg bg-green-800 ring-0  hover:bg-green-700 text-white tracking-wider font-bold uppercase"
+            onClick={PromoteHandler}
+
+          />
+          <Button
+            type="button"
+            label="Dropout"
+            outlined
+            className="px-4 py-2 rounded-lg bg-red-800 ring-0  hover:bg-red-700 text-white tracking-wider font-bold uppercase"
+            onClick={openModal}
+          />
+          <Button
+            type="button"
+            label="Inactive"
+            outlined
+            className="px-4 py-2 rounded-lg bg-gray-800 ring-0  hover:bg-gray-700 text-white tracking-wider font-bold uppercase"
+            onClick={InactiveHandler}
+          />
+          <span className="p-input-icon-left">
+            <InputText
+              value={globalFilterValues.Name}
+              onChange={onGlobalFilterChange}
+              placeholder="Keyword Search"
+              className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
+            />
+          </span>
+        </div>
+      </>
     );
   };
 
@@ -307,61 +370,62 @@ export default function CurrentStudent() {
         >
           <div className="modal-above-screen bg-white rounded-lg p-4 relative">
             <div>
-            <span
-              className="close absolute top-1 right-1 text-3xl cursor-pointer"
-              onClick={closeModal}
-            >
-              &times;
-            </span>
+              <span
+                className="close absolute top-1 right-1 text-3xl cursor-pointer"
+                onClick={closeModal}
+              >
+                &times;
+              </span>
             </div>
             <div className="relative m-5">
-            <select
-              name="dropoutreason"
-              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
-              onChange={handleDropdownChange}
-            >
-              <option value="">Choose</option>
-              <option value="Cultural or Language Barriers">
-                Cultural or Language Barriers
-              </option>
-              <option value="Repeating Grades">Repeating Grades</option>
-              <option value="Inadequate Support Systems">
-                Inadequate Support Systems
-              </option>
-              <option value="Transportation and Access">
-                Transportation and Access
-              </option>
-              <option value="Early Employment">Early Employment</option>
-              <option value="Peer Pressure">Peer Pressure</option>
-              <option value="School Environment">School Environment</option>
-              <option value="Health and Personal Issues">
-                Health and Personal Issues
-              </option>
-              <option value="Family and Economic Factors">
-                Family and Economic Factors
-              </option>
-              <option value="Bullying and Social Issues">
-                Bullying and Social Issues
-              </option>
-              <option value="Lack of Interest or Engagement">
-                Lack of Interest or Engagement
-              </option>
-              <option value="Academic Struggles">Academic Struggles</option>
-            </select>
+              <select
+                name="dropoutreason"
+                className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+                onChange={handleDropdownChange}
+              >
+                <option value="">Choose</option>
+                <option value="Cultural or Language Barriers">
+                  Cultural or Language Barriers
+                </option>
+                <option value="Repeating Grades">Repeating Grades</option>
+                <option value="Inadequate Support Systems">
+                  Inadequate Support Systems
+                </option>
+                <option value="Transportation and Access">
+                  Transportation and Access
+                </option>
+                <option value="Early Employment">Early Employment</option>
+                <option value="Peer Pressure">Peer Pressure</option>
+                <option value="School Environment">School Environment</option>
+                <option value="Health and Personal Issues">
+                  Health and Personal Issues
+                </option>
+                <option value="Family and Economic Factors">
+                  Family and Economic Factors
+                </option>
+                <option value="Bullying and Social Issues">
+                  Bullying and Social Issues
+                </option>
+                <option value="Lack of Interest or Engagement">
+                  Lack of Interest or Engagement
+                </option>
+                <option value="Academic Struggles">Academic Struggles</option>
+              </select>
             </div>
             <div className="flex items-center justify-center">
-            <button
-              className="px-4 p-2 bg-blue-700 hover:bg-blue-500 rounded-lg font-bold text-white"
-              onClick={dropOutHandler}
-            >
-              Save Changes
-            </button>
+              <button
+                className="px-4 p-2 bg-blue-700 hover:bg-blue-500 rounded-lg font-bold text-white"
+                onClick={dropOutHandler}
+              >
+                Save Changes
+              </button>
             </div>
           </div>
         </div>
       )}
       <div className="card p-10">
         <DataTable
+          ref={dt}
           value={customers}
           paginator
           showGridlines
@@ -381,7 +445,7 @@ export default function CurrentStudent() {
           <Column
             selectionMode="multiple"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
 
           <Column
@@ -392,7 +456,7 @@ export default function CurrentStudent() {
               return calculateIndex(Math.floor(first / 10), rowIndex);
             }}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
 
           <Column
@@ -400,7 +464,7 @@ export default function CurrentStudent() {
             field="Name"
             filterField="Name"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             sortable
@@ -408,7 +472,7 @@ export default function CurrentStudent() {
             field="UID"
             filterField="UID"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             sortable
@@ -416,14 +480,14 @@ export default function CurrentStudent() {
             field="Gender"
             filterField="location"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             header="Aadhar Number"
             field="AadharNumber"
             filterField="AadharNumber"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
 
           <Column
@@ -432,7 +496,7 @@ export default function CurrentStudent() {
             field="Standard"
             filterField="Standard"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             header="DOB"
@@ -440,7 +504,7 @@ export default function CurrentStudent() {
             filterField="DOB"
             body={dateBodyTemplate}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             sortable
@@ -448,14 +512,14 @@ export default function CurrentStudent() {
             field="District.district"
             filterField="District"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             header="City"
             field="City.city"
             filterField="City"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             sortable
@@ -463,7 +527,7 @@ export default function CurrentStudent() {
             field="Taluka.taluka"
             filterField="Taluka"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             sortable
@@ -471,7 +535,7 @@ export default function CurrentStudent() {
             field="Caste"
             filterField="Caste"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
 
           <Column
@@ -479,7 +543,7 @@ export default function CurrentStudent() {
             field="City.cityType"
             filterField="City_type"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
 
           <Column
@@ -488,22 +552,22 @@ export default function CurrentStudent() {
             field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
             filterField="School_medium" // Make sure this matches the actual field name
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }} // filterMatchMode={FilterMatchMode.CONTAINS}
-            // filterValue={globalFilterValues.District}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }} // filterMatchMode={FilterMatchMode.CONTAINS}
+          // filterValue={globalFilterValues.District}
           />
           <Column
             header="Address"
             field="Address"
             filterField="Address"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
           />
           <Column
             header="Created At"
             field="createdAt" // Replace 'districtName' with the actual field name
             filterField="createdAt" // Make sure this matches the actual field name
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+            style={{ backgroundColor: "#e9e9e9", border: "solid", borderCollapse: "collapse", borderColor: "#c0c0c0", borderWidth: "1px" }}
             body={dateBodyTemplate}
           />
         </DataTable>
