@@ -1,5 +1,5 @@
 // Step 1 - Including react
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // Step 2 - Including the react-fusioncharts component
 import ReactFC from "react-fusioncharts";
@@ -9,12 +9,14 @@ import FusionCharts from "fusioncharts";
 
 // Step 4 - Including the map renderer
 import FusionMaps from "fusioncharts/fusioncharts.maps";
+import { useSelector } from "react-redux";
 
 // Step 5 - Including the map definition file
 import Gujarat from "fusionmaps/maps/fusioncharts.gujarat";
 
 // Step 6 - Including the theme as fusion
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import FetchDistrict from "../../../API/FetchDistrict";
 
 // Step 7 - Adding the map and theme as dependency to the core fusioncharts
 ReactFC.fcRoot(FusionCharts, FusionMaps, Gujarat, FusionTheme);
@@ -100,7 +102,7 @@ const stateAbbreviation = (state) => {
   }
 };
 
-const District = (district) => {
+const DistrictCode = (district) => {
   switch (district) {
     case "Ahmedabad":
       return "AH";
@@ -224,6 +226,85 @@ const chartConfigs = {
 };
 
 const StateMap = () => {
+  const [District, setDistrict] = useState([]);
+  const userData = useSelector((state) => state.user.user);
+  const state = userData.State.name;
+  const stateId = userData.State._id;
+  const [chartConfigs, setChartConfigs] = useState({
+    type: `maps/${s}`,
+    width: "1000",
+    height: "650",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        animation: "0",
+        showbevel: "0",
+        usehovercolor: "1",
+        showlegend: "1",
+        legendposition: "BOTTOM",
+        legendborderalpha: "0",
+        legendbordercolor: "ffffff",
+        legendallowdrag: "0",
+        legendshadow: "0",
+        caption: `Dropout Rate in District of ${s}`,
+        connectorcolor: "000000",
+        fillalpha: "80",
+        hovercolor: "CCCCCC",
+        theme: "fusion",
+      },
+      colorrange: colorrange,
+      data: mapData,
+    },
+  });
+  const stateCode = stateAbbreviation(state);
+
+  useEffect(() => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    fetch(
+      `http://localhost:9999/DistrictWiseData?state=${stateId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setDistrict(result.data.StudentsData);
+      })
+      .catch((error) => console.log("error", error));
+  }, [stateId]);
+
+  useEffect(() => {
+    const object = District.map((item) => DistrictCode(item.district));
+
+    const conarray = object.map((item, index) => ({
+      id: `IN.${stateCode}.${item}`,
+      value: District[index].numOfStudent || 0,
+    }));
+
+    updateChartConfig(
+      conarray,
+      `Dropout Rate in District of ${state}`,
+      `maps/${state.toLowerCase()}`
+    );
+  }, [District, state, stateCode]);
+
+  const updateChartConfig = (newData, newCaption, newType) => {
+    setChartConfigs((prevChartConfigs) => ({
+      ...prevChartConfigs,
+      type: newType,
+      dataSource: {
+        ...prevChartConfigs.dataSource,
+        data: newData,
+        chart: {
+          ...prevChartConfigs.dataSource.chart,
+          caption: newCaption,
+        },
+      },
+    }));
+  };
+  // object.map((item)=)
+
   return (
     <>
       <div>
