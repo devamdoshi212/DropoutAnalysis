@@ -18,6 +18,7 @@ module.exports.FilterStudentinGroup = async (req, res) => {
     // const citytype=req.body.
 
     const pipeline = [];
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     if (req.query.state != "") {
       pipeline.push({
@@ -57,7 +58,6 @@ module.exports.FilterStudentinGroup = async (req, res) => {
         },
       });
     }
-    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     const id = `$${type}`;
     pipeline.push({
@@ -82,8 +82,13 @@ module.exports.FilterStudentinGroup = async (req, res) => {
 
     const StudentsData = await studentModel.aggregate(pipeline);
 
+    pipeline.shift();
+    pipeline.unshift({ $match: { is_active: 3 } });
+    const total = await studentModel.aggregate(pipeline);
+
     res.status(200).json({
       status: "success",
+      total:total,
       data: {
         StudentsData,
       },
@@ -951,6 +956,215 @@ module.exports.stateWiseCount = async function (req, res) {
     res.status(400).json({
       status: "fail",
       message: err.message,
+    });
+  }
+};
+
+module.exports.countryComparative = async (req, res) => {
+  try {
+    const type = req.params.id;
+    // const lastSchoolName = req.query.School_id;
+    // const state =
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
+    // const citytype=req.body.
+
+    let pipeline = [];
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
+    }
+
+    if (req.query.school) {
+      pipeline.push({
+        $match: {
+          SchoolID: {
+            $expr: {
+              $eq: [
+                new mongoose.Types.ObjectId(req.query.school),
+                { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+              ],
+            },
+          },
+        },
+      });
+    }
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    pipeline.push({
+      $sort: {
+        _id: 1,
+      },
+    });
+
+    // const id = `$${type}`;
+    pipeline.push({
+      $group: {
+        _id: { $year: "$updatedAt" },
+        numOfStudent: { $sum: 1 },
+      },
+    });
+    // pipeline.push({
+    //   $sort: {
+    //     _id: -1,
+    //   },
+    // });
+
+    // pipeline.push({
+    //   $project: {
+    //     [type]: "$_id", // Rename _id to the 'type' value
+    //     numOfStudent: 1, // Keep the numOfStudent field
+    //     _id: 0, // Exclude the original _id field
+    //   },
+    // });
+    const pipe = [
+      { $match: { is_active: { $in: [2, 1] } } },
+      {
+        $group: {
+          _id: { $year: "$updatedAt" },
+          numOfStudent: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ];
+    const countrydrop = await studentModel.aggregate(pipe);
+    pipe.shift();
+    const countrytotal = await studentModel.aggregate(pipe);
+    const selecteddrop = await studentModel.aggregate(pipeline);
+    console.log(pipeline);
+
+    pipeline = pipeline.slice(0, -3).concat(pipeline.slice(-2));
+    console.log(pipeline);
+
+    const selectedtotal = await studentModel.aggregate(pipeline);
+
+    const years = [
+      ...new Set([
+        ...countrydrop.map((item) => item._id),
+        ...countrytotal.map((item) => item._id),
+        ...selecteddrop.map((item) => item._id),
+        ...selectedtotal.map((item) => item._id),
+      ]),
+    ];
+
+    // Create an array of objects for each year
+    const resultArray = years.map((year) => {
+      const countryDrop = countrydrop.find((item) => item._id === year);
+      const countryTotal = countrytotal.find((item) => item._id === year);
+
+      const selectedDrop = selecteddrop.find((item) => item._id === year);
+      const selectedTotal = selectedtotal.find((item) => item._id === year);
+
+      return {
+        year,
+        countryDrop: countryDrop ? countryDrop.numOfStudent : 0,
+        countryTotal: countryTotal ? countryTotal.numOfStudent : 0,
+        selectedDrop: selectedDrop ? selectedDrop.numOfStudent : 0,
+        selectedTotal: selectedTotal ? selectedTotal.numOfStudent : 0,
+      };
+    });
+
+    console.log(resultArray);
+
+    res.status(200).json([
+      {
+        status: "success",
+        resultArray: resultArray,
+        // countryDrop: countryDrop,
+        // countryTotal: countryTotal,
+        // selectedDrop: studentsDrop,
+        // selectedTotal: studentsTotal,
+        // results2: totalDrop.length,
+        // data: {
+        //   studentsDrop,
+        // },
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+      rcode: -9,
+    });
+  }
+};
+
+module.exports.top5 = async function (req, res) {
+  try {
+    const pipe = [
+      { $match: { is_active: { $in: [2, 1] } } },
+      {
+        $lookup: {
+          from: "states",
+          localField: "State",
+          foreignField: "_id",
+          as: "state",
+        },
+      },
+      {
+        $unwind: "$state",
+      },
+      {
+        $group: {
+          _id: "$state.name",
+          numOfStudent: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ];
+
+    const dropout = await studentModel.aggregate(pipe);
+    pipe.shift();
+    const total = await studentModel.aggregate(pipe);
+
+    const data = dropout.concat(total);
+
+    res.status(200).json([
+      {
+        // stateWiseCounts: stateWiseCounts,
+        data: data,
+        // total: total,
+        // dropout: dropout,
+        rcode: 200,
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+      rcode: -9,
     });
   }
 };
