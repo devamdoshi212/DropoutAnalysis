@@ -88,10 +88,8 @@ module.exports.FilterStudentinGroup = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      total: total,
-      data: {
-        StudentsData,
-      },
+
+      data: { total, StudentsData },
     });
   } catch (err) {
     console.log(err);
@@ -1187,6 +1185,8 @@ module.exports.top5State = async function (req, res) {
       };
     });
 
+    stateWiseCounts = stateWiseCounts.sort((a, b) => b.rate - a.rate);
+
     res.status(200).json([
       {
         stateWiseCounts: stateWiseCounts,
@@ -1275,6 +1275,8 @@ module.exports.top5District = async function (req, res) {
         rate: dropoutRate,
       };
     });
+
+    districtWiseCounts = districtWiseCounts.sort((a, b) => b.rate - a.rate);
 
     res.status(200).json([
       {
