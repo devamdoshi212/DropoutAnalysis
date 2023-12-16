@@ -104,7 +104,7 @@ export default function InactiveStudent() {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      status: 3,
+      status: 2,
       students: selectedStudents,
     });
 
@@ -215,7 +215,13 @@ export default function InactiveStudent() {
         <Column
           selectionMode="multiple"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
 
         <Column
@@ -226,7 +232,13 @@ export default function InactiveStudent() {
             return calculateIndex(Math.floor(first / 10), rowIndex);
           }}
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
 
         <Column
@@ -234,7 +246,13 @@ export default function InactiveStudent() {
           field="Name"
           filterField="Name"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           sortable
@@ -242,7 +260,13 @@ export default function InactiveStudent() {
           field="UID"
           filterField="UID"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           sortable
@@ -250,14 +274,26 @@ export default function InactiveStudent() {
           field="Gender"
           filterField="location"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           header="Aadhar Number"
           field="AadharNumber"
           filterField="AadharNumber"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
 
         <Column
@@ -266,7 +302,13 @@ export default function InactiveStudent() {
           field="Standard"
           filterField="Standard"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           header="DOB"
@@ -274,7 +316,13 @@ export default function InactiveStudent() {
           filterField="DOB"
           body={dateBodyTemplate}
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           sortable
@@ -282,14 +330,26 @@ export default function InactiveStudent() {
           field="District.district"
           filterField="District"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           header="City"
           field="City.city"
           filterField="City"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           sortable
@@ -297,7 +357,13 @@ export default function InactiveStudent() {
           field="Taluka.taluka"
           filterField="Taluka"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           sortable
@@ -305,7 +371,13 @@ export default function InactiveStudent() {
           field="Caste"
           filterField="Caste"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
 
         <Column
@@ -313,7 +385,13 @@ export default function InactiveStudent() {
           field="City.cityType"
           filterField="City_type"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
 
         <Column
@@ -322,7 +400,13 @@ export default function InactiveStudent() {
           field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
           filterField="School_medium" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}} // filterMatchMode={FilterMatchMode.CONTAINS}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }} // filterMatchMode={FilterMatchMode.CONTAINS}
           // filterValue={globalFilterValues.District}
         />
         <Column
@@ -330,14 +414,26 @@ export default function InactiveStudent() {
           field="Address"
           filterField="Address"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{ backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px"}}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
         />
         <Column
           header="Created At"
           field="createdAt" // Replace 'districtName' with the actual field name
           filterField="createdAt" // Make sure this matches the actual field name
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-          style={{backgroundColor: "#e9e9e9",border:"solid",borderCollapse:"collapse",borderColor:"#c0c0c0",borderWidth:"1px" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
           body={dateBodyTemplate}
         />
       </DataTable>

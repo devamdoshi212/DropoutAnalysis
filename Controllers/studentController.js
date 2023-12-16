@@ -11,7 +11,13 @@ async function getStudents(req, res) {
       .populate("State")
       .populate("District")
       .populate("Taluka")
-      .populate("City");
+      .populate("City")
+      .populate({
+        path: "SchoolID",
+        populate: {
+          path: "Medium",
+        },
+      });
     res.json({
       data: data,
       rcode: 200,
