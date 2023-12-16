@@ -214,6 +214,7 @@ module.exports.yearWiseData = async (req, res) => {
       data: {
         resultArray,
       },
+      rcode: 200,
     });
   } catch (err) {
     console.log(err);
@@ -895,10 +896,49 @@ module.exports.stateWiseCount = async function (req, res) {
       },
     ]);
 
+    const result = {};
+
+    // Iterate through the district data
+    district.forEach(({ count, state }) => {
+      if (!result[state]) {
+        result[state] = {};
+      }
+      result[state].districtCount = count;
+    });
+
+    // Iterate through the taluka data
+    taluka.forEach(({ count, state }) => {
+      if (!result[state]) {
+        result[state] = {};
+      }
+      result[state].talukaCount = count;
+    });
+
+    // Iterate through the cities data
+    cities.forEach(({ count, state }) => {
+      if (!result[state]) {
+        result[state] = {};
+      }
+      result[state].cityCount = count;
+    });
+
+    console.log(result);
+
+    // Convert the result object into an array of objects
+    const resultArray = Object.keys(result).map((state) => ({
+      state,
+      ...result[state],
+    }));
+
+    resultArray.sort((a, b) => a.state.localeCompare(b.state));
+
+    // console.log(resultArray);
+
     res.json({
-      district: district,
-      taluka: taluka,
-      cities: cities,
+      // district: district,
+      // taluka: taluka,
+      // cities: cities,
+      resultArray: resultArray,
       rcode: 200,
     });
   } catch (err) {
