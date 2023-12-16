@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const YearwiseGenderAnalysis = (props) => {
+const YearwiseGenderAnalysis = ({
+  selectedCity,
+  selectedTaluka,
+  selectedDistrict,
+  selectedState,
+}) => {
   const [chartData, setChartData] = useState({
     series: [
       {
@@ -50,7 +55,7 @@ const YearwiseGenderAnalysis = (props) => {
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Capacity wise Enroll Athelte in Sport",
+        text: "Year wise Dropout Student Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -70,60 +75,51 @@ const YearwiseGenderAnalysis = (props) => {
   });
 
   useEffect(() => {
-    if (props.selectedOption !== "") {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-      fetch(
-        `http://localhost:9999/sportCapacityUtilization?sportsComplexId=${props.selectedOption}`,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log(result);
-          const data = result.data;
-          const categories = data.map((s) => parseInt(s.capacity, 10));
-          // const seriesData = data.map((s) => s.sport);
-          const seriesData = data.map((s) => {
-            const utilizationStatus =
-              s.capacity < s.totalAthelete ? "Over Utilized" : "Under Utilized";
-            const color =
-              utilizationStatus === "Under Utilized" ? "#00FF00" : "#FF0000"; // Green for Over Utilized, Red for Under Utilized
-            return { label: `${s.sport} - ${utilizationStatus}`, color };
-          });
-          const totalAthelet = data.map((s) => s.totalAthelete);
-
-          setChartData({
-            ...chartData,
-            series: [
-              {
-                data: categories,
-              },
-              {
-                data: totalAthelet,
-              },
-            ],
-            options: {
-              ...chartData.options,
-              xaxis: {
-                ...chartData.options.xaxis,
-                categories: seriesData.map((item) => item.label),
-                labels: {
-                  style: {
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    colors: seriesData.map((item) => item.color),
-                  },
-                },
-              },
+    fetch(
+      `http://localhost:9999/yearWiseData?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        // console.log(result);
+        const data = result.data.resultArray;
+        console.log(data);
+        const categories = data.map((s) => s.year);
+        const withReason = data.map((s) => s.is_active_1);
+        const withOutReason = data.map((s) => s.is_active_2);
+        const total = data.map((s) => s.is_active_2 + s.is_active_1);
+        setChartData({
+          ...chartData,
+          series: [
+            {
+              name: "Without Reason Dropout Students",
+              data: withOutReason,
             },
-          });
-        })
-        .catch((error) => console.log("error", error));
-    }
-  }, [props.selectedOption]);
+            {
+              name: "With Reason Dropout Students",
+              data: withReason,
+            },
+            {
+              name: "Total Dropout Students Students",
+              data: total,
+            },
+          ],
+          options: {
+            ...chartData.options,
+            xaxis: {
+              ...chartData.options.xaxis,
+              categories: categories,
+            },
+          },
+        });
+      })
+      .catch((error) => console.log("error", error));
+  }, [selectedCity, selectedDistrict, selectedState, selectedTaluka]);
 
   return (
     <div className="chart m-8">

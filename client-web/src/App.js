@@ -24,8 +24,8 @@ import SchoolDataTable from "./Components/Authority/AddSchool/SchoolDataTable";
 import AdminSchoolDataTable from "./Components/Admin/School/SchoolDataTable";
 import DropedStudents from "./Components/School/StudentDetails/DropedStudents";
 import InactiveStudent from "./Components/School/StudentDetails/InactiveStudents";
-import DomainDataTable from "./Components/Admin/Area/DomainDataTable";
 import StatewiseDropoutAnalysis from "./Components/Admin/State/StatewiseDropoutRatioTable";
+import DomainDataTable from "./Components/Admin/Area/DomianTable";
 
 const router = createBrowserRouter([
   {
