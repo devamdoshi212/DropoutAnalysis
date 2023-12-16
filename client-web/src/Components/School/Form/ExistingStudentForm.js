@@ -7,7 +7,6 @@ const ExistingStudentForm = () => {
   const [aadharInput, setAadharInput] = useState("");
   const [selectedStudent, setSelectedStudent] = useState([]);
   const [studentFlage, setStudentFlage] = useState(null);
-  const [selectedOption, setSelectedOption] = useState("");
   const findStudentByUid = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -57,6 +56,7 @@ const ExistingStudentForm = () => {
   const sId = schoolData.School._id;
 
   const addStudentToSchool = () => {
+    // console.log(selectedOption);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -157,6 +157,7 @@ const ExistingStudentForm = () => {
     address:
       selectedStudent && selectedStudent.Address ? selectedStudent.Address : "",
   };
+
   const options = [
     { value: "", label: "Select Standard" },
     { value: "-1", label: "Junior KG" },
@@ -172,16 +173,23 @@ const ExistingStudentForm = () => {
     { value: "9", label: "Standard 9" },
     { value: "10", label: "Standard 10" },
   ];
-  useEffect(() => {
-    initialValues.standard = selectedOption;
-  }, [selectedOption]);
-  useEffect(() => {
-    if (selectedStudent && selectedStudent.Standard) {
-      setSelectedOption(selectedStudent.Standard.toString());
-    }
-  }, [selectedStudent]);
+  const [selectedOption, setSelectedOption] = useState(
+    selectedStudent && selectedStudent.Standard
+      ? selectedStudent.Standard.toString()
+      : ""
+  );
 
-  // console.log(selectedStudent.SchoolID.length - 1);
+  useEffect(() => {
+    // Update selected option when initialValues change
+    setSelectedOption(
+      initialValues.standard
+        ? initialValues.standard.toString()
+        : selectedStudent && selectedStudent.Standard
+        ? selectedStudent.Standard.toString()
+        : ""
+    );
+  }, [initialValues.standard, selectedStudent]);
+
   return (
     <>
       <div className="bg-[#f8f9fa] m-5 h-screen">
@@ -311,7 +319,10 @@ const ExistingStudentForm = () => {
                     <Field
                       as="select"
                       name="standard"
-                      onChange={(e) => setSelectedOption(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedOption(e.target.value);
+                      }}
+                      value={selectedOption}
                       className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
                     >
                       {options
@@ -330,7 +341,7 @@ const ExistingStudentForm = () => {
                   <ErrorMessage
                     name="standard"
                     component="div"
-                    className="text-red-500 text-sm  text-center mx-4"
+                    className="text-red-500 text-sm text-center mx-4"
                   />
                 </div>
 
