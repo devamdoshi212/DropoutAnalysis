@@ -9,6 +9,7 @@ import ReasonwiseDropoutAnalysis from "./ReasonwiseDropoutAnalysis";
 import CastewiseDropoutAnalysis from "./CastewiseDropoutAnalysis";
 import DisablitywiseDropoutAnalysis from "./DisablitywiseDropoutAnalysis";
 import FamilyIncomewiseDropoutAnalysis from "./IncomewiseDropoutAnalysis";
+import ReasonwiseGenderDropoutAnalysis from "./ReasonwiseGenderDropoutAnalysis";
 
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
@@ -142,6 +143,12 @@ const Analysis = () => {
         selectedState={selectedState}
       />
       <FamilyIncomewiseDropoutAnalysis
+        selectedCity={selectedCity}
+        selectedTaluka={selectedTaluka}
+        selectedDistrict={selectedDistrict}
+        selectedState={selectedState}
+      />
+      <ReasonwiseGenderDropoutAnalysis
         selectedCity={selectedCity}
         selectedTaluka={selectedTaluka}
         selectedDistrict={selectedDistrict}
