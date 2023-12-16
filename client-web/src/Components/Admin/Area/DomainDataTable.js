@@ -96,8 +96,8 @@ export default function DomainDataTable() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+        <div className="flex align-items-center justify-end gap-2 m-2">
+          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" className=" bg-green-900 text-white hover:bg-green-700" />
         </div>
         <div className="flex justify-between mr-2">
           <Button

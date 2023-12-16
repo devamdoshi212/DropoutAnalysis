@@ -143,11 +143,12 @@ export default function CurrentStudent() {
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer = xlsx.write(workbook, {
         bookType: 'xlsx',
-        type: 'array'
+        type: 'array',
       });
 
       saveAsExcelFile(excelBuffer, 'Student Data');
     });
+    
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
@@ -161,7 +162,9 @@ export default function CurrentStudent() {
 
         module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
       }
+     
     });
+    
   };
 
 
@@ -219,9 +222,14 @@ export default function CurrentStudent() {
   const renderHeader = () => {
     return (
       <>
-        <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+     <div>
+        <div className="flex align-items-center justify-end gap-2 m-2 ">
+         
+          <Button type="button"  icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS"  className=" bg-green-900 text-white hover:bg-green-700"/>
+          
         </div>
+        
+       
         <div className="flex justify-between mr-2">
           <Button
             type="button"
@@ -260,6 +268,7 @@ export default function CurrentStudent() {
               className="p-2 ring-1 ring-opacity-50 ring-black focus:ring-blue-600 focus:ring-2 focus:ring-opacity-70 hover:ring-opacity-100 hover:ring-blue-400"
             />
           </span>
+        </div>
         </div>
       </>
     );
