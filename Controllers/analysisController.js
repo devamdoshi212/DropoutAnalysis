@@ -1,5 +1,10 @@
 const studentModel = require("../models/StudentModel");
 const mongoose = require("mongoose");
+const stateModel = require("../models/StateModel");
+const talukaModel = require("../models/TalukaModel");
+const districtModel = require("../models/DistrictModel");
+const cityModel = require("../models/CityModel");
+
 //admin
 module.exports.FilterStudentinGroup = async (req, res) => {
   try {
@@ -182,10 +187,32 @@ module.exports.yearWiseData = async (req, res) => {
 
     const StudentsData = await studentModel.aggregate(pipeline);
 
+    const result = {};
+    StudentsData.forEach((student) => {
+      const { numOfStudent, is_active, year } = student;
+
+      // If the year is not already a property in the result object, create it
+      if (!result[year]) {
+        result[year] = {
+          is_active_1: 0,
+          is_active_2: 0,
+          // Add more properties for other is_active values if needed
+        };
+      }
+
+      // Increment the count based on is_active value
+      result[year][`is_active_${is_active}`] += numOfStudent;
+    });
+
+    const resultArray = Object.keys(result).map((year) => ({
+      year,
+      ...result[year],
+    }));
+
     res.status(200).json({
       status: "success",
       data: {
-        StudentsData,
+        resultArray,
       },
     });
   } catch (err) {
@@ -411,21 +438,7 @@ module.exports.statewiseDropout = async function (req, res) {
         },
       },
     ]);
-    // usee reduce `to` group by "State" and aggregate counts based on "is_active"
-    // data = data.reduce((acc, entry) => {
-    //   let state = entry._id.State;
-    //   let isActive = entry._id.is_active;
 
-    //   // If the state is not in the accumulator, initialize it
-    //   if (!acc[state]) {
-    //     acc[state] = {}
-    //   }
-
-    //   // Update the count for the specific "is_active" value
-    //   acc[state][isActive] = (acc[state][isActive] || 0) + entry.numOfStudent;
-
-    //   return acc;
-    // }, {});
     let stateCounts = {};
     data.forEach((entry) => {
       let stateId = entry._id.State;
@@ -774,6 +787,119 @@ module.exports.areaWise = async (req, res) => {
       data: {
         StudentsData,
       },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+module.exports.stateWiseCount = async function (req, res) {
+  try {
+    let district = await districtModel.aggregate([
+      {
+        $lookup: {
+          from: "states",
+          localField: "state",
+          foreignField: "_id",
+          as: "State",
+        },
+      },
+      {
+        $unwind: "$State",
+      },
+      {
+        $group: {
+          _id: "$State.name",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          state: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+
+    let taluka = await talukaModel.aggregate([
+      {
+        $lookup: {
+          from: "states",
+          localField: "state",
+          foreignField: "_id",
+          as: "State",
+        },
+      },
+      {
+        $unwind: "$State",
+      },
+      {
+        $group: {
+          _id: "$State.name",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          state: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+
+    let cities = await cityModel.aggregate([
+      {
+        $lookup: {
+          from: "states",
+          localField: "state",
+          foreignField: "_id",
+          as: "State",
+        },
+      },
+      {
+        $unwind: "$State",
+      },
+      {
+        $group: {
+          _id: "$State.name",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          state: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+
+    res.json({
+      district: district,
+      taluka: taluka,
+      cities: cities,
+      rcode: 200,
     });
   } catch (err) {
     console.log(err);
