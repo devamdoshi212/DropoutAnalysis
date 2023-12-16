@@ -14,5 +14,6 @@ router.get(
 router.get("/statewiseDropout", analysisController.statewiseDropout);
 router.get("/mediumWise", analysisController.mediumWise);
 router.get("/areaWise", analysisController.areaWise);
+router.get("/stateWiseCount", analysisController.stateWiseCount);
 
 module.exports = router;
