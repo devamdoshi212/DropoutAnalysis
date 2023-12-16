@@ -124,7 +124,7 @@ export default function DomainDataTable() {
             data-pr-tooltip="XLS"
             className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md"
           >
-          Download Excel File
+            Download Excel File
           </Button>
         </div>
         <div className="flex justify-between mr-2">
@@ -237,7 +237,7 @@ export default function DomainDataTable() {
           loading={loading}
           dataKey="_id"
           filters={filters}
-          globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+          globalFilterFields={["state"]}
           header={header}
           emptyMessage="No School found."
           removableSort
