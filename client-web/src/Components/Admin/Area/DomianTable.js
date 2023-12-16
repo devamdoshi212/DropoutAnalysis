@@ -72,13 +72,12 @@ export default function DomainDataTable() {
   const dt = useRef(null);
   let schoolData = [];
   const exportExcel = () => {
-    console.log(customers);
     customers.map((customer) => {
       let newObject = {
-        State: customer.State.name,
-        District: customer.District.district,
-        Taluka: customer.Taluka.taluka,
-        City: customer.City.city,
+        State: customer.state,
+        District: customer.districtCount,
+        Taluka: customer.talukaCount,
+        City: customer.cityCount,
       };
       schoolData.push(newObject);
     });
