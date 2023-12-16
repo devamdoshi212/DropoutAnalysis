@@ -278,7 +278,7 @@ const ExistingStudentForm = () => {
                       type="text"
                       name="firstName"
                       disabled
-                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -295,12 +295,12 @@ const ExistingStudentForm = () => {
                       type="text"
                       name="middleName"
                       disabled
-                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
 
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <div className="flex">
                     <label
                       htmlFor="lastName"
@@ -312,10 +312,10 @@ const ExistingStudentForm = () => {
                       type="text"
                       name="lastName"
                       disabled
-                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 focus:outline-gray-400"
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="mb-4">
                   <div className="flex">
@@ -361,15 +361,30 @@ const ExistingStudentForm = () => {
                     </label>
                     <div className="w-2/3">
                       <label>
-                        <Field type="radio" name="gender" value="male" />
+                        <Field
+                          type="radio"
+                          name="gender"
+                          value="male"
+                          disabled
+                        />
                         Male
                       </label>
                       <label className="ml-4">
-                        <Field type="radio" name="gender" value="female" />
+                        <Field
+                          type="radio"
+                          name="gender"
+                          value="female"
+                          disabled
+                        />
                         Female
                       </label>
                       <label className="ml-4">
-                        <Field type="radio" name="gender" value="other" />
+                        <Field
+                          type="radio"
+                          name="gender"
+                          value="other"
+                          disabled
+                        />
                         Other
                       </label>
                     </div>
@@ -384,7 +399,7 @@ const ExistingStudentForm = () => {
                     >
                       Date of Birth
                     </label>
-                    <Field name="dob" className="" />
+                    <Field name="dob" className="bg-gray-300" disabled />
                   </div>
                 </div>
 
@@ -399,7 +414,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="aadharCard"
-                      className="w-2/3 border-solid border-2 float-right p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -415,7 +431,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="schoolName"
-                      className="w-2/3 border-solid border-2 float-right p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -431,7 +448,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="state"
-                      className="w-2/3 border-solid border-2 float-right p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -447,7 +465,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="district"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -463,7 +482,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="taluka"
-                      className="w-2/3 border-solid border-2 float-right p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -479,7 +499,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="city"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -495,7 +516,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="address"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -511,7 +533,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="caste"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -527,7 +550,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="cityArea"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -543,7 +567,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="familyIncome"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -559,7 +584,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="parentoccupation"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -575,7 +601,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="contact"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
@@ -591,7 +618,8 @@ const ExistingStudentForm = () => {
                     <Field
                       as="select"
                       name="parentmaritalstatus"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     >
                       <option value="">Select Status</option>
                       <option value="0">Without Parent</option>
@@ -618,7 +646,8 @@ const ExistingStudentForm = () => {
                     <Field
                       type="text"
                       name="disability"
-                      className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+                      disabled
+                      className="w-2/3 border-solid border-2 float-right rounded-md p-1.5 focus:outline-2 bg-gray-300 focus:outline-gray-400"
                     />
                   </div>
                 </div>
