@@ -183,7 +183,9 @@ export default function InactiveStudent() {
     return (
       <>
         <div className="flex align-items-center justify-end gap-2 m-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" className=" bg-green-900 text-white hover:bg-green-700" />
+          <Button type="button" icon="pi pi-file-excel" severity="success"  onClick={exportExcel} data-pr-tooltip="XLS" className=" bg-green-900 text-white hover:bg-green-700 p-2 rounded-md" >
+          Download Excel File
+          </Button>
         </div>
         <div className="flex justify-between mr-2">
           <Button
