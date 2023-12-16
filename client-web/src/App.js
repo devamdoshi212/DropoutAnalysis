@@ -26,7 +26,9 @@ import DropedStudents from "./Components/School/StudentDetails/DropedStudents";
 import InactiveStudent from "./Components/School/StudentDetails/InactiveStudents";
 import StatewiseDropoutAnalysis from "./Components/Admin/State/StatewiseDropoutRatioTable";
 import DomainDataTable from "./Components/Admin/Area/DomianTable";
-import OverAllAnalysis from './Components/Admin/OverAllAnalysis/OverAllAnalysis'
+import OverAllAnalysis from "./Components/Admin/OverAllAnalysis/OverAllAnalysis";
+import StateMap from "./Components/Authority/Analysis/StateMap";
+import IndiaMap from "./Components/Admin/Analysis/IndiaMap";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +94,11 @@ const router = createBrowserRouter([
         element: <StatewiseDropoutAnalysis />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "indiaMap",
+        element: <IndiaMap />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
@@ -114,6 +121,11 @@ const router = createBrowserRouter([
       {
         path: "schooldetails",
         element: <SchoolDataTable />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "stateMap",
+        element: <StateMap />,
         errorElement: <ErrorPage />,
       },
     ],
