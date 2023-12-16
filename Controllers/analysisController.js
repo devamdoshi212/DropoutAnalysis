@@ -491,6 +491,7 @@ module.exports.statewiseDropout = async function (req, res) {
 module.exports.mediumWise = async (req, res) => {
   try {
     const pipeline = [];
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     if (req.query.state != "") {
       pipeline.push({
@@ -516,14 +517,14 @@ module.exports.mediumWise = async (req, res) => {
       });
     }
 
-    pipeline.push({
-      $lookup: {
-        from: "states",
-        localField: "State",
-        foreignField: "_id",
-        as: "state",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "states",
+    //     localField: "State",
+    //     foreignField: "_id",
+    //     as: "state",
+    //   },
+    // });
 
     pipeline.push({
       $lookup: {
@@ -547,42 +548,42 @@ module.exports.mediumWise = async (req, res) => {
       $unwind: "$Schooltype",
     });
 
-    pipeline.push({
-      $lookup: {
-        from: "districts",
-        localField: "District",
-        foreignField: "_id",
-        as: "District",
-      },
-    });
-    pipeline.push({
-      $unwind: "$District",
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "districts",
+    //     localField: "District",
+    //     foreignField: "_id",
+    //     as: "District",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$District",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "talukas",
-        localField: "Taluka",
-        foreignField: "_id",
-        as: "Taluka",
-      },
-    });
-    pipeline.push({
-      $unwind: "$Taluka",
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "talukas",
+    //     localField: "Taluka",
+    //     foreignField: "_id",
+    //     as: "Taluka",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$Taluka",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "cities",
-        localField: "City",
-        foreignField: "_id",
-        as: "City",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "cities",
+    //     localField: "City",
+    //     foreignField: "_id",
+    //     as: "City",
+    //   },
+    // });
 
-    pipeline.push({
-      $unwind: "$City",
-    });
+    // pipeline.push({
+    //   $unwind: "$City",
+    // });
 
     if (req.query.school) {
       pipeline.push({
@@ -598,7 +599,6 @@ module.exports.mediumWise = async (req, res) => {
         },
       });
     }
-    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     // const id = `$${type}`;
     pipeline.push({
@@ -626,11 +626,14 @@ module.exports.mediumWise = async (req, res) => {
       },
     });
     const StudentsData = await studentModel.aggregate(pipeline);
+    pipeline.unshift();
+    const total = await studentModel.aggregate(pipeline);
 
     res.status(200).json({
       status: "success",
       data: {
         StudentsData,
+        total,
       },
     });
   } catch (err) {
@@ -646,6 +649,8 @@ module.exports.mediumWise = async (req, res) => {
 module.exports.areaWise = async (req, res) => {
   try {
     const pipeline = [];
+
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     if (req.query.state != "") {
       pipeline.push({
@@ -671,68 +676,68 @@ module.exports.areaWise = async (req, res) => {
       });
     }
 
-    pipeline.push({
-      $lookup: {
-        from: "states",
-        localField: "State",
-        foreignField: "_id",
-        as: "state",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "states",
+    //     localField: "State",
+    //     foreignField: "_id",
+    //     as: "state",
+    //   },
+    // });
 
-    pipeline.push({
-      $unwind: "$state",
-    });
+    // pipeline.push({
+    //   $unwind: "$state",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "schools",
-        localField: "SchoolID",
-        foreignField: "_id",
-        as: "School",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schools",
+    //     localField: "SchoolID",
+    //     foreignField: "_id",
+    //     as: "School",
+    //   },
+    // });
 
-    pipeline.push({
-      $unwind: "$School",
-    });
+    // pipeline.push({
+    //   $unwind: "$School",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "schooltypes",
-        localField: "School.Medium",
-        foreignField: "_id",
-        as: "Schooltype",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schooltypes",
+    //     localField: "School.Medium",
+    //     foreignField: "_id",
+    //     as: "Schooltype",
+    //   },
+    // });
 
-    pipeline.push({
-      $unwind: "$Schooltype",
-    });
+    // pipeline.push({
+    //   $unwind: "$Schooltype",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "districts",
-        localField: "District",
-        foreignField: "_id",
-        as: "District",
-      },
-    });
-    pipeline.push({
-      $unwind: "$District",
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "districts",
+    //     localField: "District",
+    //     foreignField: "_id",
+    //     as: "District",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$District",
+    // });
 
-    pipeline.push({
-      $lookup: {
-        from: "talukas",
-        localField: "Taluka",
-        foreignField: "_id",
-        as: "Taluka",
-      },
-    });
-    pipeline.push({
-      $unwind: "$Taluka",
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "talukas",
+    //     localField: "Taluka",
+    //     foreignField: "_id",
+    //     as: "Taluka",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$Taluka",
+    // });
 
     pipeline.push({
       $lookup: {
@@ -761,7 +766,6 @@ module.exports.areaWise = async (req, res) => {
         },
       });
     }
-    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
 
     // const id = `$${type}`;
     pipeline.push({
@@ -791,9 +795,13 @@ module.exports.areaWise = async (req, res) => {
     });
     const StudentsData = await studentModel.aggregate(pipeline);
 
+    pipeline.shift();
+    const total = await studentModel.aggregate(pipeline);
+
     res.status(200).json({
       status: "success",
       data: {
+        total,
         StudentsData,
       },
     });
@@ -1345,6 +1353,183 @@ module.exports.top5Taluka = async function (req, res) {
       status: "fail",
       message: err.message,
       rcode: -9,
+    });
+  }
+};
+
+module.exports.areaAndReasonWise = async (req, res) => {
+  try {
+    const pipeline = [];
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
+    }
+
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "states",
+    //     localField: "State",
+    //     foreignField: "_id",
+    //     as: "state",
+    //   },
+    // });
+
+    // pipeline.push({
+    //   $unwind: "$state",
+    // });
+
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schools",
+    //     localField: "SchoolID",
+    //     foreignField: "_id",
+    //     as: "School",
+    //   },
+    // });
+
+    // pipeline.push({
+    //   $unwind: "$School",
+    // });
+
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schooltypes",
+    //     localField: "School.Medium",
+    //     foreignField: "_id",
+    //     as: "Schooltype",
+    //   },
+    // });
+
+    // pipeline.push({
+    //   $unwind: "$Schooltype",
+    // });
+
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "districts",
+    //     localField: "District",
+    //     foreignField: "_id",
+    //     as: "District",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$District",
+    // });
+
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "talukas",
+    //     localField: "Taluka",
+    //     foreignField: "_id",
+    //     as: "Taluka",
+    //   },
+    // });
+    // pipeline.push({
+    //   $unwind: "$Taluka",
+    // });
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    pipeline.push({
+      $lookup: {
+        from: "cities",
+        localField: "City",
+        foreignField: "_id",
+        as: "city",
+      },
+    });
+
+    pipeline.push({
+      $unwind: "$city",
+    });
+
+    if (req.query.school) {
+      pipeline.push({
+        $match: {
+          SchoolID: {
+            $expr: {
+              $eq: [
+                new mongoose.Types.ObjectId(req.query.school),
+                { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+              ],
+            },
+          },
+        },
+      });
+    }
+
+    // const id = `$${type}`;
+    pipeline.push({
+      $group: {
+        _id: {
+          areaType: "$city.cityType",
+          Reasons: "$Reasons",
+        },
+        numOfStudent: { $sum: 1 },
+      },
+    });
+    pipeline.push({
+      $sort: {
+        _id: -1,
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        areaType: "$_id.areaType", // Rename _id to the 'type' value
+        reason: "$_id.Reasons",
+        numOfStudent: 1, // Keep the numOfStudent field
+        _id: 0, // Exclude the original _id field
+      },
+    });
+
+    const StudentsData = await studentModel.aggregate(pipeline);
+
+    const reasonWiseCounts = StudentsData.reduce((result, item) => {
+      const reason = item.reason || "No Reason";
+      const areaType = item.areaType || "Unknown";
+
+      result[reason] = result[reason] || {
+        reason,
+        areaTypeCounts: { 0: 0, 1: 0 },
+      };
+      result[reason].areaTypeCounts[areaType]++;
+      return result;
+    }, {});
+
+    // Convert the grouped data object into an array
+    const resultArray = Object.values(reasonWiseCounts);
+
+    res.status(200).json({
+      status: "success",
+      resultArray: resultArray,
+      // data: StudentsData,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };

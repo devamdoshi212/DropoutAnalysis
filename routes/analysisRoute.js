@@ -19,5 +19,6 @@ router.get("/countryComparative", analysisController.countryComparative);
 router.get("/top5State", analysisController.top5State);
 router.get("/top5District", analysisController.top5District);
 router.get("/top5Taluka", analysisController.top5Taluka);
+router.get("/areaAndReasonWise", analysisController.areaAndReasonWise);
 
 module.exports = router;
