@@ -5,8 +5,9 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
+import { DomainDataTableServices } from "./DomainDataTableServices";
 import { Link } from "react-router-dom";
-
 export default function DomainDataTable() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
@@ -14,11 +15,26 @@ export default function DomainDataTable() {
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValues, setGlobalFilterValues] = useState({
-    State: "",
+    Name: "",
+    ContactNum: "",
+    Email: "",
     District: "",
-    Taluka: "",
-    City: "",
   });
+
+  useEffect(() => {
+    DomainDataTableServices.getCustomersXLarge().then((data) => {
+      setCustomers(getCustomers(data));
+      setLoading(false);
+    });
+    initFilters();
+  }, [deleterefresh]);
+
+  const getCustomers = (data) => {
+    return [...(data || [])].map((d) => {
+      d.date = new Date(d.date);
+      return d;
+    });
+  };
 
   const clearFilter = () => {
     initFilters();
@@ -31,10 +47,10 @@ export default function DomainDataTable() {
     _filters["global"].value = value;
     // Update the global filter value for all fields
     setGlobalFilterValues({
-      State: value,
+      Name: value,
+      ContactNum: value,
+      Email: value,
       District: value,
-      Taluka: value,
-      City: value,
     });
 
     setFilters(_filters);
@@ -46,10 +62,10 @@ export default function DomainDataTable() {
     });
 
     setGlobalFilterValues({
-      State: "",
+      Name: "",
+      ContactNum: "",
+      Email: "",
       District: "",
-      Taluka: "",
-      City: "",
     });
   };
 
@@ -59,36 +75,40 @@ export default function DomainDataTable() {
     console.log(customers);
     customers.map((customer) => {
       let newObject = {
-        "State": customer.State.name,
-        "District": customer.District.district,
-        "Taluka": customer.Taluka.taluka,
-        "City": customer.City.city,
-      }
+        State: customer.State.name,
+        District: customer.District.district,
+        Taluka: customer.Taluka.taluka,
+        City: customer.City.city,
+      };
       schoolData.push(newObject);
     });
 
-    import('xlsx').then((xlsx) => {
+    import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(schoolData);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
+        bookType: "xlsx",
+        type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, 'School Data');
+      saveAsExcelFile(excelBuffer, "School Data");
     });
   };
 
   const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
+    import("file-saver").then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
         const data = new Blob([buffer], {
-          type: EXCEL_TYPE
+          type: EXCEL_TYPE,
         });
 
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
       }
     });
   };
@@ -97,7 +117,15 @@ export default function DomainDataTable() {
     return (
       <>
         <div className="flex align-items-center justify-content-end gap-2">
-          <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" style={{ backgroundColor: "green" }} />
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            rounded
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+            style={{ backgroundColor: "green" }}
+          />
         </div>
         <div className="flex justify-between mr-2">
           <Button
@@ -121,12 +149,52 @@ export default function DomainDataTable() {
     );
   };
 
+  const dateBodyTemplate = (rowData) => {
+    const date = new Date(rowData.DOB);
+    return formatDate(date);
+  };
+
+  const formatDate = (value) => {
+    if (value instanceof Date) {
+      const year = value.getFullYear();
+      const month = String(value.getMonth() + 1).padStart(2, "0");
+      const day = String(value.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+    return "";
+  };
+
+  const dateFilterTemplate = (options) => {
+    return (
+      <Calendar
+        value={options.value}
+        onChange={(e) => options.filterCallback(e.value, options.index)}
+        dateFormat="mm/dd/yy"
+        placeholder="mm/dd/yyyy"
+        mask="99/99/9999"
+      />
+    );
+  };
+
+  const typeBodyTemplate = (rowData) => {
+    if (rowData.Type === 0) {
+      return <h1>Government</h1>;
+    } else if (rowData.Type === 1) {
+      return <h1>Private</h1>;
+    } else if (rowData.Type === 2) {
+      return <h1>Semin Government</h1>;
+    } else if (rowData.Type === 3) {
+      return <h1>International</h1>;
+    }
+  };
+
   const header = renderHeader();
   const [first, setFirst] = useState(0);
 
   const calculateIndex = (currentPage, rowIndex) => {
     return currentPage * 10 + rowIndex + 1;
   };
+  console.log(customers);
 
   return (
     <>
@@ -156,6 +224,7 @@ export default function DomainDataTable() {
           Add City
         </Link>
       </div>
+
       <div className="card p-10">
         <DataTable
           ref={dt}
@@ -187,7 +256,7 @@ export default function DomainDataTable() {
           <Column
             sortable
             header="State"
-            field="State"
+            field="state"
             filterField="State"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
             style={{ backgroundColor: "#DDE6ED" }}
@@ -195,7 +264,7 @@ export default function DomainDataTable() {
           <Column
             sortable
             header="District"
-            field="District"
+            field="districtCount"
             filterField="District"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
             style={{ backgroundColor: "#DDE6ED" }}
@@ -204,7 +273,7 @@ export default function DomainDataTable() {
           <Column
             sortable
             header="Taluka"
-            field="Taluka"
+            field="talukaCount"
             filterField="Taluka"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
             style={{ backgroundColor: "#DDE6ED" }}
@@ -212,7 +281,7 @@ export default function DomainDataTable() {
           <Column
             sortable
             header="City"
-            field="City"
+            field="cityCount"
             filterField="City"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
             style={{ backgroundColor: "#DDE6ED" }}
