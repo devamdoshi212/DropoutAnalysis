@@ -1,9 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Top5Dropout = () => {
-  // useEffect(()=>{
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-  // },[])
+    fetch(`http://localhost:9999/top5state`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result[0].stateWiseCounts);
+      })
+      .catch((error) => console.log("error", error));
+  }, []);
 
   return (
     <section class="bg-gray-100 p-8">
@@ -12,18 +23,25 @@ const Top5Dropout = () => {
           <thead>
             <tr>
               <th class="py-2 px-4 border-b">State</th>
+              <th class="py-2 px-4 border-b">Dropout Students</th>
+              <th class="py-2 px-4 border-b">Total Students</th>
+
               <th class="py-2 px-4 border-b">Dropout Rates</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="py-2 px-4 border-b text-center">Example State 1</td>
-              <td class="py-2 px-4 border-b text-center">5%</td>
-            </tr>
-            <tr>
-              <td class="py-2 px-4 border-b">Example State 2</td>
-              <td class="py-2 px-4 border-b">8%</td>
-            </tr>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4 border-b text-center">{item.city}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {item.dropout}
+                </td>
+                <td className="py-2 px-4 border-b text-center">{item.total}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {item.rate} %
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

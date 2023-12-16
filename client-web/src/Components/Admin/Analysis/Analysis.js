@@ -15,6 +15,8 @@ import MediumwiseDropoutAnalysis from "./MediumwiseDropoutAnalysis";
 import AreawiseDropoutAnalysis from "./AreawiseDropoutAnalysis";
 import ParentOccupationwiseDropoutAnalysis from "./ParentOccupationwiseDropoutAnalysis";
 import Top5Dropout from "./Top5Dropout";
+import StandardGenderwiseAnalysis from "./StandardGenderwiseAnalysis";
+import ReasonAreawiseAnalysis from "./ReasonAreawiseAnalysis";
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
   const [TalukaName, setTalukaName] = useState([]);
@@ -182,6 +184,18 @@ const Analysis = () => {
           selectedState={selectedState}
         />
         <ParentOccupationwiseDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <StandardGenderwiseAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <ReasonAreawiseAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
