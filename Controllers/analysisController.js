@@ -88,7 +88,7 @@ module.exports.FilterStudentinGroup = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      total:total,
+      total: total,
       data: {
         StudentsData,
       },
@@ -1116,7 +1116,7 @@ module.exports.countryComparative = async (req, res) => {
   }
 };
 
-module.exports.top5 = async function (req, res) {
+module.exports.top5State = async function (req, res) {
   try {
     const pipe = [
       { $match: { is_active: { $in: [2, 1] } } },
@@ -1143,12 +1143,190 @@ module.exports.top5 = async function (req, res) {
         },
       },
     ];
+    2;
 
     const dropout = await studentModel.aggregate(pipe);
     pipe.shift();
     const total = await studentModel.aggregate(pipe);
 
-    const data = dropout.concat(total);
+    const states = [
+      ...new Set([
+        ...total.map((item) => item._id),
+        ...dropout.map((item) => item._id),
+      ]),
+    ];
+
+    // Create a mapping for both "total" and "dropout" counts by city
+    let stateWiseCounts = states.map((city) => {
+      const Total = total.find((item) => item._id === city);
+      const Dropout = dropout.find((item) => item._id === city);
+
+      return {
+        city,
+        total: Total ? Total.numOfStudent : 0,
+        dropout: Dropout ? Dropout.numOfStudent : 0,
+      };
+    });
+
+    stateWiseCounts = states.map((city) => {
+      const Total = total.find((item) => item._id === city);
+      const Dropout = dropout.find((item) => item._id === city);
+
+      const totalCount = Total ? Total.numOfStudent : 0;
+      const dropoutCount = Dropout ? Dropout.numOfStudent : 0;
+
+      const dropoutRate = parseFloat(
+        ((dropoutCount / totalCount) * 100 || 0).toFixed(2)
+      );
+
+      return {
+        city,
+        total: totalCount,
+        dropout: dropoutCount,
+        rate: dropoutRate,
+      };
+    });
+
+    res.status(200).json([
+      {
+        stateWiseCounts: stateWiseCounts,
+        // data: data,
+        // total: total,
+        // dropout: dropout,
+        rcode: 200,
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+      rcode: -9,
+    });
+  }
+};
+
+module.exports.top5District = async function (req, res) {
+  try {
+    const pipe = [
+      { $match: { is_active: { $in: [2, 1] } } },
+      {
+        $lookup: {
+          from: "districts",
+          localField: "District",
+          foreignField: "_id",
+          as: "district",
+        },
+      },
+      {
+        $unwind: "$district",
+      },
+      {
+        $group: {
+          _id: "$district.district",
+          numOfStudent: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ];
+
+    const dropout = await studentModel.aggregate(pipe);
+    pipe.shift();
+    const total = await studentModel.aggregate(pipe);
+
+    const district = [
+      ...new Set([
+        ...total.map((item) => item._id),
+        ...dropout.map((item) => item._id),
+      ]),
+    ];
+
+    // Create a mapping for both "total" and "dropout" counts by city
+    let districtWiseCounts = district.map((city) => {
+      const Total = total.find((item) => item._id === city);
+      const Dropout = dropout.find((item) => item._id === city);
+
+      return {
+        city,
+        total: Total ? Total.numOfStudent : 0,
+        dropout: Dropout ? Dropout.numOfStudent : 0,
+      };
+    });
+
+    districtWiseCounts = district.map((city) => {
+      const Total = total.find((item) => item._id === city);
+      const Dropout = dropout.find((item) => item._id === city);
+
+      const totalCount = Total ? Total.numOfStudent : 0;
+      const dropoutCount = Dropout ? Dropout.numOfStudent : 0;
+
+      const dropoutRate = parseFloat(
+        ((dropoutCount / totalCount) * 100 || 0).toFixed(2)
+      );
+
+      return {
+        city,
+        total: totalCount,
+        dropout: dropoutCount,
+        rate: dropoutRate,
+      };
+    });
+
+    res.status(200).json([
+      {
+        districtWiseCounts: districtWiseCounts,
+        // data: data,
+        // total: total,
+        // dropout: dropout,
+        rcode: 200,
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+      rcode: -9,
+    });
+  }
+};
+
+module.exports.top5Taluka = async function (req, res) {
+  try {
+    const pipe = [
+      { $match: { is_active: { $in: [2, 1] } } },
+      {
+        $lookup: {
+          from: "talukas",
+          localField: "Taluka",
+          foreignField: "_id",
+          as: "taluka",
+        },
+      },
+      {
+        $unwind: "$taluka",
+      },
+      {
+        $group: {
+          _id: "$taluka.taluka",
+          numOfStudent: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ];
+    2;
+
+    const dropout = await studentModel.aggregate(pipe);
+    pipe.shift();
+    const total = await studentModel.aggregate(pipe);
 
     res.status(200).json([
       {
