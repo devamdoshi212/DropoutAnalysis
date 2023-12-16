@@ -1533,3 +1533,76 @@ module.exports.areaAndReasonWise = async (req, res) => {
     });
   }
 };
+
+//admin
+module.exports.DistrictWiseData = async (req, res) => {
+  try {
+    // const lastSchoolName = req.query.School_id;
+    // const state =
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
+    // const citytype=req.body.
+
+    const pipeline = [];
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: "districts",
+        localField: "District",
+        foreignField: "_id",
+        as: "district",
+      },
+    });
+    pipeline.push({
+      $unwind: "$district",
+    });
+
+    // const id = `$${type}`;
+    pipeline.push({
+      $group: {
+        _id: "$district.district",
+        numOfStudent: { $sum: 1 },
+      },
+    });
+    pipeline.push({
+      $sort: {
+        _id: -1,
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        district: "$_id", // Rename _id to the 'type' value
+        numOfStudent: 1, // Keep the numOfStudent field
+        _id: 0, // Exclude the original _id field
+      },
+    });
+
+    const StudentsData = await studentModel.aggregate(pipeline);
+
+    pipeline.shift();
+    // pipeline.unshift({ $match: { is_active: 3 } });
+    const total = await studentModel.aggregate(pipeline);
+
+    res.status(200).json({
+      status: "success",
+
+      data: { total, StudentsData },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
