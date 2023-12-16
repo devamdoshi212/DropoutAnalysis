@@ -6,53 +6,26 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import FetchTaluka from "../../../API/FetchTaluka";
-import FetchDistrict from "../../../API/FetchDistrict";
-import FetchCity from "../../../API/FetchCity";
-import { SchoolServices } from "./SchoolServices";
-import { useSelector } from "react-redux";
-
-export default function SchoolDataTable() {
-  const [deleterefresh, setdeleterefresh] = useState(true);
+import { StatewiseDropoutAnalysisServices } from "./StatewiseDropoutRatioServices";
+export default function StatewiseDropoutAnalysis() {
   const [customers, setCustomers] = useState(null);
 
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValues, setGlobalFilterValues] = useState({
-    Name: "",
-    ContactNum: "",
-    Email: "",
-    District: "",
+    // Name: "",
+    // ContactNum: "",
+    // Email: "",
+    // District: "",
   });
 
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [selectedTaluka, setSelectedTaluka] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [TalukaName, setTalukaName] = useState([]);
-
-  const [DistrictName, setDistrictName] = useState([]);
-  const [CityName, setCityName] = useState([]);
-
-  const userData = useSelector((state) => state.user.user);
-
   useEffect(() => {
-    FetchDistrict(userData.State._id).then((res) => {
-      setDistrictName(res);
-    });
-  }, [userData.State._id]);
-
-  useEffect(() => {
-    SchoolServices.getCustomersXLarge(
-      userData.State._id,
-      selectedDistrict,
-      selectedTaluka,
-      selectedCity
-    ).then((data) => {
+    StatewiseDropoutAnalysisServices.getCustomersXLarge().then((data) => {
       setCustomers(getCustomers(data));
       setLoading(false);
     });
     initFilters();
-  }, [deleterefresh, selectedDistrict, selectedCity, selectedTaluka]);
+  }, []);
 
   const getCustomers = (data) => {
     return [...(data || [])].map((d) => {
@@ -72,10 +45,10 @@ export default function SchoolDataTable() {
     _filters["global"].value = value;
     // Update the global filter value for all fields
     setGlobalFilterValues({
-      Name: value,
-      ContactNum: value,
-      Email: value,
-      District: value,
+      //   Name: value,
+      //   ContactNum: value,
+      //   Email: value,
+      //   District: value,
     });
 
     setFilters(_filters);
@@ -87,10 +60,10 @@ export default function SchoolDataTable() {
     });
 
     setGlobalFilterValues({
-      Name: "",
-      ContactNum: "",
-      Email: "",
-      District: "",
+      //   Name: "",
+      //   ContactNum: "",
+      //   Email: "",
+      //   District: "",
     });
   };
 
@@ -166,76 +139,6 @@ export default function SchoolDataTable() {
   return (
     <>
       <div className="m-5">
-        <div className="flex mb-5">
-          <label className="w-1/4 m-3">
-            <span className="text-gray-700 font-bold w-1/3">
-              Select District
-            </span>
-            <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-              value={selectedDistrict}
-              onChange={(e) => {
-                setSelectedDistrict(e.target.value);
-                FetchTaluka(userData.State._id, e.target.value).then((res) => {
-                  setTalukaName(res);
-                });
-              }}
-              required
-            >
-              <option value="">Select District</option>
-              {DistrictName.map((item, index) => (
-                <option key={index} value={item._id}>
-                  {item.district}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="w-1/4 m-3">
-            <span className="text-gray-700 font-bold w-1/3">Select Taluka</span>
-            <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-              value={selectedTaluka}
-              onChange={(e) => {
-                setSelectedTaluka(e.target.value);
-                FetchCity(
-                  userData.State._id,
-                  selectedDistrict,
-                  e.target.value
-                ).then((res) => {
-                  console.log(res);
-                  setCityName(res);
-                });
-              }}
-              required
-            >
-              <option value="">Select Taluka</option>
-              {TalukaName.map((item, index) => (
-                <option key={index} value={item._id}>
-                  {item.taluka}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="w-1/4 m-3">
-            <span className="text-gray-700 font-bold w-1/3">Select City</span>
-            <select
-              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-              value={selectedCity}
-              onChange={(e) => {
-                setSelectedCity(e.target.value);
-              }}
-              required
-            >
-              <option value="">Select City/Village</option>
-              {CityName.map((item, index) => (
-                <option key={index} value={item._id}>
-                  {item.city}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-
         <div className="card ">
           <DataTable
             value={customers}
@@ -247,9 +150,9 @@ export default function SchoolDataTable() {
             loading={loading}
             dataKey="_id"
             filters={filters}
-            globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
+            // globalFilterFields={["Name", "UID", "AadharNumber", "Standard"]}
             header={header}
-            emptyMessage="No School found."
+            emptyMessage="No Data found."
             removableSort
           >
             <Column
@@ -270,7 +173,7 @@ export default function SchoolDataTable() {
             />
 
             <Column
-              header="Name"
+              header="State"
               field="Name"
               filterField="Name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
@@ -284,7 +187,7 @@ export default function SchoolDataTable() {
             />
             <Column
               sortable
-              header="SchoolID"
+              header="Total Students"
               field="SchoolID"
               filterField="SchoolID"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
@@ -299,7 +202,7 @@ export default function SchoolDataTable() {
 
             <Column
               sortable
-              header="Medium"
+              header="Total Active Students"
               field="Medium.name"
               filterField="Medium.name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
@@ -312,7 +215,7 @@ export default function SchoolDataTable() {
               }}
             />
             <Column
-              header="Type"
+              header="Total Inactive Students"
               field="Type"
               filterField="Type"
               body={typeBodyTemplate}
@@ -327,7 +230,7 @@ export default function SchoolDataTable() {
             />
             <Column
               sortable
-              header="State"
+              header="Total Dropout Students"
               field="State.name"
               filterField="State.name"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
@@ -341,64 +244,9 @@ export default function SchoolDataTable() {
             />
             <Column
               sortable
-              header="District"
+              header="Dropout Ratio"
               field="District.district"
               filterField="District.district"
-              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{
-                backgroundColor: "#e9e9e9",
-                border: "solid",
-                borderCollapse: "collapse",
-                borderColor: "#c0c0c0",
-                borderWidth: "1px",
-              }}
-            />
-
-            <Column
-              header="Taluka"
-              field="Taluka.taluka"
-              filterField="Taluka"
-              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{
-                backgroundColor: "#e9e9e9",
-                border: "solid",
-                borderCollapse: "collapse",
-                borderColor: "#c0c0c0",
-                borderWidth: "1px",
-              }}
-            />
-
-            <Column
-              sortable
-              header="City"
-              field="City.city"
-              filterField="City"
-              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{
-                backgroundColor: "#e9e9e9",
-                border: "solid",
-                borderCollapse: "collapse",
-                borderColor: "#c0c0c0",
-                borderWidth: "1px",
-              }}
-            />
-            <Column
-              header="Address"
-              field="Address"
-              filterField="Address"
-              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{
-                backgroundColor: "#e9e9e9",
-                border: "solid",
-                borderCollapse: "collapse",
-                borderColor: "#c0c0c0",
-                borderWidth: "1px",
-              }}
-            />
-            <Column
-              header="Contact Number"
-              field="ContactNumber"
-              filterField="ContactNumber"
               headerStyle={{ color: "#fff", backgroundColor: "#333" }}
               style={{
                 backgroundColor: "#e9e9e9",
