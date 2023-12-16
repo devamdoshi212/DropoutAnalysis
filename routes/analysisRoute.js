@@ -11,6 +11,7 @@ router.get(
   "/FilterStudentinGroupByTwo",
   analysisController.FilterStudentinGroupByTwo
 );
-// router.get("/statewiseDropout", analysisController.statewiseDroxpout);
+router.get("/statewiseDropout", analysisController.statewiseDropout);
+router.get("/GroupPopulateData", analysisController.GroupPopulateData);
 
 module.exports = router;

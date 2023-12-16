@@ -393,9 +393,17 @@ module.exports.statewiseDropout = async function (req, res) {
   try {
     let data = await studentModel.aggregate([
       {
+        $lookup: {
+          from: "states",
+          localField: "State",
+          foreignField: "_id",
+          as: "state",
+        },
+      },
+      {
         $group: {
           _id: {
-            State: "$State",
+            State: "$state.name",
             is_active: "$is_active",
           },
 
@@ -403,7 +411,22 @@ module.exports.statewiseDropout = async function (req, res) {
         },
       },
     ]);
-    console.log();
+    // usee reduce to group by "State" and aggregate counts based on "is_active"
+    data = data.reduce((acc, entry) => {
+      let state = entry._id.State;
+      let isActive = entry._id.is_active;
+
+      // If the state is not in the accumulator, initialize it
+      if (!acc[state]) {
+        acc[state] = {};
+      }
+
+      // Update the count for the specific "is_active" value
+      acc[state][isActive] = (acc[state][isActive] || 0) + entry.numOfStudent;
+
+      return acc;
+    }, {});
+
     res.status(200).json({
       status: "success",
       data: data,
@@ -413,6 +436,144 @@ module.exports.statewiseDropout = async function (req, res) {
     res.json({
       status: "fail",
       message: err.msg,
+    });
+  }
+};
+
+//admin
+module.exports.GroupPopulateData = async (req, res) => {
+  try {
+    const type = req.params.id;
+    // const lastSchoolName = req.query.School_id;
+    // const state =
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
+    // const citytype=req.body.
+
+    const pipeline = [];
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: "states",
+        localField: "State",
+        foreignField: "_id",
+        as: "state",
+      },
+    });
+
+    pipeline.push({
+      $lookup: {
+        from: "schools",
+        localField: "SchoolID",
+        foreignField: "_id",
+        as: "SchoolID",
+      },
+    });
+
+    pipeline.push({
+      $lookup: {
+        from: "districts",
+        localField: "District",
+        foreignField: "_id",
+        as: "District",
+      },
+    });
+
+    pipeline.push({
+      $lookup: {
+        from: "talukas",
+        localField: "Taluka",
+        foreignField: "_id",
+        as: "Taluka",
+      },
+    });
+
+    pipeline.push({
+      $lookup: {
+        from: "cities",
+        localField: "City",
+        foreignField: "_id",
+        as: "City",
+      },
+    });
+
+
+    if (req.query.school) {
+      pipeline.push({
+        $match: {
+          SchoolID: {
+            $expr: {
+              $eq: [
+                new mongoose.Types.ObjectId(req.query.school),
+                { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+              ],
+            },
+          },
+        },
+      });
+    }
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    const id = `$${type}`;
+    pipeline.push({
+      $group: {
+        _id: id,
+        numOfStudent: { $sum: 1 },
+      },
+    });
+    pipeline.push({
+      $sort: {
+        _id: -1,
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        [type]: "$_id", // Rename _id to the 'type' value
+        numOfStudent: 1, // Keep the numOfStudent field
+        _id: 0, // Exclude the original _id field
+      },
+    });
+
+    const StudentsData = await studentModel.aggregate(pipeline);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        StudentsData,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
     });
   }
 };
