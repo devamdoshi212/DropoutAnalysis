@@ -18,13 +18,14 @@ const ExistingStudentForm = () => {
       headers: myHeaders,
       redirect: "follow",
     };
-
+    const aadharNumber = parseInt(aadharInput, 10);
     fetch(
-      `http://localhost:9999/getStudent?AadharNumber=${aadharInput}`,
+      `http://localhost:9999/getStudent?AadharNumber=${aadharNumber}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         const data = result.data[0];
         setSelectedStudent(data);
         setStudentFlage(1);
@@ -59,10 +60,15 @@ const ExistingStudentForm = () => {
       selectedStudent && selectedStudent.Standard
         ? selectedStudent.Standard
         : "",
-    gender: selectedStudent.Gender,
-    dob: selectedStudent.DOB,
-    aadharCard: selectedStudent.AadharNumber,
-    schoolName: selectedStudent.Name,
+    gender:
+      selectedStudent && selectedStudent.Gender ? selectedStudent.Gender : "",
+    dob: selectedStudent && selectedStudent.DOB ? selectedStudent.DOB : "",
+    aadharCard:
+      selectedStudent && selectedStudent.AadharNumber
+        ? selectedStudent.AadharNumber
+        : "",
+    schoolName:
+      selectedStudent && selectedStudent.Name ? selectedStudent.Name : "",
     state:
       selectedStudent && selectedStudent.State && selectedStudent.State.name
         ? selectedStudent.State.name
@@ -81,7 +87,8 @@ const ExistingStudentForm = () => {
       selectedStudent && selectedStudent.City && selectedStudent.City.city
         ? selectedStudent.City.city
         : "",
-    caste: selectedStudent.Caste,
+    caste:
+      selectedStudent && selectedStudent.Caste ? selectedStudent.Caste : "",
     cityArea:
       selectedStudent &&
       selectedStudent.City &&
@@ -91,12 +98,28 @@ const ExistingStudentForm = () => {
           : "Urban"
         : "",
 
-    familyIncome: selectedStudent.FamilyIncome,
-    disability: selectedStudent.Disablity,
-    parentoccupation: selectedStudent.ParentOccupation,
-    parentmaritalstatus: selectedStudent.ParentMaritalStatus,
-    contact: selectedStudent.ContactNumber,
-    address: selectedStudent.Address,
+    familyIncome:
+      selectedStudent && selectedStudent.FamilyIncome
+        ? selectedStudent.FamilyIncome
+        : "",
+    disability:
+      selectedStudent && selectedStudent.Disablity
+        ? selectedStudent.Disablity
+        : "",
+    parentoccupation:
+      selectedStudent && selectedStudent.ParentOccupation
+        ? selectedStudent.ParentOccupation
+        : "",
+    parentmaritalstatus:
+      selectedStudent && selectedStudent.ParentMaritalStatus
+        ? selectedStudent.ParentMaritalStatus
+        : "",
+    contact:
+      selectedStudent && selectedStudent.ContactNumber
+        ? selectedStudent.ContactNumber
+        : "",
+    address:
+      selectedStudent && selectedStudent.Address ? selectedStudent.Address : "",
   };
 
   return (
