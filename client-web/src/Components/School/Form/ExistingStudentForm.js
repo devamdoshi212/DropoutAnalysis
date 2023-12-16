@@ -8,7 +8,26 @@ const ExistingStudentForm = () => {
   const [selectedStudent, setSelectedStudent] = useState([]);
   const [studentFlage, setStudentFlage] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
-  const findStudentByUid = () => {};
+  const findStudentByUid = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    // const uidNumber = parseInt(uidInput, 10);
+    fetch(`http://localhost:9999/getStudent?_id=${uidInput}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        const data = result.data[0];
+        setSelectedStudent(data);
+        setStudentFlage(1);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   const findStudentByAadhar = () => {
     var myHeaders = new Headers();
@@ -82,7 +101,7 @@ const ExistingStudentForm = () => {
     schoolName:
       selectedStudent &&
       selectedStudent.SchoolID &&
-      selectedStudent.SchoolID[selectedStudent.SchoolID.length - 1].Name
+      selectedStudent.SchoolID[selectedStudent.SchoolID.length - 1]
         ? selectedStudent.SchoolID[selectedStudent.SchoolID.length - 1].Name
         : "",
 
@@ -162,7 +181,7 @@ const ExistingStudentForm = () => {
     }
   }, [selectedStudent]);
 
-  console.log(selectedStudent.SchoolID.Name);
+  // console.log(selectedStudent.SchoolID.length - 1);
   return (
     <>
       <div className="bg-[#f8f9fa] m-5 h-screen">
