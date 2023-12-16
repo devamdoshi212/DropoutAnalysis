@@ -10,7 +10,10 @@ import CastewiseDropoutAnalysis from "./CastewiseDropoutAnalysis";
 import DisablitywiseDropoutAnalysis from "./DisablitywiseDropoutAnalysis";
 import FamilyIncomewiseDropoutAnalysis from "./IncomewiseDropoutAnalysis";
 import ReasonwiseGenderDropoutAnalysis from "./ReasonwiseGenderDropoutAnalysis";
-
+import YearwiseGenderAnalysis from "./YearwiseGenderAnalysis";
+import MediumwiseDropoutAnalysis from "./MediumwiseDropoutAnalysis";
+import AreawiseDropoutAnalysis from "./AreawiseDropoutAnalysis";
+import ParentOccupationwiseDropoutAnalysis from "./ParentOccupationwiseDropoutAnalysis";
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
   const [TalukaName, setTalukaName] = useState([]);
@@ -154,6 +157,30 @@ const Analysis = () => {
           selectedState={selectedState}
         />
         <ReasonwiseGenderDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <YearwiseGenderAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <MediumwiseDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <AreawiseDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
+        <ParentOccupationwiseDropoutAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
