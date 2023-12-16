@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const CastewiseDropoutAnalysis = ({
+const ReasonAreawiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -55,7 +55,7 @@ const CastewiseDropoutAnalysis = ({
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Caste wise Dropout Analysis",
+        text: "Standard wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -81,27 +81,32 @@ const CastewiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/Caste?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/areaAndReasonWise?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
-        const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => s.Caste
+        const data = result.resultArray;
+        const categories = data.map((s) => s.reason);
+        const urban = data.map((s) => s.areaTypeCounts[0]);
+        const rural = data.map((s) => s.areaTypeCounts[1]);
+        const total = data.map(
+          (s) => s.areaTypeCounts[1] + s.areaTypeCounts[0]
         );
-        const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
-        });
         setChartData({
           ...chartData,
           series: [
             {
-              data: percentages,
+              name: "Urban",
+              data: urban,
+            },
+            {
+              name: "Rural",
+              data: rural,
+            },
+            {
+              name: "Total",
+              data: total,
             },
           ],
           options: {
@@ -128,4 +133,4 @@ const CastewiseDropoutAnalysis = ({
   );
 };
 
-export default CastewiseDropoutAnalysis;
+export default ReasonAreawiseAnalysis;

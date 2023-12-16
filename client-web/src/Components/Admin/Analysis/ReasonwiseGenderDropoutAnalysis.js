@@ -108,11 +108,8 @@ const ReasonwiseGenderDropoutAnalysis = ({
         });
         // console.log(reasonGenderCount);
         const reason = Object.keys(reasonGenderCount);
-        // const newReason = reason.filter(
-        //   (s) => s !== "undefined" && s !== null && s !== "" && s !== undefined
-        // );
+
         const count = Object.values(reasonGenderCount);
-        // console.log(count);
         const total = count.map((s) => s.male + s.female + s.other);
         const male = count.map((s) => s.male);
         const female = count.map((s) => s.female);

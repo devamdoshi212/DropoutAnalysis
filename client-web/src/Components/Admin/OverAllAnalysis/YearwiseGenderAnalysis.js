@@ -88,7 +88,7 @@ const YearwiseGenderAnalysis = ({
       .then((result) => {
         // console.log(result);
         const data = result.data.resultArray;
-        console.log(data);
+        // console.log(data);
         const categories = data.map((s) => s.year);
         const withReason = data.map((s) => s.is_active_1);
         const withOutReason = data.map((s) => s.is_active_2);

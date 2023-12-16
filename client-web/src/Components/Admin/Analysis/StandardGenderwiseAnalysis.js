@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const CastewiseDropoutAnalysis = ({
+const StandardGenderwiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -55,7 +55,7 @@ const CastewiseDropoutAnalysis = ({
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Caste wise Dropout Analysis",
+        text: "Standard wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -81,27 +81,61 @@ const CastewiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/Caste?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Standard&type2=Gender`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
-        const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => s.Caste
+        console.log(result);
+        const data = result.data.StudentsData;
+        const standardWiseCounts = data.reduce((result, item) => {
+          const standard = item.Standard;
+          const gender = item.Gender || "Unknown";
+
+          result[standard] = result[standard] || {
+            standard,
+            genderCounts: { other: 0, male: 0, female: 0 },
+          };
+          result[standard].genderCounts[gender] =
+            (result[standard].genderCounts[gender] || 0) + item.numOfStudent;
+
+          return result;
+        }, {});
+
+        // Convert the grouped data object into an array
+        const resultArray = Object.values(standardWiseCounts);
+        console.log(resultArray);
+
+        const female = resultArray.map((s) => s.genderCounts.female);
+        const male = resultArray.map((s) => s.genderCounts.other);
+        const other = resultArray.map((s) => s.genderCounts.other);
+        const categories = resultArray.map((s) => "Standard " + s.standard);
+        const total = resultArray.map(
+          (s) =>
+            s.genderCounts.other + s.genderCounts.male + s.genderCounts.female
         );
-        const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
-        });
+        // const student = data.map((s) =>
+        //   ((s.numOfStudent / total) * 100).toFixed(2)
+        // );
+
         setChartData({
           ...chartData,
           series: [
             {
-              data: percentages,
+              name: "Female",
+              data: female,
+            },
+            {
+              name: "Male",
+              data: male,
+            },
+            {
+              name: "Other",
+              data: other,
+            },
+            {
+              name: "Total",
+              data: total,
             },
           ],
           options: {
@@ -128,4 +162,4 @@ const CastewiseDropoutAnalysis = ({
   );
 };
 
-export default CastewiseDropoutAnalysis;
+export default StandardGenderwiseAnalysis;

@@ -37,7 +37,11 @@ const AuthorityLayout = () => {
     <div className="bg-[#f8f9fa] font-family-karla flex ">
       <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
         <div className=" top-0 left-0 p-6 text-center">
-           <img src={image} alt="symbol" className="opacity-70 m-auto w-36 h-36 rounded-full " /> 
+          <img
+            src={image}
+            alt="symbol"
+            className="opacity-70 m-auto w-36 h-36 rounded-full "
+          />
           <Link
             to={"/authority"}
             className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
@@ -76,14 +80,14 @@ const AuthorityLayout = () => {
               </svg>
               Dashboard
             </Link>
-            </div>
+          </div>
 
-            <div className=" hover:shadow-gray-400 hover:shadow-md">
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"schooldetails"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
             >
-            <svg
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -99,9 +103,30 @@ const AuthorityLayout = () => {
               </svg>
               School Details
             </Link>
-            </div>
-
-            <div className=" hover:shadow-gray-400 hover:shadow-md">
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"stateMap"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
+                />
+              </svg>
+              State Map
+            </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addSchool"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
