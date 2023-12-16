@@ -133,10 +133,43 @@ async function schoolDashboardCount(req, res) {
   }
 }
 
+async function addExistingStudent(req, res) {
+  const studentId = req.query.studentId;
+  const standard = req.query.standard;
+  const schoolID = req.query.schoolID;
+
+  try {
+    if (studentId && schoolID) {
+      let student = await studentmodel.findOne({ _id: studentId });
+      student.Standard = standard;
+      student.SchoolID.push(schoolID);
+      await student.save();
+      console.log("Student Updated");
+      res.json({
+        data: student,
+        rcode: 200,
+      });
+    } else {
+      res.json({
+        data: "No User Found",
+        rcode: 200,
+      });
+    }
+    
+  } catch (err) {
+    console.log(err);
+    res.json({
+      err: err.msg,
+      rcode: -9,
+    });
+  }
+}
+
 module.exports = {
   addSchool,
   getSchool,
   addSchoolType,
   getSchoolType,
   schoolDashboardCount,
+  addExistingStudent,
 };
