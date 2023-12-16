@@ -146,7 +146,7 @@ async function addExistingStudent(req, res) {
       await student.save();
       console.log("Student Updated");
       res.json({
-        data: data,
+        data: student,
         rcode: 200,
       });
     } else {
@@ -156,6 +156,7 @@ async function addExistingStudent(req, res) {
       });
     }
   } catch (err) {
+    console.log(err);
     res.json({
       err: err.msg,
       rcode: -9,
