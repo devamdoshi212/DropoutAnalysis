@@ -88,8 +88,21 @@ const ReasonwiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const data = result.data.StudentsData;
-        const categories = data.map((s) => s.Reasons);
-        const student = data.map((s) => s.numOfStudent);
+        console.log(data);
+        const categories = data
+          .filter(
+            (s) =>
+              s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
+          )
+          .map((s) => s.Reasons);
+
+        const student = data
+          .filter(
+            (s) =>
+              s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
+          )
+          .map((s) => s.numOfStudent);
+
         setChartData({
           ...chartData,
           series: [
