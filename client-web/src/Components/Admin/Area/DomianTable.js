@@ -90,7 +90,7 @@ export default function DomainDataTable() {
         type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, "School Data");
+      saveAsExcelFile(excelBuffer, "Domain Data");
     });
   };
 
