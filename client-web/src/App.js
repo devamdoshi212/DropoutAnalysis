@@ -28,6 +28,7 @@ import StatewiseDropoutAnalysis from "./Components/Admin/State/StatewiseDropoutR
 import DomainDataTable from "./Components/Admin/Area/DomianTable";
 import OverAllAnalysis from "./Components/Admin/OverAllAnalysis/OverAllAnalysis";
 import StateMap from "./Components/Authority/Analysis/StateMap";
+import IndiaMap from "./Components/Admin/Analysis/IndiaMap";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,11 @@ const router = createBrowserRouter([
         element: <StatewiseDropoutAnalysis />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "indiaMap",
+        element: <IndiaMap />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
@@ -118,7 +124,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "graphAnalysis",
+        path: "stateMap",
         element: <StateMap />,
         errorElement: <ErrorPage />,
       },
