@@ -29,6 +29,8 @@ import DomainDataTable from "./Components/Admin/Area/DomianTable";
 import OverAllAnalysis from "./Components/Admin/OverAllAnalysis/OverAllAnalysis";
 import StateMap from "./Components/Authority/Analysis/StateMap";
 import IndiaMap from "./Components/Admin/Analysis/IndiaMap";
+import AuthorityAnalysis from './Components/Authority/Analysis/AuthorityAnalysis'
+import AuthorityOverAllAnalysis from './Components/Authority/Analysis/AuthorityOverAllAnalysis'
 
 const router = createBrowserRouter([
   {
@@ -126,6 +128,16 @@ const router = createBrowserRouter([
       {
         path: "stateMap",
         element: <StateMap />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "analysis",
+        element: <AuthorityAnalysis />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "overallanalysis",
+        element: <AuthorityOverAllAnalysis />,
         errorElement: <ErrorPage />,
       },
     ],
