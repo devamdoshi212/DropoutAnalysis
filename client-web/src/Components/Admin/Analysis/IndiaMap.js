@@ -70,7 +70,7 @@ const chartConfigs = {
 const IndiaMap = () => {
   return (
     <>
-      <div>
+      <div className="m-auto">
         <ReactFC {...chartConfigs} />;
       </div>
     </>
