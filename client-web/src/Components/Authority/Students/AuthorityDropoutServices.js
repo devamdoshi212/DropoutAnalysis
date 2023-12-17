@@ -1,7 +1,7 @@
 export const AuthorityDropoutServices = {
   getData(selectedState, selectedDistrict, selectedTaluka, selectedCity) {
     return fetch(
-      `http://localhost:9999/getChooseWiseStudents?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&status=3`
+      `http://localhost:9999/getChooseWiseStudents?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&status=1`
     )
       .then((res) => res.json())
       .then((res) => {
