@@ -44,7 +44,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
       },
       yaxis: {
         title: {
-          text: "Number of Athelte in Sport Complexes",
+          text: "Number of Dropout Student",
           style: {
             fontSize: "12px",
             // fontWeight: "bold",

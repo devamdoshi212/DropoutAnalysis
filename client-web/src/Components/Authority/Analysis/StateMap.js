@@ -307,7 +307,7 @@ const StateMap = () => {
 
   return (
     <>
-      <div>
+      <div className="m-auto">
         <ReactFC {...chartConfigs} />;
       </div>
     </>
