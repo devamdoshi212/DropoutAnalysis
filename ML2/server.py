@@ -10,12 +10,14 @@ import numpy as np
 
 app = Flask(__name__)
 pipeline = None
+df_train = None
+X_train = None
 
 
 def add_to_csv(data: pd.DataFrame):
     data.to_csv("temp.csv", mode="a", index=False, header=False)
     df = pd.read_csv("temp.csv")
-    print(df.shape[0])
+    # print(df.shape[0])
     if df.shape[0] >= 10:
         df.to_csv("new.csv", mode="a", index=False, header=False)
         template = pd.read_csv("./template.csv")
@@ -25,6 +27,8 @@ def add_to_csv(data: pd.DataFrame):
 
 def train_model():
     global pipeline
+    global df_train
+    global X_train
     df_train = pd.read_csv("new.csv")
     categorical_columns = [
         "Gender",
@@ -40,27 +44,51 @@ def train_model():
         "Family_income",
         "Cast",
     ]
-    X_train = df_train.drop("Reason", axis=1)
+    # X_train = df_train.drop("Reason", axis=1)
+    X_train = pd.get_dummies(
+        df_train.drop("Reason", axis=1), columns=categorical_columns
+    )
+    print(X_train)
     y_train = df_train["Reason"]
-    preprocessor = ColumnTransformer(
-        transformers=[("onehot", OneHotEncoder(), categorical_columns)],
-        remainder="passthrough",
-    )
-    pipeline = Pipeline(
-        [
-            ("preprocessor", preprocessor),
-            ("classifier", RandomForestClassifier(random_state=42)),
-        ]
-    )
+    # preprocessor = ColumnTransformer(
+    #     transformers=[("onehot", OneHotEncoder(), categorical_columns)],
+    #     remainder="passthrough",
+    # )
+    pipeline = Pipeline([("classifier", RandomForestClassifier(random_state=42))])
+    # pipeline = Pipeline(
+    #     [
+    #         ("preprocessor", preprocessor),
+    #         ("classifier", RandomForestClassifier(random_state=42)),
+    #     ]
+    # )
     # Train the model
     pipeline.fit(X_train, y_train)
 
 
 def predict_model(data: pd.DataFrame):
     global pipeline
+    global df_train
+    global X_train
+    categorical_columns = [
+        "Gender",
+        "District",
+        "State",
+        "Taluka",
+        "City",
+        "School_name[0]",
+        "City_type",
+        "School_medium",
+        "ParentOccupation",
+        "ParentMaritalStatus",
+        "Family_income",
+        "Cast",
+    ]
+    X_test = pd.get_dummies(data, columns=categorical_columns).reindex(
+        columns=X_train.columns, fill_value=False
+    )
     y_pred = None
     try:
-        y_pred = pipeline.predict(data)
+        y_pred = pipeline.predict(X_test)
     except ValueError as err:
         print(err)
 
@@ -103,7 +131,7 @@ def predictModel():
         newDict[x] = [oldDict[x]]
     data = pd.DataFrame(newDict)
     message = predict_model(data)
-    print(type(message))
+    # print(type(message))
     if isinstance(message, np.ndarray):
         return jsonify({"message": message.tolist()[0]})
     else:
