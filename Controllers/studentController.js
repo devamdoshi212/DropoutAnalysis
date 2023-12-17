@@ -290,6 +290,87 @@ async function getSchoolWiseStudents(req, res) {
   }
 }
 
+async function getChooseWiseStudents(req, res) {
+  try {
+    // const lastSchoolId = new mongoose.Types.ObjectId(req.query.schoolId);
+
+    const status = req.query.status;
+
+    const query1 = {
+      is_active: { $in: [1, 2] },
+    };
+
+    const query2 = {
+      is_active: status,
+    };
+
+    if (req.query.state != "") {
+      query1.State = new mongoose.Types.ObjectId(req.query.state);
+      query2.State = new mongoose.Types.ObjectId(req.query.state);
+    }
+
+    if (req.query.district != "") {
+      query1.District = new mongoose.Types.ObjectId(req.query.district);
+      query2.District = new mongoose.Types.ObjectId(req.query.district);
+    }
+
+    if (req.query.taluka != "") {
+      query1.Taluka = new mongoose.Types.ObjectId(req.query.taluka);
+      query2.Taluka = new mongoose.Types.ObjectId(req.query.taluka);
+    }
+
+    if (req.query.city != "") {
+      query1.City = new mongoose.Types.ObjectId(req.query.city);
+      query2.City = new mongoose.Types.ObjectId(req.query.city);
+    }
+
+    // console.log(lastSchoolId, status);
+    let data;
+    if (status != 0 && status != 3) {
+      data = await StudentModel.find(query1)
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        });
+      // if (req.query.taluka != "") {
+      //   data = data.filter((doc) => {
+      //     return doc.Taluka == new mongoose.Types.ObjectId(req.query.taluka);
+      //   });
+      // }
+    } else {
+      data = await StudentModel.find(query2)
+        .populate("State")
+        .populate("District")
+        .populate("Taluka")
+        .populate("City")
+        .populate({
+          path: "SchoolID",
+          populate: {
+            path: "Medium",
+          },
+        });
+    }
+
+    res.json({
+      results: data.length,
+      data: data,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      err: err.msg,
+      rcode: -9,
+    });
+  }
+}
+
 module.exports = {
   getStudents,
   addStudents,
@@ -297,4 +378,5 @@ module.exports = {
   promoteStudent,
   addStudentsFromExcel,
   getSchoolWiseStudents,
+  getChooseWiseStudents,
 };
