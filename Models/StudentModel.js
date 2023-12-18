@@ -25,6 +25,16 @@ const StudentSchema = new mongoose.Schema(
 
     is_active: { type: Number, default: 3 }, //0 - inactive  , 1- Dropout with reason , 2 - dropout without reason , 3 - study
     Reasons: String, // hardcoded
+    fatherEducation: Number, //0-no formal education,1-primery education,2-secondary education,3-higher secondary,4-graduate
+    motherEducation: Number,
+    result: {
+      type: Number,
+      default: 0,
+    },
+    academicLevel: {
+      type: Number,
+      default: 0,
+    }, //0-low,1-medium,2-high
   },
   { timestamps: true }
 );

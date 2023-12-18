@@ -11,6 +11,7 @@ router.patch("/deactivateStudent", StudentController.deactivateStudent);
 router.patch("/promteStudent", StudentController.promoteStudent);
 router.get("/getSchoolWiseStudents", StudentController.getSchoolWiseStudents);
 router.get("/getChooseWiseStudents", StudentController.getChooseWiseStudents);
+// router.get("/update", StudentController.update);
 
 //add student from excel sheet
 router.post(
