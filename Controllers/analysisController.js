@@ -4,6 +4,7 @@ const stateModel = require("../models/StateModel");
 const talukaModel = require("../models/TalukaModel");
 const districtModel = require("../models/DistrictModel");
 const cityModel = require("../models/CityModel");
+const schooltypeModel = require("../models/SchoolType");
 
 //admin
 module.exports.FilterStudentinGroup = async (req, res) => {
@@ -43,6 +44,10 @@ module.exports.FilterStudentinGroup = async (req, res) => {
         $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
       });
     }
+
+    pipeline.push({
+      $lookup: {},
+    });
 
     if (req.query.school) {
       pipeline.push({
@@ -1597,6 +1602,181 @@ module.exports.DistrictWiseData = async (req, res) => {
       status: "success",
 
       data: { total, StudentsData },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+//admin
+module.exports.groupBySchool = async (req, res) => {
+  try {
+    // const type = req.params.id;
+    // const lastSchoolName = req.query.School_id;
+    // const state =
+    // const district = req.query.district;
+    // const city = req.query.city;
+    // const taluka = req.query.taluka;
+    // const school = req.query.school;
+    // const citytype=req.body.
+
+    const pipeline = [];
+    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: "schools",
+        localField: "SchoolID",
+        foreignField: "_id",
+        as: "Schools",
+      },
+    });
+    pipeline.push({
+      $lookup: {
+        from: "schooltypes",
+        localField: "Schools.Medium",
+        foreignField: "_id",
+        as: "Medium",
+      },
+    });
+    pipeline.push({
+      $lookup: {
+        from: "states",
+        localField: "Schools.State",
+        foreignField: "_id",
+        as: "State",
+      },
+    });
+    pipeline.push({
+      $lookup: {
+        from: "talukas",
+        localField: "Schools.Taluka",
+        foreignField: "_id",
+        as: "Taluka",
+      },
+    });
+    pipeline.push({
+      $lookup: {
+        from: "districts",
+        localField: "Schools.District",
+        foreignField: "_id",
+        as: "District",
+      },
+    });
+    pipeline.push({
+      $lookup: {
+        from: "cities",
+        localField: "Schools.City",
+        foreignField: "_id",
+        as: "City",
+      },
+    });
+
+    // if (req.query.school) {
+    //   pipeline.push({
+    //     $match: {
+    //       SchoolID: {
+    //         $expr: {
+    //           $eq: [
+    //             new mongoose.Types.ObjectId(req.query.school),
+    //             { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+    //           ],
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+
+    // const id = `$${type}`;
+
+    pipeline.push({
+      $addFields: {
+        secondLastSchool: { $arrayElemAt: ["$Schools", -1] },
+      },
+    });
+
+    pipeline.push({
+      $group: {
+        _id: "$secondLastSchool",
+        // students: { $push: "$$ROOT" },
+        students: { $sum: 1 },
+      },
+    });
+    pipeline.push({
+      $sort: {
+        _id: -1,
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        school: "$_id", // Rename _id to the 'type' value
+        students: 1, // Keep the numOfStudent field
+        _id: 0, // Exclude the original _id field
+      },
+    });
+
+    const data = await studentModel.aggregate(pipeline);
+    console.log("Test $addFields:", data);
+
+    // data = data[0].school();
+    for (let i = 0; i < data.length; i++) {
+      const ele = data[i];
+      let district = ele.school.District;
+      let taluka = ele.school.Taluka;
+      let city = ele.school.City;
+      let medium = ele.school.Medium;
+      let state = ele.school.State;
+      const st = await stateModel.findOne({ _id: state });
+      ele.school.State = st.name;
+      const dist = await districtModel.findOne({ _id: district });
+      ele.school.District = dist.district;
+      const talu = await talukaModel.findOne({ _id: taluka });
+      ele.school.Taluka = talu.taluka;
+      const cit = await cityModel.findOne({ _id: city });
+      ele.school.City = cit.city;
+      const med = await schooltypeModel.findOne({ _id: medium });
+      ele.school.Medium = med.name;
+
+      console.log(st);
+    }
+
+    // pipeline.shift();
+    // // pipeline.unshift({ $match: { is_active: 3 } });
+    // const total = await studentModel.aggregate(pipeline);
+
+    res.status(200).json({
+      status: "success",
+      r: data.length,
+      data: data,
     });
   } catch (err) {
     console.log(err);
