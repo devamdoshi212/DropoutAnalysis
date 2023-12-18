@@ -1,5 +1,5 @@
 const express = require("express");
-const { addReason } = require("../controllers/reasonController");
+const reasonController = require("../controllers/reasonController");
 const router = express.Router();
 const multer = require("multer");
 
@@ -12,5 +12,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage, limits: { fileSize: 15000000 } });
 
-router.post("/addReason", upload.array("resources"), addReason);
+router.get("/getReason", reasonController.getReason );
+
+router.post(
+  "/addReason",
+  upload.array("resources"),
+  reasonController.addReason
+);
 module.exports = router;

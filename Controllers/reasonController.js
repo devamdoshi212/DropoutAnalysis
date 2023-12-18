@@ -9,6 +9,12 @@ async function addReason(req, res) {
   await reason.save();
   res.json({ rcode: 200 });
 }
+
+async function getReason(req, res) {
+  let data = await ReasonModel.find(req.query);
+  res.json({ rcode: 200, data: data });
+}
 module.exports = {
+  getReason,
   addReason,
 };
