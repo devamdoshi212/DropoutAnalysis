@@ -102,6 +102,7 @@ const FamilyIncomewiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Family Income",
               data: percentages,
             },
           ],

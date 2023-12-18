@@ -396,7 +396,52 @@ export default function CurrentStudent() {
   const calculateIndex = (currentPage, rowIndex) => {
     return currentPage * 10 + rowIndex + 1;
   };
-  // console.log(selectedStudents);
+
+  const [isAddResultModalOpen, setIsAddResultModalOpen] = useState(false);
+  const [resultText, setResultText] = useState("");
+  const [selectedStudentForAddResult, setSelectedStudentForAddResult] =
+    useState(null);
+  const openAddResultModal = (rowData) => {
+    setSelectedStudentForAddResult(rowData);
+    setIsAddResultModalOpen(true);
+  };
+
+  const closeAddResultModal = () => {
+    setIsAddResultModalOpen(false);
+    setSelectedStudentForAddResult(null);
+    setResultText("");
+  };
+
+  const handleResultTextChange = (e) => {
+    setResultText(e.target.value);
+  };
+
+  const submitResultHandler = () => {
+    // Handle submission logic here
+
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      `http://localhost:9999/updateResult?result=${resultText}&id=${selectedStudentForAddResult._id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
+    // console.log(selectedStudentForAddResult);
+    // console.log("Result Text:", resultText);
+    // ... additional logic
+    closeAddResultModal();
+  };
+  const handleAddResult = (rowData) => {
+    openAddResultModal(rowData);
+  };
+
+  // console.log(customers);
   return (
     <>
       {isModalOpen && (
@@ -454,6 +499,43 @@ export default function CurrentStudent() {
                 onClick={dropOutHandler}
               >
                 Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isAddResultModalOpen && (
+        <div
+          ref={modalOverlayRef}
+          className="fixed inset-0 z-50 flex items-center justify-center modal-overlay bg-gray-900 bg-opacity-80"
+        >
+          <div className="modal-above-screen bg-white rounded-lg p-4 relative">
+            <div>
+              <span
+                className="close absolute top-1 right-1 text-3xl cursor-pointer"
+                onClick={closeAddResultModal}
+              >
+                &times;
+              </span>
+            </div>
+            <div className="relative m-5">
+              {/* Text input for result */}
+              <input
+                type="text"
+                name="resultText"
+                placeholder="Enter result text"
+                className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500"
+                value={resultText}
+                onChange={handleResultTextChange}
+              />
+            </div>
+            <div className="flex items-center justify-center">
+              {/* Submit button */}
+              <button
+                className="px-4 p-2 bg-blue-700 hover:bg-blue-500 rounded-lg font-bold text-white"
+                onClick={submitResultHandler}
+              >
+                Submit Result
               </button>
             </div>
           </div>
@@ -589,6 +671,29 @@ export default function CurrentStudent() {
             }}
           />
           <Column
+            sortable
+            header="Academic Level"
+            field="academicLevel"
+            filterField="Standard"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+            body={(e) => {
+              if (e.academicLevel === 0) {
+                return "Low";
+              } else if (e.academicLevel === 1) {
+                return "Medium";
+              } else if (e.academicLevel === 2) {
+                return "High";
+              }
+            }}
+          />
+          <Column
             header="DOB"
             field="DOB"
             filterField="DOB"
@@ -670,6 +775,9 @@ export default function CurrentStudent() {
               borderColor: "#c0c0c0",
               borderWidth: "1px",
             }}
+            body={(e) => {
+              return e.City.cityType === 0 ? "Urban" : "Rural";
+            }}
           />
 
           <Column
@@ -702,7 +810,7 @@ export default function CurrentStudent() {
               borderWidth: "1px",
             }}
           />
-          <Column
+          {/* <Column
             header="Created At"
             field="createdAt" // Replace 'districtName' with the actual field name
             filterField="createdAt" // Make sure this matches the actual field name
@@ -715,6 +823,25 @@ export default function CurrentStudent() {
               borderWidth: "1px",
             }}
             body={dateBodyTemplate}
+          /> */}
+          <Column
+            header="Actions"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            body={(rowData) => (
+              <button
+                className="px-2 py-1 bg-green-500 hover:bg-green-400 text-white rounded"
+                onClick={() => handleAddResult(rowData)}
+              >
+                Add Result
+              </button>
+            )}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
           />
         </DataTable>
       </div>

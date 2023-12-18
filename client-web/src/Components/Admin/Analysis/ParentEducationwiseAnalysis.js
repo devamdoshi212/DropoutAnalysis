@@ -127,6 +127,7 @@ const ParentEducationwiseAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Parent Education",
               data: student,
             },
           ],

@@ -104,6 +104,7 @@ const MediumwiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "School Type",
               data: student,
             },
           ],

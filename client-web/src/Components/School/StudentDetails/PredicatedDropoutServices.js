@@ -1,11 +1,10 @@
-export const CurrentStudentServices = {
+export const PredicatedDropoutServices = {
   getData(id) {
     console.log(id);
-    return fetch(
-      `http://localhost:9999/getSchoolWiseStudents?schoolId=${id}&status=3`
-    )
+    return fetch(`http://localhost:9999/getPrediction?schoolId=${id}`)
       .then((res) => res.json())
       .then((res) => {
+        console.log(res.data);
         return res.data;
       });
   },
