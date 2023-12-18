@@ -81,31 +81,40 @@ const Resources = () => {
 
     return (
         <>
-            <form onSubmit={formik.handleSubmit} className='w-96'>
-                <div className="mx-5 space-x-3">
-                    <label htmlFor="files" className="font-semibold text-gray-500">
+        <div className="bg-[#f8f9fa] m-5 h-screen ">
+        <div className="w-3/5 mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600">
+        <h2 className="text-2xl font-semibold mb-5 text-center ">
+           Add Remedies Resources
+        </h2>
+            <form onSubmit={formik.handleSubmit} >
+                <div className="mx-5 ">
+                  <div className="flex ">
+                    <label htmlFor="files" className="font-semibold text-gray-500 mx-3">
                         Choose Files :
                     </label>
                     <input
                         id="fileInput"
                         name="files"
                         type="file"
+                      
                         onChange={handleFileChange}
                         onBlur={formik.handleBlur}
                         accept=".jpg, .jpeg, .png, .gif, .mp4, .docx, .pptx, .pdf"
                         multiple
                     />
+                    </div>
                     {formik.touched.files && formik.errors.files && (
                         <div style={{ color: 'red' }}>{formik.errors.files}</div>
                     )}
                 </div>
 
                 <div className="mx-5 mt-3">
+
                     <label htmlFor="links" className="font-semibold text-gray-500">
                         Enter Links :
                     </label>
                     {formik.values.links.map((link, index) => (
-                        <div key={index} className="flex space-x-2">
+                        <div key={index} className="flex space-x-2 m-1 ">
                             <input
                                 type="text"
                                 name={`links[${index}]`}
@@ -113,13 +122,14 @@ const Resources = () => {
                                 onChange={(e) => formik.handleChange(`links[${index}]`)(e)}
                                 onBlur={formik.handleBlur}
                                 placeholder="Enter link"
+                                className='mt-1 p-1.5 w-2/3 border border-gray-500 rounded-md  focus:outline-2 focus:outline-gray-400'
                             />
-                            <button type="button" onClick={() => addLink(index)}>
-                                Add Link
+                            <button type="button"   className="mx-5 bg-blue-700 text-white font-bold tracking-wider py-1 px-5 rounded-md hover:bg-blue-600 " onClick={() => addLink(index)}>
+                                Add
                             </button>
                             {index > 0 && (
-                                <button type="button" onClick={() => removeLink(index)}>
-                                    Remove Link
+                                <button type="button" className="mx-5 bg-red-700 text-white font-bold tracking-wider py-1 px-5 rounded-md hover:bg-red-600 " onClick={() => removeLink(index)}>
+                                    Remove 
                                 </button>
                             )}
                         </div>
@@ -129,11 +139,11 @@ const Resources = () => {
                     )}
                 </div>
 
-                <div className="mx-5 mt-3">
+                <div className="mx-5 m-3">
                     <label htmlFor="dropoutReason" className="font-semibold text-gray-500">
                         Select Dropout Reason:
                     </label>
-                    <input type="text" id='dropoutReason' name='dropoutReason' className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                    <input type="text" id='dropoutReason' name='dropoutReason' className="mt-1 p-2 w-full border border-gray-500 rounded-md focus:outline-2 focus:outline-gray-400"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.dropoutReason} />
@@ -142,14 +152,18 @@ const Resources = () => {
                         <div style={{ color: 'red' }}>{formik.errors.dropoutReason}</div>
                     )}
                 </div>
-
+  
+               <div className='flex items-center justify-center'>
                 <button
                     type="submit"
-                    className="mx-5 bg-blue-700 text-white font-bold tracking-wider py-2 px-5 rounded-md hover:bg-blue-600 uppercase"
+                    className="mx-5 bg-blue-700 text-white font-bold tracking-wider py-3 px-5 rounded-md hover:bg-blue-600 uppercase"
                 >
                     Submit
                 </button>
+                </div>
             </form>
+            </div>
+            </div>
         </>
     );
 };
