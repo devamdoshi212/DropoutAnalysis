@@ -35,8 +35,8 @@ const AuthorityLayout = () => {
   };
   return (
     <div className="bg-[#f8f9fa] font-family-karla flex ">
-      <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
-        <div className=" top-0 left-0 p-6 text-center">
+      <aside className="relative  bg-[#13459c] w-1/5   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
+        <div className=" top-0 left-0 p-8 text-center">
           <img
             src={image}
             alt="symbol"
@@ -48,8 +48,7 @@ const AuthorityLayout = () => {
           >
             {userData.State.name}
           </Link>
-        </div>
-        <div className=" top-0 left-0 p-6 text-center">
+          <div className=" text-center">
           {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
           <Link
             to={"/authority"}
@@ -58,7 +57,9 @@ const AuthorityLayout = () => {
             Authority
           </Link>
         </div>
-        <nav className=" text-base font-semibold pt-3 overflow-y-scroll h-4/6">
+        </div>
+        
+        <nav className=" text-base font-semibold  overflow-y-scroll h-1/2">
           <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"/authority"}
@@ -168,6 +169,28 @@ const AuthorityLayout = () => {
                 />
               </svg>
               School Details
+            </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"remediesresources"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
+                />
+              </svg>
+              Remedies Resources
             </Link>
           </div>
           <div className=" hover:shadow-gray-400 hover:shadow-md">

@@ -33,7 +33,7 @@ const AdminLayout = () => {
   };
   return (
     <div className="bg-[#f8f9fa] font-family-karla flex ">
-      <aside className="relative  bg-[#13459c] w-64   hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
+      <aside className="relative  bg-[#13459c] w-1/5  hidden sm:block shadow-xl shadow-gray-200 h-screen overflow-y-hidden ">
         <div className=" top-0 left-0 p-6 text-center">
           <img
             src={image}
@@ -48,10 +48,10 @@ const AdminLayout = () => {
           </Link>
         </div>
         <nav className=" text-base font-semibold pt-3 overflow-y-scroll h-4/6">
-          <div className=" hover:shadow-gray-400 hover:shadow-md">
+          <div className=" hover:shadow-gray-400 hover:shadow-md  ">
             <Link
               to={"/admin"}
-              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500 "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
