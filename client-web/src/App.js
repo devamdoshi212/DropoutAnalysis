@@ -29,8 +29,13 @@ import DomainDataTable from "./Components/Admin/Area/DomianTable";
 import OverAllAnalysis from "./Components/Admin/OverAllAnalysis/OverAllAnalysis";
 import StateMap from "./Components/Authority/Analysis/StateMap";
 import IndiaMap from "./Components/Admin/Analysis/IndiaMap";
-import AuthorityAnalysis from './Components/Authority/Analysis/AuthorityAnalysis'
-import AuthorityOverAllAnalysis from './Components/Authority/Analysis/AuthorityOverAllAnalysis'
+import AuthorityAnalysis from "./Components/Authority/Analysis/AuthorityAnalysis";
+import AuthorityOverAllAnalysis from "./Components/Authority/Analysis/AuthorityOverAllAnalysis";
+import ActiveStudentsDataTable from "./Components/Admin/Students/ActiveStudentsDataTable";
+import DropoutStudentsDataTable from "./Components/Admin/Students/DropoutStudentsDataTable";
+import AuthorityDropoutStudents from "./Components/Authority/Students/AuthorityDropoutStudents";
+import AuthorityActiveStudents from "./Components/Authority/Students/AuthorityActiveStudents";
+import Resouces from "./Components/Admin/Remedies/Resouces";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +106,21 @@ const router = createBrowserRouter([
         element: <IndiaMap />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "activestudents",
+        element: <ActiveStudentsDataTable />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "dropoutstudents",
+        element: <DropoutStudentsDataTable />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addresources",
+        element: <Resouces />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
@@ -138,6 +158,16 @@ const router = createBrowserRouter([
       {
         path: "overallanalysis",
         element: <AuthorityOverAllAnalysis />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "activestudents",
+        element: <AuthorityActiveStudents />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "dropoutstudents",
+        element: <AuthorityDropoutStudents />,
         errorElement: <ErrorPage />,
       },
     ],
