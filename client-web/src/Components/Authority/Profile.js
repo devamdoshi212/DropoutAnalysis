@@ -14,7 +14,7 @@ const AuthorityProfile = () => {
         </p>
         <ul className="list-none">
           <li className="flex items-center mb-2">
-            <span className="mr-2 text-gray-700 font-semiblod w-1/6">E-mail</span>
+            <span className="mr-2 text-gray-700 font-semibold w-1/6">E-mail</span>
             <span className="text-gray-800">: {userData.Email}</span>
           </li>
           <li className="flex items-center mb-2">
