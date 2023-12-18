@@ -131,6 +131,8 @@ const NewStudentForm = () => {
       District: selectedDistrict,
       State: selectedState,
       SchoolID: sId,
+      FatherEducation: values.fathereducation,
+      MotherEducation: values.mothereducation,
     });
 
     var requestOptions = {
@@ -566,6 +568,61 @@ const NewStudentForm = () => {
             </div>
             <ErrorMessage
               name="contact"
+              component="div"
+              className="text-red-500 text-sm  text-center mx-4"
+            />
+          </div>
+
+          <div className="mb-4">
+            <div className="flex">
+              <label
+                htmlFor="fathereducation"
+                className="text-gray-500 text-md font-bold mb-2 w-1/3"
+              >
+                Father's Education :
+              </label>
+              <Field
+                as="select"
+                name="fathereducation"
+                className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+              >
+                <option value="">Select Father's Education</option>
+                <option value="0">No Formal Education</option>
+                <option value="1">Primary Education</option>
+                <option value="2">Secondary Education</option>
+                <option value="3">Higher Education</option>
+                <option value="4">Graduate</option>
+              </Field>
+            </div>
+            <ErrorMessage
+              name="fathereducation"
+              component="div"
+              className="text-red-500 text-sm  text-center mx-4"
+            />
+          </div>
+          <div className="mb-4">
+            <div className="flex">
+              <label
+                htmlFor="mothereducation"
+                className="text-gray-500 text-md font-bold mb-2 w-1/3"
+              >
+                Mother's Education :
+              </label>
+              <Field
+                as="select"
+                name="mothereducation"
+                className="border-solid border-2 float-right w-2/3 p-1.5 rounded-md focus:outline-2 focus:outline-gray-400"
+              >
+                <option value="">Select Mother's Education</option>
+                <option value="0">No Formal Education</option>
+                <option value="1">Primary Education</option>
+                <option value="2">Secondary Education</option>
+                <option value="3">Higher Education</option>
+                <option value="4">Graduate</option>
+              </Field>
+            </div>
+            <ErrorMessage
+              name="mothereducation"
               component="div"
               className="text-red-500 text-sm  text-center mx-4"
             />
