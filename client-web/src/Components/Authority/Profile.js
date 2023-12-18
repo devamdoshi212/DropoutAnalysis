@@ -6,7 +6,7 @@ const AuthorityProfile = () => {
   return (
     <div className="container mx-auto my-8">
       <div className="bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        <h2 className="text-3xl font-bold text-gray-800 font-serif  mb-2">
           {userData.Name}
         </h2>
         <p className="text-xl font-semibold text-indigo-600 mb-4">
