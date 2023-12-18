@@ -25,6 +25,8 @@ const Remediesresources = () => {
     }, []);
     return (
         <>
+      <div className="bg-[#f8f9fa] m-5 h-screen">
+        <div className=" mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600 w-2/5">
             <div className="relative m-5 w-80">
                 <select
                     name="dropoutreason"
@@ -49,7 +51,8 @@ const Remediesresources = () => {
                             href={resource}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ display: 'block', marginBottom: '5px' }}
+                            style={{ display: 'block', marginBottom: '5px',color:'blue',margin:"25px" }}
+                            
                         >
                             {resource}
                         </a>
@@ -62,13 +65,15 @@ const Remediesresources = () => {
                             href={`http://localhost:9999/resources/${resource.file}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{ display: 'block', marginBottom: '5px' }}
+                            style={{ display: 'block', marginBottom: '5px',color:"red",margin:"25px" }}
                         >
                             {resource.name}
                         </a>
                     ))
                 }
 
+            </div>
+            </div>
             </div>
         </>
     )
