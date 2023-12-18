@@ -235,7 +235,8 @@ export default function DropedStudents() {
   const calculateIndex = (currentPage, rowIndex) => {
     return currentPage * 10 + rowIndex + 1;
   };
-  console.log(selectedStudents);
+
+  console.log(customers);
   return (
     <div className="card p-10">
       <DataTable
@@ -329,6 +330,60 @@ export default function DropedStudents() {
           header="Gender"
           field="Gender"
           filterField="location"
+          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
+        />
+        <Column
+          header="Reason"
+          field="Reasons"
+          filterField="Reasons"
+          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
+          body={(rowdata) => {
+            if (rowdata.Reasons) {
+              return rowdata.Reasons;
+            } else {
+              return "-";
+            }
+          }}
+        />
+        <Column
+          header="Dropout Type"
+          field="is_active"
+          sortable
+          filterField="is_active"
+          headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+          style={{
+            backgroundColor: "#e9e9e9",
+            border: "solid",
+            borderCollapse: "collapse",
+            borderColor: "#c0c0c0",
+            borderWidth: "1px",
+          }}
+          body={(rowdata) => {
+            if (rowdata.is_active === 1) {
+              return "Student Dropout With Reason";
+            } else {
+              return "Student Dropout with Predicted Reason";
+            }
+          }}
+        />
+        <Column
+          header="Aadhar Number"
+          field="AadharNumber"
+          filterField="AadharNumber"
           headerStyle={{ color: "#fff", backgroundColor: "#333" }}
           style={{
             backgroundColor: "#e9e9e9",

@@ -13,13 +13,30 @@ import { useSelector } from "react-redux";
 
 // Step 5 - Including the map definition file
 import Gujarat from "fusionmaps/maps/fusioncharts.gujarat";
+import Madhyapradesh from "fusionmaps/maps/fusioncharts.madhyapradesh";
+import Karnataka from "fusionmaps/maps/fusioncharts.karnataka";
+import Rajasthan from "fusionmaps/maps/fusioncharts.rajasthan";
+import Uttarpradesh from "fusionmaps/maps/fusioncharts.uttarpradesh";
+import Maharashtra from "fusionmaps/maps/fusioncharts.maharashtra";
+import Tamilnadu from "fusionmaps/maps/fusioncharts.tamilnadu";
 
 // Step 6 - Including the theme as fusion
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import FetchDistrict from "../../../API/FetchDistrict";
 
 // Step 7 - Adding the map and theme as dependency to the core fusioncharts
-ReactFC.fcRoot(FusionCharts, FusionMaps, Gujarat, FusionTheme);
+ReactFC.fcRoot(
+  FusionCharts,
+  FusionMaps,
+  Gujarat,
+  Madhyapradesh,
+  Karnataka,
+  Rajasthan,
+  Uttarpradesh,
+  Maharashtra,
+  Tamilnadu,
+  FusionTheme
+);
 
 const stateAbbreviation = (state) => {
   switch (state) {
@@ -285,7 +302,7 @@ const StateMap = () => {
     updateChartConfig(
       conarray,
       `Dropout Rate in District of ${state}`,
-      `maps/${state.toLowerCase()}`
+      `maps/${state.toLowerCase().split(" ").join("")}`
     );
   }, [District, state, stateCode]);
 
