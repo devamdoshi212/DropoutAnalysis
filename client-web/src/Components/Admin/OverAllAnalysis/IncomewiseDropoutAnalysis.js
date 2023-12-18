@@ -38,6 +38,9 @@ const FamilyIncomewiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
+        formatter: function (val) {
+          return val + "%"; // Append "%" to the label
+        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
@@ -88,9 +91,7 @@ const FamilyIncomewiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => s.FamilyIncome
-        );
+        const categories = datas.StudentsData.map((s) => s.FamilyIncome);
         const percentages = datas.StudentsData.map((student, index) => {
           const totalStudent = datas.total[index].numOfStudent;
           return parseFloat(

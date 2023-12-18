@@ -38,6 +38,9 @@ const StandardwiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
+        formatter: function (val) {
+          return val + "%"; // Append "%" to the label
+        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],

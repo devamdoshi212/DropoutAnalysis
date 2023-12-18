@@ -482,7 +482,7 @@ const NewStudentForm = () => {
               >
                 <option value="">Select Caste</option>
                 <option value="Open">Open</option>
-                <option value="General">General</option>
+                <option value="General">General-EWS</option>
                 <option value="SEBC">SEBC</option>
                 <option value="SC">SC</option>
                 <option value="ST">ST</option>

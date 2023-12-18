@@ -255,6 +255,28 @@ const AdminLayout = () => {
               Add Domain
             </Link>
           </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"topanalysis"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              Top Analysis
+            </Link>
+          </div>
         </nav>
       </aside>
 
