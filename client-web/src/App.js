@@ -35,6 +35,7 @@ import ActiveStudentsDataTable from "./Components/Admin/Students/ActiveStudentsD
 import DropoutStudentsDataTable from "./Components/Admin/Students/DropoutStudentsDataTable";
 import AuthorityDropoutStudents from "./Components/Authority/Students/AuthorityDropoutStudents";
 import AuthorityActiveStudents from "./Components/Authority/Students/AuthorityActiveStudents";
+import Resouces from "./Components/Admin/Remedies/Resouces";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,11 @@ const router = createBrowserRouter([
       {
         path: "dropoutstudents",
         element: <DropoutStudentsDataTable />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addresources",
+        element: <Resouces />,
         errorElement: <ErrorPage />,
       },
     ],
