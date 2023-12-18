@@ -38,6 +38,9 @@ const ReasonwiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
+        formatter: function (val) {
+          return val + "%"; // Append "%" to the label
+        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
@@ -88,19 +91,17 @@ const ReasonwiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData
-          .filter(
-            (s) =>
-              s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-          )
-          .map((s) => s.Reasons);
+        const categories = datas.StudentsData.filter(
+          (s) =>
+            s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
+        ).map((s) => s.Reasons);
 
         const percentage = datas.StudentsData.map((student, index) => {
           const totalStudent = datas.total[index].numOfStudent;
           return parseFloat(
             ((student.numOfStudent / totalStudent) * 100).toFixed(2)
           );
-        })
+        });
 
         setChartData({
           ...chartData,

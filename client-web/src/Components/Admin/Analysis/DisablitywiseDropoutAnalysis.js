@@ -38,6 +38,9 @@ const DisablitywiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
+        formatter: function (val) {
+          return val + "%"; // Append "%" to the label
+        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
@@ -93,8 +96,10 @@ const DisablitywiseDropoutAnalysis = ({
         let total = 0;
         data.map((s) => {
           total += s.numOfStudent;
-        })
-        const student = data.map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
+        });
+        const student = data.map((s) =>
+          ((s.numOfStudent / total) * 100).toFixed(2)
+        );
         setChartData({
           ...chartData,
           series: [
