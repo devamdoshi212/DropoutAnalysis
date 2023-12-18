@@ -14,7 +14,10 @@ const StudentSchema = new mongoose.Schema(
       type: String,
     },
     Caste: String,
-    Disablity: Number,
+    Disablity: {
+      type: Number,
+      default: 0,
+    },
     FamilyIncome: String,
     Standard: Number,
     SchoolID: [{ type: mongoose.Schema.Types.ObjectId, ref: "schools" }],
