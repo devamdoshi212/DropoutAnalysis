@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const CastewiseDropoutAnalysis = ({
+const AcademicsWiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -58,7 +58,7 @@ const CastewiseDropoutAnalysis = ({
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Caste wise Dropout Analysis",
+        text: "Academics Level wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -84,15 +84,37 @@ const CastewiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/Caste?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/FilterStudentinGroup/academicLevel?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         // console.log(result);
         const data = result.data.StudentsData;
-        const categories = data.map((s) => s.Caste);
-        // const student = data.map((s) => s.numOfStudent);
+        console.log(data);
+        const categories = data.map((s) => {
+          let educationLevel;
+          switch (s.academicLevel) {
+            case 0:
+              educationLevel = "Low";
+              break;
+            case 1:
+              educationLevel = "Medium";
+              break;
+            case 2:
+              educationLevel = "High";
+              break;
+            // case 3:
+            //   educationLevel = "Higher Secondary";
+            //   break;
+            // case 4:
+            //   educationLevel = "Graduate";
+            //   break;
+            default:
+              educationLevel = "Unknown Education Level";
+          }
+          return educationLevel;
+        }); // const student = data.map((s) => s.numOfStudent);
         let total = 0;
         data.map((s) => {
           total += s.numOfStudent;
@@ -104,7 +126,7 @@ const CastewiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
-              name: "Caste",
+              name: "Education Level",
               data: student,
             },
           ],
@@ -132,4 +154,4 @@ const CastewiseDropoutAnalysis = ({
   );
 };
 
-export default CastewiseDropoutAnalysis;
+export default AcademicsWiseAnalysis;

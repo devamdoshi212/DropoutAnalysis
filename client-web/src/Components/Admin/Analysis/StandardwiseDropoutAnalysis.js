@@ -104,6 +104,7 @@ const StandardwiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Standard",
               data: student,
             },
           ],

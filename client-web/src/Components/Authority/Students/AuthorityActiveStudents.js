@@ -460,333 +460,338 @@ export default function AuthorityActiveStudents() {
       )}
 
       <div className="m-5">
-      <div className="flex mb-5 justify-between">
-        <label className="w-1/4 m-3">
-          <span className="text-gray-700 font-bold w-1/3">Select District</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedDistrict}
-            onChange={(e) => {
-              setSelectedDistrict(e.target.value);
-              FetchTaluka(userData.State._id, e.target.value).then((res) => {
-                setTalukaName(res);
-              });
-            }}
-            required
+        <div className="flex mb-5 justify-between">
+          <label className="w-1/4 m-3">
+            <span className="text-gray-700 font-bold w-1/3">
+              Select District
+            </span>
+            <select
+              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              value={selectedDistrict}
+              onChange={(e) => {
+                setSelectedDistrict(e.target.value);
+                FetchTaluka(userData.State._id, e.target.value).then((res) => {
+                  setTalukaName(res);
+                });
+              }}
+              required
+            >
+              <option value="">Select District</option>
+              {DistrictName.map((item, index) => (
+                <option key={index} value={item._id}>
+                  {item.district}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="w-1/4 m-3">
+            <span className="text-gray-700 font-bold w-1/3">Select Taluka</span>
+            <select
+              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              value={selectedTaluka}
+              onChange={(e) => {
+                setSelectedTaluka(e.target.value);
+                FetchCity(
+                  userData.State._id,
+                  selectedDistrict,
+                  e.target.value
+                ).then((res) => {
+                  console.log(res);
+                  setCityName(res);
+                });
+              }}
+              required
+            >
+              <option value="">Select Taluka</option>
+              {TalukaName.map((item, index) => (
+                <option key={index} value={item._id}>
+                  {item.taluka}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="w-1/4 m-3">
+            <span className="text-gray-700 font-bold w-1/3">Select City</span>
+            <select
+              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              value={selectedCity}
+              onChange={(e) => {
+                setSelectedCity(e.target.value);
+              }}
+              required
+            >
+              <option value="">Select City/Village</option>
+              {CityName.map((item, index) => (
+                <option key={index} value={item._id}>
+                  {item.city}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="card p-2">
+          <DataTable
+            ref={dt}
+            value={customers}
+            paginator
+            showGridlines
+            stripedRows
+            rows={10}
+            rowsPerPageOptions={[10, 25, 50]}
+            loading={loading}
+            dataKey="_id"
+            filters={filters}
+            globalFilterFields={[
+              "Name",
+              "UID",
+              "AadharNumber",
+              "Standard",
+              "SchoolID.Medium.name",
+              "City.cityType",
+              "Caste",
+              "Taluka.taluka",
+              "City.city",
+              "District.district",
+              "Gender",
+            ]}
+            header={header}
+            emptyMessage="No Students found."
+            removableSort
+            selection={selectedStudents}
+            onSelectionChange={(e) => setSelectedStudents(e.value)}
           >
-            <option value="">Select District</option>
-            {DistrictName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.district}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="w-1/4 m-3">
-          <span className="text-gray-700 font-bold w-1/3">Select Taluka</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedTaluka}
-            onChange={(e) => {
-              setSelectedTaluka(e.target.value);
-              FetchCity(
-                userData.State._id,
-                selectedDistrict,
-                e.target.value
-              ).then((res) => {
-                console.log(res);
-                setCityName(res);
-              });
-            }}
-            required
-          >
-            <option value="">Select Taluka</option>
-            {TalukaName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.taluka}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="w-1/4 m-3">
-          <span className="text-gray-700 font-bold w-1/3">Select City</span>
-          <select
-            className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-            value={selectedCity}
-            onChange={(e) => {
-              setSelectedCity(e.target.value);
-            }}
-            required
-          >
-            <option value="">Select City/Village</option>
-            {CityName.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.city}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+            <Column
+              selectionMode="multiple"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
 
-      <div className="card p-2">
-        <DataTable
-          ref={dt}
-          value={customers}
-          paginator
-          showGridlines
-          stripedRows
-          rows={10}
-          rowsPerPageOptions={[10, 25, 50]}
-          loading={loading}
-          dataKey="_id"
-          filters={filters}
-          globalFilterFields={[
-            "Name",
-            "UID",
-            "AadharNumber",
-            "Standard",
-            "SchoolID.Medium.name",
-            "City.cityType",
-            "Caste",
-            "Taluka.taluka",
-            "City.city",
-            "District.district",
-            "Gender",
-          ]}
-          header={header}
-          emptyMessage="No Students found."
-          removableSort
-          selection={selectedStudents}
-          onSelectionChange={(e) => setSelectedStudents(e.value)}
-        >
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
+            <Column
+              field="index"
+              header="Index"
+              body={(rowData) => {
+                const rowIndex = customers.indexOf(rowData);
+                return calculateIndex(Math.floor(first / 10), rowIndex);
+              }}
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
 
-          <Column
-            field="index"
-            header="Index"
-            body={(rowData) => {
-              const rowIndex = customers.indexOf(rowData);
-              return calculateIndex(Math.floor(first / 10), rowIndex);
-            }}
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
+            <Column
+              header="Name"
+              field="Name"
+              filterField="Name"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              sortable
+              header="UID"
+              field="_id"
+              filterField="UID"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              sortable
+              header="Gender"
+              field="Gender"
+              filterField="location"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              header="Aadhar Number"
+              field="AadharNumber"
+              filterField="AadharNumber"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
 
-          <Column
-            header="Name"
-            field="Name"
-            filterField="Name"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            sortable
-            header="UID"
-            field="_id"
-            filterField="UID"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            sortable
-            header="Gender"
-            field="Gender"
-            filterField="location"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            header="Aadhar Number"
-            field="AadharNumber"
-            filterField="AadharNumber"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
+            <Column
+              sortable
+              header="School Standard"
+              field="Standard"
+              filterField="Standard"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              header="DOB"
+              field="DOB"
+              filterField="DOB"
+              body={dateBodyTemplate}
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              sortable
+              header="District"
+              field="District.district"
+              filterField="District"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              header="City"
+              field="City.city"
+              filterField="City"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+              body={(e) => {
+                return e.City.cityType === 0 ? "Urban" : "Rural";
+              }}
+            />
+            <Column
+              sortable
+              header="Taluka"
+              field="Taluka.taluka"
+              filterField="Taluka"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              sortable
+              header="Caste"
+              field="Caste"
+              filterField="Caste"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
 
-          <Column
-            sortable
-            header="School Standard"
-            field="Standard"
-            filterField="Standard"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            header="DOB"
-            field="DOB"
-            filterField="DOB"
-            body={dateBodyTemplate}
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            sortable
-            header="District"
-            field="District.district"
-            filterField="District"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            header="City"
-            field="City.city"
-            filterField="City"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            sortable
-            header="Taluka"
-            field="Taluka.taluka"
-            filterField="Taluka"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            sortable
-            header="Caste"
-            field="Caste"
-            filterField="Caste"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
+            <Column
+              header="City Type"
+              field="City.cityType"
+              filterField="City_type"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
 
-          <Column
-            header="City Type"
-            field="City.cityType"
-            filterField="City_type"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-
-          <Column
-            sortable
-            header="School Medium"
-            field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
-            filterField="School_medium" // Make sure this matches the actual field name
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-            body={(e) => {
-              return e.SchoolID[e.SchoolID.length - 1].Medium.name;
-            }}
-          />
-          <Column
-            header="Address"
-            field="Address"
-            filterField="Address"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
-            header="Created At"
-            field="createdAt" // Replace 'districtName' with the actual field name
-            filterField="createdAt" // Make sure this matches the actual field name
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-            body={dateBodyTemplate}
-          />
-        </DataTable>
-      </div>
+            <Column
+              sortable
+              header="School Medium"
+              field="SchoolID.Medium.name" // Replace 'districtName' with the actual field name
+              filterField="School_medium" // Make sure this matches the actual field name
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+              body={(e) => {
+                return e.SchoolID[e.SchoolID.length - 1].Medium.name;
+              }}
+            />
+            <Column
+              header="Address"
+              field="Address"
+              filterField="Address"
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+            />
+            <Column
+              header="Created At"
+              field="createdAt" // Replace 'districtName' with the actual field name
+              filterField="createdAt" // Make sure this matches the actual field name
+              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+              style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
+              body={dateBodyTemplate}
+            />
+          </DataTable>
+        </div>
       </div>
     </>
   );

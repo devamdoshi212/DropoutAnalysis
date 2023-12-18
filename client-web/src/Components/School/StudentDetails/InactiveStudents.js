@@ -491,6 +491,9 @@ export default function InactiveStudent() {
             borderColor: "#c0c0c0",
             borderWidth: "1px",
           }}
+          body={(e) => {
+            return e.City.cityType === 0 ? "Urban" : "Rural";
+          }}
         />
 
         <Column

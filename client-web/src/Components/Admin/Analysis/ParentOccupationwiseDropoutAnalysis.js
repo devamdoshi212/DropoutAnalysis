@@ -105,6 +105,7 @@ const AreawiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Parent Education",
               data: student,
             },
           ],

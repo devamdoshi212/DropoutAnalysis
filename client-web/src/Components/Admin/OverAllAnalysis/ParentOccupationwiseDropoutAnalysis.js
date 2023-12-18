@@ -104,6 +104,7 @@ const AreawiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Parent Occupation",
               data: percentages,
             },
           ],

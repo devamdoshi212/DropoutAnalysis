@@ -105,6 +105,7 @@ const DisablitywiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Disability",
               data: percentages,
             },
           ],

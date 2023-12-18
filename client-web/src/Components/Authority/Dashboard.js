@@ -56,13 +56,15 @@ const AuthorityDashboard = () => {
       <div className="grid grid-cols-1 gap-4 grid-rows-6 lg:grid-cols-3 lg:gap-8">
         {/* <Link to={"districtWiseSportsComplex"}> */}
         <div className=" text-center rounded-lg bg-gray-300 ">
-          <div className="font-semibold p-5 text-2xl h-3/5">Active Students</div>
+          <div className="font-semibold p-5 text-2xl h-3/5">
+            Active Students
+          </div>
           <AnimatedCount finalCount={visible && data.activestudents} />
         </div>
-        <div className=" text-center rounded-lg bg-gray-300 ">
+        {/* <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl h-3/5">Total States</div>
           <AnimatedCount finalCount={visible && data.states} />
-        </div>
+        </div> */}
         <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl h-3/5">Total Talukas</div>
           <AnimatedCount finalCount={visible && data.taluka} />
@@ -94,7 +96,9 @@ const AuthorityDashboard = () => {
           <AnimatedCount finalCount={visible && data.femalestudents} />
         </div>
         <div className=" text-center rounded-lg bg-gray-300 ">
-          <div className="font-semibold p-5 text-2xl h-3/5">Total Male Students</div>
+          <div className="font-semibold p-5 text-2xl h-3/5">
+            Total Male Students
+          </div>
           <AnimatedCount finalCount={visible && data.malestudents} />
         </div>
         <div className=" text-center rounded-lg bg-gray-300 ">

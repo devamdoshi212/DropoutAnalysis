@@ -103,6 +103,7 @@ const MediumwiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Medium",
               data: percentages,
             },
           ],

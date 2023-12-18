@@ -105,6 +105,7 @@ const AreawiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Area",
               data: percentages,
             },
           ],

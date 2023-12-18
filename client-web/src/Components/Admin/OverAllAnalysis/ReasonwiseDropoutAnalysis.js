@@ -107,6 +107,7 @@ const ReasonwiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Reason",
               data: percentage,
             },
           ],

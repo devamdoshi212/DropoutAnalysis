@@ -102,6 +102,7 @@ const CastewiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Caste",
               data: percentages,
             },
           ],

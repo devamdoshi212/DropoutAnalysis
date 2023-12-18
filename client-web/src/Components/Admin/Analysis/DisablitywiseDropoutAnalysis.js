@@ -89,10 +89,8 @@ const DisablitywiseDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
         const data = result.data.StudentsData;
         const categories = data.map((s) => "Disablity " + s.Disablity);
-        // const student = data.map((s) => s.numOfStudent);
         let total = 0;
         data.map((s) => {
           total += s.numOfStudent;
@@ -104,6 +102,7 @@ const DisablitywiseDropoutAnalysis = ({
           ...chartData,
           series: [
             {
+              name: "Disability",
               data: student,
             },
           ],
