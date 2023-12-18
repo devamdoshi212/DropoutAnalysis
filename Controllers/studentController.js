@@ -371,6 +371,36 @@ async function getChooseWiseStudents(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    let data = await StudentModel.find({});
+    let id = [];
+    data.map((ele) => {
+      id.push(ele._id);
+    });
+    // console.log(id);
+    id = id.slice(85, 90);
+    console.log(id);
+
+    let update = await StudentModel.updateMany(
+      { _id: { $in: id } },
+      {
+        // fatherEducation: 3,
+        // motherEducation: 4,
+        // result: 86,
+        academicLevel: 2,
+      }
+    );
+    res.json({
+      results: update.length,
+      data: update,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   getStudents,
   addStudents,
@@ -379,4 +409,5 @@ module.exports = {
   addStudentsFromExcel,
   getSchoolWiseStudents,
   getChooseWiseStudents,
+  update,
 };

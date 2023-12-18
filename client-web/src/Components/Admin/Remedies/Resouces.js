@@ -3,93 +3,85 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const Resources = () => {
-    const fileInitialValues = {
+    const initialValues = {
         files: [],
-        dropoutReason: '',
-    };
-
-    const linkInitialValues = {
         links: [''],
         dropoutReason: '',
     };
 
-    const validationSchemaFile = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
         files: Yup.array().min(1, 'Please choose at least one file'),
-        dropoutReason: Yup.string().required('Please select a dropout reason for files'),
+        links: Yup.array().of(
+            Yup.string().url('Invalid URL').required('Please enter a link')
+        ),
+        dropoutReason: Yup.string().required('Please select a dropout reason'),
     });
 
-    const validationSchemaLink = Yup.object().shape({
-        links: Yup.array().of(Yup.string().url('Invalid URL')),
-        dropoutReason: Yup.string().required('Please select a dropout reason for links'),
-    });
+    const onSubmit = async (values, action) => {
+        if (values.files.length > 0 && values.links.length > 0) {
+            const filesData = {
+                files: values.files,
+                links: values.links.filter((link) => link.trim() !== ''),
+                dropoutReason: values.dropoutReason,
+            };
+            console.log('Files ans Links data submitted:', filesData);
+            console.log(filesData.files)
+            var formdata = new FormData();
+            formdata.append("reason", filesData.dropoutReason);
 
-    const onSubmitFile = async (values) => {
-        // ... (Previous submit file logic)
+            console.log(filesData.files);
+            for (let i = 0; i < filesData.files.length; i++) {
+                var file = filesData.files[i];
+                formdata.append("resources", file, filesData.files[i].name);
+            }
+            for (let i = 0; i < filesData.links.length; i++) {
+                var link = filesData.links[i];
+                formdata.append("links", link);
+            }
 
-        const filesData = {
-            files: values.files,
-            dropoutReason: values.dropoutReason,
-        };
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
 
-        // Send filesData to your server using fetch or axios
-        // ...
-
-        console.log('Files data submitted:', filesData);
+            fetch("http://localhost:9999/addReason", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+        // action.resetForm();
     };
 
-    const onSubmitLink = async (values) => {
-        // ... (Previous submit link logic)
-
-        const linksData = {
-            links: values.links.filter((link) => link.trim() !== ''),
-            dropoutReason: values.dropoutReason,
-        };
-
-        // Send linksData to your server using fetch or axios
-        // ...
-
-        console.log('Links data submitted:', linksData);
-    };
-
-    const formikFile = useFormik({
-        initialValues: fileInitialValues,
-        validationSchema: validationSchemaFile,
-        onSubmit: onSubmitFile,
-    });
-
-    const formikLink = useFormik({
-        initialValues: linkInitialValues,
-        validationSchema: validationSchemaLink,
-        onSubmit: onSubmitLink,
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit,
     });
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
-        formikFile.setFieldValue('files', selectedFiles);
+        formik.setFieldValue('files', selectedFiles);
     };
 
     const handleLinkChange = (index, value) => {
-        const updatedLinks = [...formikLink.values.links];
-        updatedLinks[index] = value;
-        formikLink.setFieldValue('links', updatedLinks);
+        formik.setFieldValue(`links[${index}]`, value);
     };
 
-    const addLink = (index) => {
-        const updatedLinks = [...formikLink.values.links];
-        updatedLinks.splice(index + 1, 0, '');
-        formikLink.setFieldValue('links', updatedLinks);
+    const addLink = () => {
+        formik.setFieldValue('links', [...formik.values.links, '']);
     };
 
     const removeLink = (index) => {
-        const updatedLinks = [...formikLink.values.links];
+        const updatedLinks = [...formik.values.links];
         updatedLinks.splice(index, 1);
-        formikLink.setFieldValue('links', updatedLinks);
+        formik.setFieldValue('links', updatedLinks);
     };
+
 
     return (
         <>
-            {/* Form for submitting files */}
-            <form onSubmit={formikFile.handleSubmit} className='w-96'>
+            <form onSubmit={formik.handleSubmit} className='w-96'>
                 <div className="mx-5 space-x-3">
                     <label htmlFor="files" className="font-semibold text-gray-500">
                         Choose Files :
@@ -99,59 +91,27 @@ const Resources = () => {
                         name="files"
                         type="file"
                         onChange={handleFileChange}
-                        onBlur={formikFile.handleBlur}
+                        onBlur={formik.handleBlur}
                         accept=".jpg, .jpeg, .png, .gif, .mp4, .docx, .pptx, .pdf"
                         multiple
                     />
-                    {formikFile.touched.files && formikFile.errors.files && (
-                        <div style={{ color: 'red' }}>{formikFile.errors.files}</div>
+                    {formik.touched.files && formik.errors.files && (
+                        <div style={{ color: 'red' }}>{formik.errors.files}</div>
                     )}
                 </div>
 
-                {/* Dropdown for selecting dropout reason */}
                 <div className="mx-5 mt-3">
-                    <label htmlFor="dropoutReasonFile" className="font-semibold text-gray-500">
-                        Select Dropout Reason (Files) :
-                    </label>
-                    <select
-                        id="dropoutReasonFile"
-                        name="dropoutReason"
-                        className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                        onChange={formikFile.handleChange}
-                        onBlur={formikFile.handleBlur}
-                        value={formikFile.values.dropoutReason}
-                    >
-                        <option value="">Select Reason</option>
-                        {/* Add more options for dropout reasons */}
-                    </select>
-                    {formikFile.touched.dropoutReason && formikFile.errors.dropoutReason && (
-                        <div style={{ color: 'red' }}>{formikFile.errors.dropoutReason}</div>
-                    )}
-                </div>
-
-                <button
-                    type="submit"
-                    className="mx-5 bg-blue-700 text-white font-bold tracking-wider py-2 px-5 rounded-md hover:bg-blue-600 uppercase"
-                >
-                    Submit Files
-                </button>
-            </form>
-
-            {/* Form for submitting links */}
-            <form onSubmit={formikLink.handleSubmit} className='w-96'>
-                {/* Section for entering links */}
-                <div className="mx-5 space-y-3 mt-5">
                     <label htmlFor="links" className="font-semibold text-gray-500">
                         Enter Links :
                     </label>
-                    {formikLink.values.links.map((link, index) => (
+                    {formik.values.links.map((link, index) => (
                         <div key={index} className="flex space-x-2">
                             <input
                                 type="text"
                                 name={`links[${index}]`}
                                 value={link}
-                                onChange={(e) => handleLinkChange(index, e.target.value)}
-                                onBlur={formikLink.handleBlur}
+                                onChange={(e) => formik.handleChange(`links[${index}]`)(e)}
+                                onBlur={formik.handleBlur}
                                 placeholder="Enter link"
                             />
                             <button type="button" onClick={() => addLink(index)}>
@@ -164,29 +124,22 @@ const Resources = () => {
                             )}
                         </div>
                     ))}
-                    {formikLink.touched.links && formikLink.errors.links && (
-                        <div style={{ color: 'red' }}>{formikLink.errors.links}</div>
+                    {formik.touched.links && formik.errors.links && (
+                        <div style={{ color: 'red' }}>{formik.errors.links}</div>
                     )}
                 </div>
 
-                {/* Dropdown for selecting dropout reason */}
                 <div className="mx-5 mt-3">
-                    <label htmlFor="dropoutReasonLink" className="font-semibold text-gray-500">
-                        Select Dropout Reason (Links) :
+                    <label htmlFor="dropoutReason" className="font-semibold text-gray-500">
+                        Select Dropout Reason:
                     </label>
-                    <select
-                        id="dropoutReasonLink"
-                        name="dropoutReason"
-                        className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
-                        onChange={formikLink.handleChange}
-                        onBlur={formikLink.handleBlur}
-                        value={formikLink.values.dropoutReason}
-                    >
-                        <option value="">Select Reason</option>
-                        {/* Add more options for dropout reasons */}
-                    </select>
-                    {formikLink.touched.dropoutReason && formikLink.errors.dropoutReason && (
-                        <div style={{ color: 'red' }}>{formikLink.errors.dropoutReason}</div>
+                    <input type="text" id='dropoutReason' name='dropoutReason' className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.dropoutReason} />
+
+                    {formik.touched.dropoutReason && formik.errors.dropoutReason && (
+                        <div style={{ color: 'red' }}>{formik.errors.dropoutReason}</div>
                     )}
                 </div>
 
@@ -194,7 +147,7 @@ const Resources = () => {
                     type="submit"
                     className="mx-5 bg-blue-700 text-white font-bold tracking-wider py-2 px-5 rounded-md hover:bg-blue-600 uppercase"
                 >
-                    Submit Links
+                    Submit
                 </button>
             </form>
         </>
