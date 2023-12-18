@@ -14,17 +14,17 @@ const AuthorityProfile = () => {
         </p>
         <ul className="list-none">
           <li className="flex items-center mb-2">
-            <span className="mr-2 text-gray-700">Email:</span>
-            <span className="text-gray-800">{userData.Email}</span>
+            <span className="mr-2 text-gray-700 font-semibold w-1/6">E-mail</span>
+            <span className="text-gray-800">: {userData.Email}</span>
           </li>
           <li className="flex items-center mb-2">
-            <span className="mr-2 text-gray-700">State</span>
-            <span className="text-gray-800">{userData.State.name}</span>
+            <span className="mr-2 text-gray-700  font-semibold w-1/6">State </span>
+            <span className="text-gray-800">: {userData.State.name}</span>
           </li>
 
           <li className="flex items-center mb-2">
-            <span className="mr-2 text-gray-700">Phone:</span>
-            <span className="text-gray-800">{userData.ContactNumber}</span>
+            <span className="mr-2 text-gray-700  font-semibold w-1/6">Phone</span>
+            <span className="text-gray-800">: {userData.ContactNumber}</span>
           </li>
           {/* Add more profile information as needed */}
         </ul>
