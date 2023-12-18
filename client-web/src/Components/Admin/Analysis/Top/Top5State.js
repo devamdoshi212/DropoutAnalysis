@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Top5Dropout = () => {
+const Top5State = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     var requestOptions = {
@@ -49,4 +49,4 @@ const Top5Dropout = () => {
   );
 };
 
-export default Top5Dropout;
+export default Top5State;

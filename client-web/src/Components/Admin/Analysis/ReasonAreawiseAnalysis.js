@@ -55,7 +55,7 @@ const ReasonAreawiseAnalysis = ({
       },
       colors: ["#66FF33", "#FF3366"],
       title: {
-        text: "Standard wise Dropout Analysis",
+        text: "Reason-Area wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const AreawiseDropoutAnalysis = ({
+const YearwiseLineChart = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -10,24 +10,28 @@ const AreawiseDropoutAnalysis = ({
   const [chartData, setChartData] = useState({
     series: [
       {
-        name: "Capacity",
+        name: "Without Reason Dropout Students",
         data: [30, 40, 35, 50],
       },
       {
-        name: "Enroll Athelte",
+        name: "With Reason Dropout Students",
         data: [49, 60, 10, 12],
+      },
+      {
+        name: "Total Dropout Students Students",
+        data: [79, 100, 45, 62],
       },
     ],
     options: {
       chart: {
-        type: "bar",
+        type: "line", // Change chart type to line
         height: 350,
       },
       plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "55%",
-          endingShape: "rounded",
+        line: {
+          markers: {
+            size: 6,
+          },
         },
       },
       dataLabels: {
@@ -38,28 +42,23 @@ const AreawiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
-        formatter: function (val) {
-          return val + "%"; // Append "%" to the label
-        },
       },
       xaxis: {
-        categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
+        categories: ["Cricket", "Basket Ball", "Volley Ball", "Tennis"],
       },
       yaxis: {
         title: {
-          text: "Percentage of Dropout Students",
-
+          text: "Numbers of dropout students",
           style: {
             fontSize: "12px",
-            // fontWeight: "bold",
             fontFamily: undefined,
             color: "#263238",
-          }, // Your Y-axis title
+          },
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#66FF33", "#FF3366", "#3366FF"],
       title: {
-        text: "Parent Occupation wise Dropout Analysis",
+        text: "Year wise Dropout Student Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -85,27 +84,31 @@ const AreawiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/ParentOccupation?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/yearWiseData?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        let datas = result.data.StudentsData;
-        let total = 0;
-        datas.map((s) => {
-          total += s.numOfStudent;
-        });
-        const student = datas.map((s) =>
-          ((s.numOfStudent / total) * 100).toFixed(2)
-        );
-        // const student = datas.map((s) => s.numOfStudent);
-        const categories = datas.map((s) => s.ParentOccupation);
+        const data = result.data.resultArray;
+        const categories = data.map((s) => s.year);
+        const withReason = data.map((s) => s.is_active_1);
+        const withOutReason = data.map((s) => s.is_active_2);
+        const total = data.map((s) => s.is_active_2 + s.is_active_1);
 
         setChartData({
           ...chartData,
           series: [
             {
-              data: student,
+              name: "Without Reason Dropout Students",
+              data: withOutReason,
+            },
+            {
+              name: "With Reason Dropout Students",
+              data: withReason,
+            },
+            {
+              name: "Total Dropout Students Students",
+              data: total,
             },
           ],
           options: {
@@ -125,11 +128,11 @@ const AreawiseDropoutAnalysis = ({
       <ReactApexChart
         options={chartData.options}
         series={chartData.series}
-        type="bar"
+        type="line"
         height={chartData.options.chart.height}
       />
     </div>
   );
 };
 
-export default AreawiseDropoutAnalysis;
+export default YearwiseLineChart;

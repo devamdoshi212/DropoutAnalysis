@@ -36,6 +36,9 @@ import DropoutStudentsDataTable from "./Components/Admin/Students/DropoutStudent
 import AuthorityDropoutStudents from "./Components/Authority/Students/AuthorityDropoutStudents";
 import AuthorityActiveStudents from "./Components/Authority/Students/AuthorityActiveStudents";
 import Resouces from "./Components/Admin/Remedies/Resouces";
+import Top5Dropout from "./Components/Admin/Analysis/Top/Top5Dropout";
+import SchoolProfile from "./Components/School/Profile";
+import AuthorityProfile from "./Components/Authority/Profile";
 
 const router = createBrowserRouter([
   {
@@ -121,6 +124,11 @@ const router = createBrowserRouter([
         element: <Resouces />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "topanalysis",
+        element: <Top5Dropout />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
@@ -170,6 +178,11 @@ const router = createBrowserRouter([
         element: <AuthorityDropoutStudents />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "profile",
+        element: <AuthorityProfile />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
@@ -207,6 +220,11 @@ const router = createBrowserRouter([
       {
         path: "inactivetudent",
         element: <InactiveStudent />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "profile",
+        element: <SchoolProfile />,
         errorElement: <ErrorPage />,
       },
     ],
