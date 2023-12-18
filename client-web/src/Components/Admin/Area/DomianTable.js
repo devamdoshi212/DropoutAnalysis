@@ -198,7 +198,8 @@ export default function DomainDataTable() {
 
   return (
     <>
-      <div className="justify-around my-5 flex gap-8 ">
+    <div className="m-5 mx-7"> 
+      <div className="justify-between my-5 flex gap-8 ">
         <Link
           to={"/admin/addstate"}
           className="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-600 text-white font-bold "
@@ -225,7 +226,7 @@ export default function DomainDataTable() {
         </Link>
       </div>
 
-      <div className="card px-10">
+      <div className="card ">
         <DataTable
           ref={dt}
           value={customers}
@@ -250,7 +251,13 @@ export default function DomainDataTable() {
               return calculateIndex(Math.floor(first / 10), rowIndex);
             }}
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
           />
 
           <Column
@@ -259,7 +266,13 @@ export default function DomainDataTable() {
             field="state"
             filterField="State"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+         style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
           />
           <Column
             sortable
@@ -267,7 +280,13 @@ export default function DomainDataTable() {
             field="districtCount"
             filterField="District"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
           />
 
           <Column
@@ -276,7 +295,13 @@ export default function DomainDataTable() {
             field="talukaCount"
             filterField="Taluka"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
           />
           <Column
             sortable
@@ -284,9 +309,16 @@ export default function DomainDataTable() {
             field="cityCount"
             filterField="City"
             headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{ backgroundColor: "#DDE6ED" }}
+            style={{
+                backgroundColor: "#e9e9e9",
+                border: "solid",
+                borderCollapse: "collapse",
+                borderColor: "#c0c0c0",
+                borderWidth: "1px",
+              }}
           />
         </DataTable>
+      </div>
       </div>
     </>
   );

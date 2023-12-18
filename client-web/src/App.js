@@ -39,6 +39,7 @@ import Resouces from "./Components/Admin/Remedies/Resouces";
 import Top5Dropout from "./Components/Admin/Analysis/Top/Top5Dropout";
 import SchoolProfile from "./Components/School/Profile";
 import AuthorityProfile from "./Components/Authority/Profile";
+import Remediesresources from "./Components/Authority/Resouces/Remediesresources";
 
 const router = createBrowserRouter([
   {
@@ -181,6 +182,11 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <AuthorityProfile />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "remediesresources",
+        element: <Remediesresources />,
         errorElement: <ErrorPage />,
       },
     ],
