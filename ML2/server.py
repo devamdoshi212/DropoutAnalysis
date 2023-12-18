@@ -89,12 +89,13 @@ def predict_model(data: pd.DataFrame):
     y_pred = None
     try:
         y_pred = pipeline.predict(X_test)
+        prob = pipeline.predict_proba(X_test).max(axis=1)
     except ValueError as err:
         print(err)
 
         return "NO REASON FOUND"
     else:
-        return y_pred
+        return [y_pred, prob]
 
 
 train_model()
@@ -130,10 +131,13 @@ def predictModel():
     for x in oldDict:
         newDict[x] = [oldDict[x]]
     data = pd.DataFrame(newDict)
-    message = predict_model(data)
+    [message, probability] = predict_model(data)
     # print(type(message))
+    print(probability)
     if isinstance(message, np.ndarray):
-        return jsonify({"message": message.tolist()[0]})
+        return jsonify(
+            {"message": message.tolist()[0], "probability": probability[0] * 100}
+        )
     else:
         return jsonify({"message": message})
 

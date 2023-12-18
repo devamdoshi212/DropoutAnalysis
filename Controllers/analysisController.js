@@ -45,9 +45,9 @@ module.exports.FilterStudentinGroup = async (req, res) => {
       });
     }
 
-    pipeline.push({
-      $lookup: {},
-    });
+    // pipeline.push({
+    //   $lookup: {},
+    // });
 
     if (req.query.school) {
       pipeline.push({
@@ -1556,54 +1556,54 @@ module.exports.groupBySchool = async (req, res) => {
       });
     }
 
-    pipeline.push({
-      $lookup: {
-        from: "schools",
-        localField: "SchoolID",
-        foreignField: "_id",
-        as: "Schools",
-      },
-    });
-    pipeline.push({
-      $lookup: {
-        from: "schooltypes",
-        localField: "Schools.Medium",
-        foreignField: "_id",
-        as: "Medium",
-      },
-    });
-    pipeline.push({
-      $lookup: {
-        from: "states",
-        localField: "Schools.State",
-        foreignField: "_id",
-        as: "State",
-      },
-    });
-    pipeline.push({
-      $lookup: {
-        from: "talukas",
-        localField: "Schools.Taluka",
-        foreignField: "_id",
-        as: "Taluka",
-      },
-    });
-    pipeline.push({
-      $lookup: {
-        from: "districts",
-        localField: "Schools.District",
-        foreignField: "_id",
-        as: "District",
-      },
-    });
-    pipeline.push({
-      $lookup: {
-        from: "cities",
-        localField: "Schools.City",
-        foreignField: "_id",
-        as: "City",
-      },
-    });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schools",
+    //     localField: "SchoolID",
+    //     foreignField: "_id",
+    //     as: "Schools",
+    //   },
+    // });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "schooltypes",
+    //     localField: "Schools.Medium",
+    //     foreignField: "_id",
+    //     as: "Medium",
+    //   },
+    // });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "states",
+    //     localField: "Schools.State",
+    //     foreignField: "_id",
+    //     as: "State",
+    //   },
+    // });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "talukas",
+    //     localField: "Schools.Taluka",
+    //     foreignField: "_id",
+    //     as: "Taluka",
+    //   },
+    // });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "districts",
+    //     localField: "Schools.District",
+    //     foreignField: "_id",
+    //     as: "District",
+    //   },
+    // });
+    // pipeline.push({
+    //   $lookup: {
+    //     from: "cities",
+    //     localField: "Schools.City",
+    //     foreignField: "_id",
+    //     as: "City",
+    //   },
+    // });
 
     // if (req.query.school) {
     //   pipeline.push({

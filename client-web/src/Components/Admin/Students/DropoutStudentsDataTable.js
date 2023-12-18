@@ -234,6 +234,7 @@ export default function DropoutStudentsDataTable() {
   console.log(customers);
   return (
     <>
+    <div className="m-5">
       <div className="flex mb-5">
         <label className="m-3 w-1/4">
           <span className="text-gray-700 font-bold w-1/3">Select State</span>
@@ -322,7 +323,7 @@ export default function DropoutStudentsDataTable() {
         </label>
       </div>
 
-      <div className="card p-10">
+      <div className="card">
         <DataTable
           ref={dt}
           value={customers}
@@ -634,6 +635,7 @@ export default function DropoutStudentsDataTable() {
             body={dateBodyTemplate}
           />
         </DataTable>
+      </div>
       </div>
     </>
   );
