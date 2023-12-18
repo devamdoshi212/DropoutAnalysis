@@ -458,6 +458,8 @@ export default function AuthorityActiveStudents() {
           </div>
         </div>
       )}
+
+      <div className="m-5">
       <div className="flex mb-5 justify-between">
         <label className="w-1/4 m-3">
           <span className="text-gray-700 font-bold w-1/3">Select District</span>
@@ -526,7 +528,7 @@ export default function AuthorityActiveStudents() {
         </label>
       </div>
 
-      <div className="card p-10">
+      <div className="card p-2">
         <DataTable
           ref={dt}
           value={customers}
@@ -784,6 +786,7 @@ export default function AuthorityActiveStudents() {
             body={dateBodyTemplate}
           />
         </DataTable>
+      </div>
       </div>
     </>
   );
