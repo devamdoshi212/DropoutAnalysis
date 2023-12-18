@@ -17,7 +17,7 @@ const Resources = () => {
         dropoutReason: Yup.string().required('Please select a dropout reason'),
     });
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values, action) => {
         if (values.files.length > 0 && values.links.length > 0) {
             const filesData = {
                 files: values.files,
@@ -25,7 +25,32 @@ const Resources = () => {
                 dropoutReason: values.dropoutReason,
             };
             console.log('Files ans Links data submitted:', filesData);
+            console.log(filesData.files)
+            var formdata = new FormData();
+            formdata.append("reason", filesData.dropoutReason);
+
+            console.log(filesData.files);
+            for (let i = 0; i < filesData.files.length; i++) {
+                var file = filesData.files[i];
+                formdata.append("resources", file, filesData.files[i].name);
+            }
+            for (let i = 0; i < filesData.links.length; i++) {
+                var link = filesData.links[i];
+                formdata.append("links", link);
+            }
+
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:9999/addReason", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
         }
+        // action.resetForm();
     };
 
     const formik = useFormik({
