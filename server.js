@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const authorityRoutes = require("./routes/authorityRoutes");
 const analysisRoutes = require("./routes/analysisRoute");
+const reasonRoutes = require("./routes/reasonRoutes");
 const app = express();
 
 //dbconnection
@@ -24,7 +25,7 @@ app.use("/", studentRoutes);
 app.use("/", userRoutes);
 app.use("/", adminRoutes);
 app.use("/", authorityRoutes);
-
+app.use("/", reasonRoutes);
 app.get("/", (req, res) => {
   res.send("hello");
 });

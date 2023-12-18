@@ -14,9 +14,10 @@ import YearwiseGenderAnalysis from "./YearwiseGenderAnalysis";
 import MediumwiseDropoutAnalysis from "./MediumwiseDropoutAnalysis";
 import AreawiseDropoutAnalysis from "./AreawiseDropoutAnalysis";
 import ParentOccupationwiseDropoutAnalysis from "./ParentOccupationwiseDropoutAnalysis";
-import Top5Dropout from "./Top5Dropout";
+import Top5Dropout from "./Top/Top5Dropout";
 import StandardGenderwiseAnalysis from "./StandardGenderwiseAnalysis";
 import ReasonAreawiseAnalysis from "./ReasonAreawiseAnalysis";
+import YearwiseLineChart from "./LineChart/YearwiseChart";
 const Analysis = () => {
   const [stateName, setStateName] = useState([]);
   const [TalukaName, setTalukaName] = useState([]);
@@ -201,7 +202,12 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <Top5Dropout />
+        <YearwiseLineChart
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+        />
       </div>
     </>
   );

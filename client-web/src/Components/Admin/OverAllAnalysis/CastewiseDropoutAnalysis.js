@@ -38,6 +38,9 @@ const CastewiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
+        formatter: function (val) {
+          return val + "%"; // Append "%" to the label
+        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
@@ -88,9 +91,7 @@ const CastewiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => s.Caste
-        );
+        const categories = datas.StudentsData.map((s) => s.Caste);
         const percentages = datas.StudentsData.map((student, index) => {
           const totalStudent = datas.total[index].numOfStudent;
           return parseFloat(
