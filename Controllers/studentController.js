@@ -378,9 +378,9 @@ async function update(req, res) {
     data.map((ele) => {
       id.push(ele._id);
     });
-    // console.log(id);
-    id = id.slice(85, 90);
     console.log(id);
+    // id = id.slice(, 90);
+    // console.log(id);
 
     let update = await StudentModel.updateMany(
       { _id: { $in: id } },
@@ -388,7 +388,8 @@ async function update(req, res) {
         // fatherEducation: 3,
         // motherEducation: 4,
         // result: 86,
-        academicLevel: 2,
+        // academicLevel: 2,\
+        Disability: 0, //0 10 20 40 60 80 85
       }
     );
     res.json({
@@ -401,6 +402,44 @@ async function update(req, res) {
   }
 }
 
+async function updateResult(req, res) {
+  try {
+    let id = await StudentModel.findOne({ _id: req.query.id });
+    let newRes = id.result + parseInt(req.query.result);
+    console.log(id.result);
+    console.log(req.query.result);
+
+    newRes = newRes / 2;
+    console.log(newRes);
+    let academiclevel;
+    if (newRes > 0 && newRes <= 50) {
+      academiclevel = 0;
+    } else if (newRes > 50 && newRes <= 80) {
+      academiclevel = 1;
+    } else {
+      academiclevel = 2;
+    }
+
+    const data = await StudentModel.updateOne(
+      { _id: req.query.id },
+      {
+        result: newRes,
+        academicLevel: academiclevel,
+      }
+    );
+    res.json({
+      data: data,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      rcode: -9,
+      err: err.msg,
+    });
+  }
+}
+
 module.exports = {
   getStudents,
   addStudents,
@@ -410,4 +449,5 @@ module.exports = {
   getSchoolWiseStudents,
   getChooseWiseStudents,
   update,
+  updateResult,
 };
