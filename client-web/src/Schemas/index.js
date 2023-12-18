@@ -3,7 +3,7 @@ import * as Yup from "yup";
 export const RegistrationvalidationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
   middleName: Yup.string().required("Middle Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
+  // lastName: Yup.string().required("Last Name is required"),
   standard: Yup.string().required("Student Standard is required"),
   gender: Yup.string().required("Gender is required"),
   dob: Yup.date().required("Date of Birth is required"),
@@ -39,7 +39,7 @@ export const excelFileSchema = Yup.object().shape({
       (value) =>
         value &&
         value[0].type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     .test(
       "fileSize",
