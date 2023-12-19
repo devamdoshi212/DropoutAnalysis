@@ -202,6 +202,17 @@ const mapData = [
   { id: "IN.GU.AH", value: 4500 },
 ];
 
+// const defaultColor = "F8EF78";
+const getColorBasedOnValue = (value) => {
+  if (value > 30) {
+    return "FF0000"; // Red for values greater than 30
+  } else if (value >= 10 && value <= 30) {
+    return "459E40"; // Blue for values between 10 and 30 (inclusive)
+  } else {
+    return "459E40"; // Green for values less than 10
+  }
+};
+
 const colorrange = {
   minvalue: "0",
   startlabel: "Low",
@@ -209,10 +220,13 @@ const colorrange = {
   code: "e44a00",
   gradient: "1",
   color: [
-    { maxvalue: "15", code: "f8bd19" },
-    { maxvalue: "30", code: "6baa01" },
+    { maxvalue: "10", code: getColorBasedOnValue(10) },
+    { maxvalue: "30", code: getColorBasedOnValue(30) },
+    { maxvalue: "60", code: getColorBasedOnValue(60) },
+    { maxvalue: "100", code: getColorBasedOnValue(100) },
   ],
 };
+
 //dynamic State convert small case
 const s = "gujarat";
 // Step 9 - Creating the JSON object to store the map configurations
@@ -247,6 +261,10 @@ const StateMap = () => {
   const [District, setDistrict] = useState([]);
   const [Reasons, SetReasons] = useState([]);
   const [selectedReasons, setSelectedReasons] = useState("");
+  const [selectedcast, setSelectedCaste] = useState("");
+  const [selecYear, setSelectedYear] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
+  const [selectedstandard, setSelectedStandard] = useState("");
 
   const userData = useSelector((state) => state.user.user);
 
@@ -290,7 +308,7 @@ const StateMap = () => {
       redirect: "follow",
     };
     fetch(
-      `http://localhost:9999/DistrictWiseData?state=${stateId}&reason=${selectedReasons}`,
+      `http://localhost:9999/DistrictWiseData?state=${stateId}&reason=${selectedReasons}&year=${selecYear}&caste=${selectedcast}&gender=${selectedGender}&standard=${selectedstandard}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -299,7 +317,14 @@ const StateMap = () => {
         setDistrict(result.data.StudentsData);
       })
       .catch((error) => console.log("error", error));
-  }, [stateId, selectedReasons]);
+  }, [
+    stateId,
+    selectedReasons,
+    selecYear,
+    selectedGender,
+    selectedcast,
+    selectedstandard,
+  ]);
 
   useEffect(() => {
     const object = District.map((item) => DistrictCode(item.district));
@@ -333,23 +358,99 @@ const StateMap = () => {
   const handleReason = (e) => {
     setSelectedReasons(e.target.value);
   };
+
+  const handleCaste = (e) => {
+    setSelectedCaste(e.target.value);
+  };
+  const handleGender = (e) => {
+    setSelectedGender(e.target.value);
+  };
+  const handleStandard = (e) => {
+    setSelectedStandard(e.target.value);
+  };
+  const handleYear = (e) => {
+    setSelectedYear(e.target.value);
+  };
   return (
     <>
       <div className="m-auto">
-        <div className="relative m-5 w-80">
-          <select
-            name="dropoutreason"
-            className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
-            onChange={handleReason}
-          >
-            <option value="">Select Reason</option>
-            {Reasons.map((item, index) => (
-              <option key={index} value={item.reason}>
-                {item.reason}
-              </option>
-            ))}
-          </select>
+        <div className="flex ">
+          <div className="m-5 w-1/5">
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+              onChange={handleReason}
+            >
+              <option value="">Select Reason</option>
+              {Reasons.map((item, index) => (
+                <option key={index} value={item.reason}>
+                  {item.reason}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className=" m-5 w-1/5">
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+              onChange={handleCaste}
+            >
+              <option value="">Select Caste</option>
+              <option value="Open">Open</option>
+              <option value="General">General-EWS</option>
+              <option value="SEBC">SEBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+          <div className=" m-5 w-1/5">
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+              onChange={handleStandard}
+            >
+              <option value="">Select Standard</option>
+              <option value="1">Standard 1</option>
+              <option value="2">Standard 2</option>
+              <option value="3">Standard 3</option>
+              <option value="4">Standard 4</option>
+              <option value="5">Standard 5</option>
+              <option value="6">Standard 6</option>
+              <option value="7">Standard 7</option>
+              <option value="8">Standard 8</option>
+              <option value="9">Standard 9</option>
+              <option value="10">Standard 10</option>
+            </select>
+          </div>
+          <div className=" m-5 w-1/5">
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+              onChange={handleGender}
+            >
+              <option value="">Select Gender</option>
+
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div className=" m-5 w-1/5">
+            <select
+              name="dropoutreason"
+              className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+              onChange={handleYear}
+            >
+              <option value="">Select Year</option>
+
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
         </div>
+      </div>
+      <div className="m-auto">
         <ReactFC {...chartConfigs} />;
       </div>
     </>
