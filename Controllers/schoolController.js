@@ -3,6 +3,7 @@ const schoolModel = require("../models/SchoolModel");
 const studentmodel = require("../models/StudentModel");
 const SchoolTypeModel = require("../models/SchoolType");
 const { default: mongoose } = require("mongoose");
+const StudentModel = require("../models/StudentModel");
 
 async function getSchool(req, res) {
   try {
@@ -104,19 +105,17 @@ async function schoolDashboardCount(req, res) {
     const otherstudents = students.filter((ele) => {
       return ele.Gender == "other";
     });
-    const inactivestudents = students.filter((ele) => {
-      return ele.is_active == 0;
-    });
-    const dropwithreason = students.filter((ele) => {
-      return ele.is_active == 1;
-    });
-    const dropwithoutreason = students.filter((ele) => {
-      return ele.is_active == 2;
-    });
+    const inactivestudents = await StudentModel.find({ is_active: 0 });
+    const dropwithreason = await StudentModel.find({ is_active: 1 });
+    const dropwithoutreason = await StudentModel.find({ is_active: 2 });
     const activestudents = students.filter((ele) => {
       return ele.is_active == 3;
     });
-
+    console.log(
+      dropwithreason.length,
+      dropwithoutreason.length,
+      inactivestudents.length
+    );
     res.json({
       students: students.length,
       malestudents: malestudents.length,
