@@ -1691,3 +1691,104 @@ module.exports.groupBySchool = async (req, res) => {
     });
   }
 };
+
+module.exports.reasonYearTrend = async function (req, res) {
+  try {
+    let pipeline = [];
+    if (req.query.state != "") {
+      pipeline.push({ $match: { State: state } });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({ $match: { District: district } });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({ $match: { City: city } });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({ $match: { Taluka: taluka } });
+    }
+
+    pipeline.push({ $match: { is_active: { $in: [1] } } });
+
+    pipeline.push({
+      $group: {
+        _id: {
+          // is_active: "$is_active",
+          year: { $year: "$updatedAt" },
+          reason: "$Reasons",
+        },
+        numOfStudent: { $sum: 1 },
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        _id: 0,
+        numOfStudent: 1,
+        year: "$_id.year",
+        reason: "$_id.reason",
+      },
+    });
+
+    let data = await studentModel.aggregate(pipeline);
+
+    // const result = {};
+
+    // data.forEach((item) => {
+    //   const { year, numOfStudent, reason } = item;
+
+    //   if (!result[year]) {
+    //     result[year] = [];
+    //   }
+
+    //   result[year].push({
+    //     reason,
+    //     numOfStudent,
+    //   });
+    // });
+
+    // const resultArray = Object.entries(result).map(([year, reasons]) => ({
+    //   year: parseInt(year),
+    //   count: reasons,
+    // }));
+
+    // const result = {};
+
+    // data.forEach((item) => {
+    //   const { year, numOfStudent, reason } = item;
+
+    //   if (!result[reason]) {
+    //     result[reason] = [];
+    //   }
+
+    //   result[reason].push({
+    //     year,
+    //     numOfStudent,
+    //   });
+    // });
+
+    // const resultArray = Object.entries(result).map(([reason, years]) => ({
+    //   reason,
+    //   years,
+    // }));
+
+    // console.log(JSON.stringify(resultArray, null, 2));
+
+    // console.log();
+    // console.log(resultArray);
+
+    res.json({
+      data: data,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
