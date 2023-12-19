@@ -480,19 +480,6 @@ export default function DropoutStudentsDataTable() {
                 borderWidth: "1px",
               }}
             />
-            <Column
-              header="Aadhar Number"
-              field="AadharNumber"
-              filterField="AadharNumber"
-              headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-              style={{
-                backgroundColor: "#e9e9e9",
-                border: "solid",
-                borderCollapse: "collapse",
-                borderColor: "#c0c0c0",
-                borderWidth: "1px",
-              }}
-            />
 
             <Column
               sortable
