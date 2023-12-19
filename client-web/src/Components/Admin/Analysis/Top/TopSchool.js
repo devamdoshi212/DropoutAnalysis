@@ -99,24 +99,26 @@ export default function TopSchool() {
   };
 
   const dt = useRef(null);
-  let schoolData = [];
   const exportExcel = () => {
-    console.log(customers);
-    customers.map((customer) => {
-      let newObject = {
-        SchoolID: customer.SchoolID,
-        SchoolName: customer.Name,
-        Medium: customer.Medium.name,
-        Type: customer.Type,
-        ContactNumber: customer.ContactNumber,
-        State: customer.State.name,
-        District: customer.District.district,
-        Taluka: customer.Taluka.taluka,
-        City: customer.City.city,
-        Address: customer.Address,
-      };
-      schoolData.push(newObject);
-    });
+    let schoolData = [];
+
+    if (customers) {
+      customers.forEach((customer) => {
+        let newObject = {
+          SchoolID: customer.SchoolID,
+          SchoolName: customer.Name,
+          Medium: customer.Medium.name,
+          Type: customer.Type,
+          ContactNumber: customer.ContactNumber,
+          State: customer.State.name,
+          District: customer.District.district,
+          Taluka: customer.Taluka.taluka,
+          City: customer.City.city,
+          Address: customer.Address,
+        };
+        schoolData.push(newObject);
+      });
+    }
 
     import("xlsx").then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(schoolData);
@@ -126,7 +128,7 @@ export default function TopSchool() {
         type: "array",
       });
 
-      saveAsExcelFile(excelBuffer, "School Data");
+      saveAsExcelFile(excelBuffer, "High Dropout States Data");
     });
   };
 
