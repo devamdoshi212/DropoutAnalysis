@@ -56,7 +56,7 @@ const ReasonwiseDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#5dade2", "#85c1e9"],
       title: {
         text: "Reason wise Dropout Analysis",
         align: "center",
