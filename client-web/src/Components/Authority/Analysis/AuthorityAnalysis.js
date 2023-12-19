@@ -14,10 +14,11 @@ import YearwiseGenderAnalysis from "../../Admin/Analysis/YearwiseGenderAnalysis"
 import MediumwiseDropoutAnalysis from "../../Admin/Analysis/MediumwiseDropoutAnalysis";
 import AreawiseDropoutAnalysis from "../../Admin/Analysis/AreawiseDropoutAnalysis";
 import ParentOccupationwiseDropoutAnalysis from "../../Admin/Analysis/ParentOccupationwiseDropoutAnalysis";
-import Top5Dropout from "../../Admin/Analysis/Top/Top5Dropout";
 import StandardGenderwiseAnalysis from "../../Admin/Analysis/StandardGenderwiseAnalysis";
 import ReasonAreawiseAnalysis from "../../Admin/Analysis/ReasonAreawiseAnalysis";
 import { useSelector } from "react-redux";
+import YearwiseLineChart from "../../Admin/Analysis/LineChart/YearwiseChart";
+import AcademicsWiseAnalysis from "../../Admin/Analysis/AcademicsWiseAnalysis";
 const Analysis = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedTaluka, setSelectedTaluka] = useState("");
@@ -186,7 +187,26 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={userData.State._id}
         />
-        <Top5Dropout />
+
+        <YearwiseLineChart
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={userData.State._id}
+        />
+
+        <ParentOccupationwiseDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={userData.State._id}
+        />
+        <AcademicsWiseAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={userData.State._id}
+        />
       </div>
     </>
   );

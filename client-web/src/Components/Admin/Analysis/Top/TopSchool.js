@@ -230,6 +230,7 @@ export default function TopSchool() {
   const calculateIndex = (currentPage, rowIndex) => {
     return currentPage * 10 + rowIndex + 1;
   };
+  console.log(customers);
 
   return (
     <>

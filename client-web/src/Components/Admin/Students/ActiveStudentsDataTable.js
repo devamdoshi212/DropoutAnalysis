@@ -254,7 +254,7 @@ export default function ActiveStudentsDataTable() {
               className="px-4 py-2 rounded-lg text-blue-800 ring-0 border-2 border-blue-700 hover:bg-gray-200"
               onClick={clearFilter}
             />
-            <Button
+            {/* <Button
               type="button"
               label="Promote"
               outlined
@@ -274,7 +274,7 @@ export default function ActiveStudentsDataTable() {
               outlined
               className="px-4 py-2 rounded-lg bg-gray-800 ring-0  hover:bg-gray-700 text-white tracking-wider font-bold uppercase"
               onClick={InactiveHandler}
-            />
+            /> */}
             <span className="p-input-icon-left">
               <InputText
                 value={globalFilterValues.Name}
