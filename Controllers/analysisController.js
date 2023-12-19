@@ -1476,6 +1476,29 @@ module.exports.DistrictWiseData = async (req, res) => {
         $match: { Reasons: req.query.reason },
       });
     }
+    if (req.query.caste != "") {
+      pipeline.push({
+        $match: { Caste: req.query.caste },
+      });
+    }
+
+    if (req.query.year != "") {
+      pipeline.push({
+        $match: { Date: { $year: req.query.year } },
+      });
+    }
+
+    if (req.query.gender != "") {
+      pipeline.push({
+        $match: { Gender: req.query.gender },
+      });
+    }
+
+    if (req.query.standard != "") {
+      pipeline.push({
+        $match: { Standard: req.query.standard },
+      });
+    }
 
     pipeline.push({
       $lookup: {
