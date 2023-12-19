@@ -53,9 +53,9 @@ const ReasonwiseGenderDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#3498db", "#5dade2", "#85c1e9"],
+      colors: ["#1abc9c", "#3498db", "#e74c3c", "#f39c12"],
       title: {
-        text: "Reason wise Dropout Analysis",
+        text: "Reason and Gender wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
