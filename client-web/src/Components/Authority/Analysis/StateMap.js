@@ -23,6 +23,7 @@ import Tamilnadu from "fusionmaps/maps/fusioncharts.tamilnadu";
 // Step 6 - Including the theme as fusion
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import FetchDistrict from "../../../API/FetchDistrict";
+import FetchReasons from "../../../API/FetchReasons";
 
 // Step 7 - Adding the map and theme as dependency to the core fusioncharts
 ReactFC.fcRoot(
@@ -208,8 +209,8 @@ const colorrange = {
   code: "e44a00",
   gradient: "1",
   color: [
-    { maxvalue: "2500", code: "f8bd19" },
-    { maxvalue: "5000", code: "6baa01" },
+    { maxvalue: "15", code: "f8bd19" },
+    { maxvalue: "30", code: "6baa01" },
   ],
 };
 //dynamic State convert small case
@@ -244,7 +245,11 @@ const chartConfigs = {
 
 const StateMap = () => {
   const [District, setDistrict] = useState([]);
+  const [Reasons, SetReasons] = useState([]);
+  const [selectedReasons, setSelectedReasons] = useState("");
+
   const userData = useSelector((state) => state.user.user);
+
   const state = userData.State.name;
   const stateId = userData.State._id;
   const [chartConfigs, setChartConfigs] = useState({
@@ -276,20 +281,25 @@ const StateMap = () => {
   const stateCode = stateAbbreviation(state);
 
   useEffect(() => {
+    FetchReasons().then((res) => {
+      console.log(res);
+      SetReasons(res);
+    });
     var requestOptions = {
       method: "GET",
       redirect: "follow",
     };
     fetch(
-      `http://localhost:9999/DistrictWiseData?state=${stateId}`,
+      `http://localhost:9999/DistrictWiseData?state=${stateId}&reason=${selectedReasons}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setDistrict(result.data.StudentsData);
       })
       .catch((error) => console.log("error", error));
-  }, [stateId]);
+  }, [stateId, selectedReasons]);
 
   useEffect(() => {
     const object = District.map((item) => DistrictCode(item.district));
@@ -320,11 +330,26 @@ const StateMap = () => {
       },
     }));
   };
-  // object.map((item)=)
-
+  const handleReason = (e) => {
+    setSelectedReasons(e.target.value);
+  };
   return (
     <>
       <div className="m-auto">
+        <div className="relative m-5 w-80">
+          <select
+            name="dropoutreason"
+            className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
+            onChange={handleReason}
+          >
+            <option value="">Select Reason</option>
+            {Reasons.map((item, index) => (
+              <option key={index} value={item.reason}>
+                {item.reason}
+              </option>
+            ))}
+          </select>
+        </div>
         <ReactFC {...chartConfigs} />;
       </div>
     </>

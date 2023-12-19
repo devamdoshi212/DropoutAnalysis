@@ -91,7 +91,17 @@ const StandardwiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const data = result.data.StudentsData;
-        const categories = data.map((s) => "Standard " + s.Standard);
+
+        const categories = data
+          .map((s) => "Standard " + s.Standard)
+          .sort((a, b) => {
+            // Assuming 'Standard' is a numerical value, adjust the comparison accordingly
+            const standardA = parseInt(a.replace("Standard ", ""));
+            const standardB = parseInt(b.replace("Standard ", ""));
+
+            return standardA - standardB;
+          });
+
         // const student = data.map((s) => s.numOfStudent);
         let total = 0;
         data.map((s) => {

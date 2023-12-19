@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const YearwiseLineChart = ({
+const DropoutReasonwiseTrend = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -30,10 +30,12 @@ const YearwiseLineChart = ({
       plotOptions: {
         line: {
           markers: {
-            size: 6,
+            size: 10,
           },
         },
-        curve: "smooth",
+        stroke: {
+          curve: "smooth", // Set the curve property to smooth
+        },
       },
       dataLabels: {
         enabled: true,
@@ -57,9 +59,28 @@ const YearwiseLineChart = ({
           },
         },
       },
-      colors: ["#66FF33", "#FF3366", "#3366FF"],
+      colors: [
+        "#66FF33",
+        "#FF3366",
+        "#3366FF",
+        "#FFCC00",
+        "#9933CC",
+        "#FF6600",
+        "#0099CC",
+        "#FF66B2",
+        "#66FF66",
+        "#FF6666",
+        "#6666FF",
+        "#FFFF66",
+        "#66FFFF",
+        "#FF9933",
+        "#33CCFF",
+        "#FF3366",
+        "#66CC33",
+        "#FF99CC",
+      ],
       title: {
-        text: "Year wise Dropout Student Analysis",
+        text: "Dropout-Reason wise Dropout Student Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -85,38 +106,51 @@ const YearwiseLineChart = ({
     };
 
     fetch(
-      `http://localhost:9999/yearWiseData?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/reasonYearTrend?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        const data = result.data.resultArray;
-        const categories = data.map((s) => s.year);
-        const withReason = data.map((s) => s.is_active_1);
-        const withOutReason = data.map((s) => s.is_active_2);
-        const total = data.map((s) => s.is_active_2 + s.is_active_1);
+        const data = result.data;
+        console.log(data);
+
+        const transformedData = {
+          years: [...new Set(data.map((item) => item.year))].sort(),
+          reasons: [],
+        };
+
+        // Create a set of unique reasons
+        const uniqueReasons = [...new Set(data.map((item) => item.reason))];
+
+        // Iterate through unique reasons and years to count occurrences
+        uniqueReasons.forEach((reason) => {
+          const reasonData = { reason, count: [] };
+
+          transformedData.years.forEach((year) => {
+            const count = data
+              .filter((item) => item.year === year && item.reason === reason)
+              .reduce((sum, item) => sum + item.numOfStudent, 0);
+
+            reasonData.count.push(count);
+          });
+
+          transformedData.reasons.push(reasonData);
+        });
+
+        const seriesData = transformedData.reasons.map((entry) => ({
+          name: entry.reason, // Assuming you want to use the year as the series name
+          data: entry.count,
+        }));
+        console.log(transformedData);
 
         setChartData({
           ...chartData,
-          series: [
-            {
-              name: "Without Reason Dropout Students",
-              data: withOutReason,
-            },
-            {
-              name: "With Reason Dropout Students",
-              data: withReason,
-            },
-            {
-              name: "Total Dropout Students Students",
-              data: total,
-            },
-          ],
+          series: seriesData,
           options: {
             ...chartData.options,
             xaxis: {
               ...chartData.options.xaxis,
-              categories: categories,
+              categories: transformedData.years,
             },
           },
         });
@@ -136,4 +170,4 @@ const YearwiseLineChart = ({
   );
 };
 
-export default YearwiseLineChart;
+export default DropoutReasonwiseTrend;
