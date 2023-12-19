@@ -1755,33 +1755,33 @@ module.exports.reasonYearTrend = async function (req, res) {
     //   count: reasons,
     // }));
 
-    const result = {};
+    // const result = {};
 
-    data.forEach((item) => {
-      const { year, numOfStudent, reason } = item;
+    // data.forEach((item) => {
+    //   const { year, numOfStudent, reason } = item;
 
-      if (!result[reason]) {
-        result[reason] = [];
-      }
+    //   if (!result[reason]) {
+    //     result[reason] = [];
+    //   }
 
-      result[reason].push({
-        year,
-        numOfStudent,
-      });
-    });
+    //   result[reason].push({
+    //     year,
+    //     numOfStudent,
+    //   });
+    // });
 
-    const resultArray = Object.entries(result).map(([reason, years]) => ({
-      reason,
-      years,
-    }));
+    // const resultArray = Object.entries(result).map(([reason, years]) => ({
+    //   reason,
+    //   years,
+    // }));
 
-    console.log(JSON.stringify(resultArray, null, 2));
+    // console.log(JSON.stringify(resultArray, null, 2));
 
     // console.log();
     // console.log(resultArray);
 
     res.json({
-      data: resultArray,
+      data: data,
       rcode: 200,
     });
   } catch (err) {
