@@ -48,9 +48,8 @@ const GenderwiseDropoutAnalysis = ({
                 fontWeight: 600,
                 color: "#373d3f",
                 formatter: function (w) {
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                  let total = w.globals.seriesTotals.reduce((a, b) => a + b, 0).toFixed(2);
+                  return total;
                 },
               },
             },
@@ -74,12 +73,27 @@ const GenderwiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => s.Gender
-        );
+        // const categories = datas.StudentsData.map(
+        //   (s) => s.Gender
+        // );
+        // const percentages = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[index].numOfStudent;
+        //   return totalStudent;
+        // });
+
+        const categories = datas.StudentsData.map((s) => s.Gender);
+
         const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return totalStudent;
+          const gender = student.Gender;
+
+          const totalStudent = datas.total.find((total) => total.Gender === gender);
+
+          if (totalStudent) {
+            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            return percentage;
+          } else {
+            return 0;
+          }
         });
 
         setChartData({

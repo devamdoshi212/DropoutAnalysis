@@ -100,6 +100,7 @@ const StandardwiseDropoutAnalysis = ({
         const student = data.map((s) =>
           ((s.numOfStudent / total) * 100).toFixed(2)
         );
+
         setChartData({
           ...chartData,
           series: [

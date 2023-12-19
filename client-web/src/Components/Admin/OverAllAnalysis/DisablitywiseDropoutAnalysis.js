@@ -89,16 +89,31 @@ const DisablitywiseDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData.map(
-          (s) => "Disability " + s.Disablity
-        );
+        // const categories = datas.StudentsData.map(
+        //   (s) => "Disability " + s.Disablity
+        // );
+        // const percentages = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[index].numOfStudent;
+        //   return parseFloat(
+        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+        //   );
+        // });
+
+        const categories = datas.StudentsData.map((s) => "Disability " + s.Disablity);
+
         const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
+          const Disability = student.Disablity;
+
+          const totalStudent = datas.total.find((total) => total.Disablity === Disability);
+
+          if (totalStudent) {
+            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            return percentage;
+          } else {
+            return 0;
+          }
         });
 
         setChartData({
