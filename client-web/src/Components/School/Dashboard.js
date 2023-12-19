@@ -57,12 +57,7 @@ const SchoolDashboard = () => {
     <div className="m-5">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 grid-rows-3">
         {/* <Link to={"districtWiseSportsComplex"}> */}
-        <div className=" text-center rounded-lg bg-gray-300 ">
-          <div className="font-semibold p-5 text-2xl h-3/5">
-            Total Active Students
-          </div>
-          <AnimatedCount finalCount={visible && data.activestudents} />
-        </div>
+       
         <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl h-3/5">Total Students</div>
           <AnimatedCount finalCount={visible && data.students} />
@@ -76,6 +71,12 @@ const SchoolDashboard = () => {
             Total FeMale Students
           </div>
           <AnimatedCount finalCount={visible && data.femalestudents} />
+        </div>
+        <div className=" text-center rounded-lg bg-gray-300 ">
+          <div className="font-semibold p-5 text-2xl h-3/5">
+            Total Active Students
+          </div>
+          <AnimatedCount finalCount={visible && data.activestudents} />
         </div>
         <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl h-3/5">
