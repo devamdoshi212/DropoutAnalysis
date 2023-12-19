@@ -72,6 +72,13 @@ const SchoolDashboard = () => {
           </div>
           <AnimatedCount finalCount={visible && data.femalestudents} />
         </div>
+
+        <div className=" text-center rounded-lg bg-gray-300 ">
+          <div className="font-semibold p-5 text-2xl h-3/5">
+            Total Other Students
+          </div>
+          <AnimatedCount finalCount={visible && data.otherstudents} />
+        </div>
         <div className=" text-center rounded-lg bg-gray-300 ">
           <div className="font-semibold p-5 text-2xl h-3/5">
             Total Active Students
