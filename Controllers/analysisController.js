@@ -296,7 +296,7 @@ module.exports.FilterStudentinGroupByTwo = async (req, res) => {
 
     if (req.query.standard != "") {
       pipeline.push({
-        $match: { Standard: new mongoose.Types.ObjectId(req.query.standard) },
+        $match: { Standard: parseInt(req.query.standard) },
       });
     }
 
@@ -1503,7 +1503,7 @@ module.exports.DistrictWiseData = async (req, res) => {
 
     if (req.query.standard != "") {
       pipeline.push({
-        $match: { Standard: req.query.standard },
+        $match: { Standard: parseInt(req.query.standard) },
       });
     }
 
@@ -1877,7 +1877,7 @@ module.exports.ReasonAndAreaWise = async (req, res) => {
 
     if (req.query.standard != "") {
       pipeline.push({
-        $match: { Standard: new mongoose.Types.ObjectId(req.query.standard) },
+        $match: { Standard: parseInt(req.query.standard) },
       });
     }
 
