@@ -22,5 +22,6 @@ router.get("/top5Taluka", analysisController.top5Taluka);
 router.get("/areaAndReasonWise", analysisController.areaAndReasonWise);
 router.get("/DistrictWiseData", analysisController.DistrictWiseData);
 router.get("/groupBySchool", analysisController.groupBySchool);
+router.get("/reasonYearTrend", analysisController.reasonYearTrend);
 
 module.exports = router;
