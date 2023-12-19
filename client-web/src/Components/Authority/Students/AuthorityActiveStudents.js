@@ -113,6 +113,7 @@ export default function AuthorityActiveStudents() {
   let customerData = [];
 
   const exportExcel = async () => {
+    console.log(customers);
     await customers.map((customer) => {
       let newObject = {
         UID: customer._id,
