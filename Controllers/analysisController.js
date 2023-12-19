@@ -1471,6 +1471,11 @@ module.exports.DistrictWiseData = async (req, res) => {
         $match: { State: new mongoose.Types.ObjectId(req.query.state) },
       });
     }
+    if (req.query.reason != "") {
+      pipeline.push({
+        $match: { Reasons: req.query.reason },
+      });
+    }
 
     pipeline.push({
       $lookup: {
