@@ -101,6 +101,9 @@ async function schoolDashboardCount(req, res) {
     const femalestudents = students.filter((ele) => {
       return ele.Gender == "female";
     });
+    const otherstudents = students.filter((ele) => {
+      return ele.Gender == "other";
+    });
     const inactivestudents = students.filter((ele) => {
       return ele.is_active == 0;
     });
@@ -118,6 +121,7 @@ async function schoolDashboardCount(req, res) {
       students: students.length,
       malestudents: malestudents.length,
       femalestudents: femalestudents.length,
+      otherstudents: otherstudents.length,
       inactivestudents: inactivestudents.length,
       dropwithreason: dropwithreason.length,
       dropwithoutreason: dropwithoutreason.length,
@@ -155,7 +159,6 @@ async function addExistingStudent(req, res) {
         rcode: 200,
       });
     }
-    
   } catch (err) {
     console.log(err);
     res.json({
