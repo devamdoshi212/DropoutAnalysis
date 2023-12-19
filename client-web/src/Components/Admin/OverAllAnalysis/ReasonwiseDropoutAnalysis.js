@@ -89,15 +89,20 @@ const ReasonwiseDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         const datas = result.data;
-        const categories = datas.StudentsData.filter(
-          (s) =>
-            s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-        ).map((s) => s.Reasons);
+        const categories = datas.StudentsData.map((s) => {
+          if (s.Reasons === undefined || s.Reasons === null || s.Reasons === "") {
+            return "Without Reason";
+          } else {
+            return s.Reasons;
+          }
+        });
+        categories.pop();
+        datas.StudentsData.pop();
 
         const percentage = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
+          const totalStudent = datas.total[(datas.total.length - 1)].numOfStudent;
           return parseFloat(
             ((student.numOfStudent / totalStudent) * 100).toFixed(2)
           );
