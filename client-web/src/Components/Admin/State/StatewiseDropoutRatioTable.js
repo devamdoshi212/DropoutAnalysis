@@ -272,7 +272,7 @@ export default function StatewiseDropoutAnalysis() {
                 const total =
                   e.Counts[3] + e.Counts[0] + e.Counts[1] + e.Counts[2];
                 const dropout = e.Counts[1] + e.Counts[2];
-                return ((dropout / total) * 100).toFixed(2);
+                return ((dropout / total) * 100).toFixed(2) + "%";
               }}
             />
           </DataTable>

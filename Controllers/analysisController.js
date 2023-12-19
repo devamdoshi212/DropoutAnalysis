@@ -1651,28 +1651,28 @@ module.exports.groupBySchool = async (req, res) => {
 
     const data = await studentModel.aggregate(pipeline);
     // console.log("Test $addFields:", data);
-    console.log(data);
+    // console.log(data);
     // data = data[0].school();
-    // for (let i = 0; i < data.length; i++) {
-    //   const ele = data[i];
-    //   let district = ele.school.District;
-    //   let taluka = ele.school.Taluka;
-    //   let city = ele.school.City;
-    //   let medium = ele.school.Medium;
-    //   let state = ele.school.State;
-    //   const st = await stateModel.findOne({ _id: state });
-    //   ele.school.State = st.name;
-    //   const dist = await districtModel.findOne({ _id: district });
-    //   ele.school.District = dist.district;
-    //   const talu = await talukaModel.findOne({ _id: taluka });
-    //   ele.school.Taluka = talu.taluka;
-    //   const cit = await cityModel.findOne({ _id: city });
-    //   ele.school.City = cit.city;
-    //   const med = await schooltypeModel.findOne({ _id: medium });
-    //   ele.school.Medium = med.name;
+    for (let i = 0; i < data.length; i++) {
+      const ele = data[i];
+      let district = ele.school.District;
+      let taluka = ele.school.Taluka;
+      let city = ele.school.City;
+      let medium = ele.school.Medium;
+      let state = ele.school.State;
+      const st = await stateModel.findOne({ _id: state });
+      ele.school.State = st.name;
+      const dist = await districtModel.findOne({ _id: district });
+      ele.school.District = dist.district;
+      const talu = await talukaModel.findOne({ _id: taluka });
+      ele.school.Taluka = talu.taluka;
+      const cit = await cityModel.findOne({ _id: city });
+      ele.school.City = cit.city;
+      const med = await schooltypeModel.findOne({ _id: medium });
+      ele.school.Medium = med.name;
 
-    //   console.log(st);
-    // }
+      console.log(st);
+    }
 
     // pipeline.shift();
     // // pipeline.unshift({ $match: { is_active: 3 } });
