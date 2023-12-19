@@ -279,21 +279,28 @@ module.exports.FilterStudentinGroupByTwo = async (req, res) => {
       });
     }
 
-    if (req.query.school != "") {
+    // if (req.query.school != "") {
+    //   pipeline.push({
+    //     $match: {
+    //       SchoolID: {
+    //         $expr: {
+    //           $eq: [
+    //             new mongoose.Types.ObjectId(req.query.school),
+    //             { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+    //           ],
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+
+    if (req.query.standard != "") {
       pipeline.push({
-        $match: {
-          SchoolID: {
-            $expr: {
-              $eq: [
-                new mongoose.Types.ObjectId(req.query.school),
-                { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
-              ],
-            },
-          },
-        },
+        $match: { Standard: new mongoose.Types.ObjectId(req.query.standard) },
       });
     }
-    pipeline.push({ $match: { is_active: { $in: [2, 1] } } });
+
+    pipeline.push({ $match: { is_active: { $in: [1] } } });
 
     const id1 = `$${type1}`;
     const id2 = `$${type2}`;
@@ -1827,6 +1834,114 @@ module.exports.reasonYearTrend = async function (req, res) {
     res.json({
       data: data,
       rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+module.exports.ReasonAndAreaWise = async (req, res) => {
+  try {
+    // const type1 = req.query.type1;
+    // const type2 = req.query.type2;
+
+    const pipeline = [];
+
+    if (req.query.state != "") {
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
+    }
+
+    if (req.query.standard != "") {
+      pipeline.push({
+        $match: { Standard: new mongoose.Types.ObjectId(req.query.standard) },
+      });
+    }
+
+    // if (req.query.school != "") {
+    //   pipeline.push({
+    //     $match: {
+    //       SchoolID: {
+    //         $expr: {
+    //           $eq: [
+    //             new mongoose.Types.ObjectId(req.query.school),
+    //             { $arrayElemAt: ["$SchoolID", -2] }, // Get the last element of the School_name array
+    //           ],
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+    pipeline.push({ $match: { is_active: { $in: [5] } } });
+
+    // const id1 = `$${type1}`;
+    // const id2 = `$${type2}`;
+
+    pipeline.push({
+      $lookup: {
+        from: "cities",
+        localField: "City",
+        foreignField: "_id",
+        as: "city",
+      },
+    });
+    pipeline.push({
+      $unwind: "$city",
+    });
+    pipeline.push({
+      $group: {
+        _id: {
+          reason: "$Reasons",
+          cityType: "$city.cityType",
+        },
+        numOfStudent: { $sum: 1 },
+      },
+    });
+    pipeline.push({
+      $sort: {
+        _id: -1,
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        reason: "$_id.reason", // Rename _id to the 'type' value
+        citytype: "$_id.cityType", // Rename _id to the 'type' value
+        numOfStudent: 1, // Keep the numOfStudent field
+        _id: 0, // Exclude the original _id field
+      },
+    });
+
+    const StudentsData = await studentModel.aggregate(pipeline);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        StudentsData,
+      },
     });
   } catch (err) {
     console.log(err);

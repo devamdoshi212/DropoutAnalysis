@@ -371,37 +371,40 @@ async function getChooseWiseStudents(req, res) {
   }
 }
 
+//Labour Work
+//Farmer
+//Low Income Job
+//Moderate Income Job
+
 async function update(req, res) {
   try {
-        let data = await StudentModel.find({ Standard: 0 })
-      .populate("City")
-      .populate({
-        path: "SchoolID",
-        populate: {
-          path: "Medium",
-        },
-      });
+    let data = await StudentModel.find({});
+    // .populate("City")
+    // .populate({
+    //   path: "SchoolID",
+    //   populate: {
+    //     path: "Medium",
+    //   },
+    // });
     let id = [];
     data.map((ele) => {
       id.push(ele._id);
     });
-    // console.log(id);
-    // // id = id.slice(, 90);
-    // // console.log(id);
-    // console.log(data.length);
 
-    let update = await StudentModel.updateMany(
-      { _id: { $in: id } },
-      {
-        Standard: 9,
-      }
-    );
+    // console.log(id);
+    // id = id.slice(531, 708);
+    // console.log(id);
+    // console.log(id.length);
+
+    // let update = await StudentModel.updateMany(
+    //   { _id: { $in: id } },
+    //   {
+    //     ParentOccupation: "Moderate Income Job",
+    //   }
+    // );
     res.json({
-      // results: update.length,
-      // data: {
-      //   cityType,
-      //   medium,
-      // },
+      results: data.length,
+      // data: update,
       rcode: 200,
     });
   } catch (err) {
