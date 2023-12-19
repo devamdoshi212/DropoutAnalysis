@@ -121,19 +121,27 @@ module.exports.yearWiseData = async (req, res) => {
     // console.log(state);
 
     if (req.query.state != "") {
-      pipeline.push({ $match: { State: state } });
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
     }
 
     if (req.query.district != "") {
-      pipeline.push({ $match: { District: district } });
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
     }
 
     if (req.query.city != "") {
-      pipeline.push({ $match: { City: city } });
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
     }
 
     if (req.query.taluka != "") {
-      pipeline.push({ $match: { Taluka: taluka } });
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
     }
 
     if (standard) {
@@ -147,7 +155,7 @@ module.exports.yearWiseData = async (req, res) => {
         $group: {
           _id: {
             // is_active: "$is_active",
-            year: { $year: "$updatedAt" },
+            year: { $year: "$date" },
             Gender: "$Gender",
           },
           numOfStudent: { $sum: 1 },
@@ -158,7 +166,7 @@ module.exports.yearWiseData = async (req, res) => {
         $group: {
           _id: {
             is_active: "$is_active",
-            year: { $year: "$updatedAt" },
+            year: { $year: "$date" },
           },
           numOfStudent: { $sum: 1 },
         },
@@ -938,7 +946,7 @@ module.exports.countryComparative = async (req, res) => {
     // const id = `$${type}`;
     pipeline.push({
       $group: {
-        _id: { $year: "$updatedAt" },
+        _id: { $year: "$date" },
         numOfStudent: { $sum: 1 },
       },
     });
@@ -959,7 +967,7 @@ module.exports.countryComparative = async (req, res) => {
       { $match: { is_active: { $in: [2, 1] } } },
       {
         $group: {
-          _id: { $year: "$updatedAt" },
+          _id: { $year: "$date" },
           numOfStudent: { $sum: 1 },
         },
       },
@@ -1696,19 +1704,27 @@ module.exports.reasonYearTrend = async function (req, res) {
   try {
     let pipeline = [];
     if (req.query.state != "") {
-      pipeline.push({ $match: { State: state } });
+      pipeline.push({
+        $match: { State: new mongoose.Types.ObjectId(req.query.state) },
+      });
     }
 
     if (req.query.district != "") {
-      pipeline.push({ $match: { District: district } });
+      pipeline.push({
+        $match: { District: new mongoose.Types.ObjectId(req.query.district) },
+      });
     }
 
     if (req.query.city != "") {
-      pipeline.push({ $match: { City: city } });
+      pipeline.push({
+        $match: { City: new mongoose.Types.ObjectId(req.query.city) },
+      });
     }
 
     if (req.query.taluka != "") {
-      pipeline.push({ $match: { Taluka: taluka } });
+      pipeline.push({
+        $match: { Taluka: new mongoose.Types.ObjectId(req.query.taluka) },
+      });
     }
 
     pipeline.push({ $match: { is_active: { $in: [1] } } });
@@ -1717,7 +1733,7 @@ module.exports.reasonYearTrend = async function (req, res) {
       $group: {
         _id: {
           // is_active: "$is_active",
-          year: { $year: "$updatedAt" },
+          year: { $year: "$date" },
           reason: "$Reasons",
         },
         numOfStudent: { $sum: 1 },
