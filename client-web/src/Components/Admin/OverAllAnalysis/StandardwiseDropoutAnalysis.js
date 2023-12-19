@@ -91,15 +91,30 @@ const StandardwiseDropoutAnalysis = ({
       .then((result) => {
         let datas = result.data;
         console.log(datas);
-        const categories = datas.StudentsData.map((s) => "Standard " + s.Standard);
+        const categories = datas.StudentsData.map(
+          (s) => "Standard " + s.Standard
+        ).sort((a, b) => {
+          // Assuming 'Standard' is a numerical value, adjust the comparison accordingly
+          const standardA = parseInt(a.replace("Standard ", ""));
+          const standardB = parseInt(b.replace("Standard ", ""));
+
+          return standardA - standardB;
+        });
 
         const percentages = datas.StudentsData.map((student, index) => {
           const standard = student.Standard;
 
-          const totalStudent = datas.total.find((total) => total.Standard === standard);
+          const totalStudent = datas.total.find(
+            (total) => total.Standard === standard
+          );
 
           if (totalStudent) {
-            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            const percentage = parseFloat(
+              (
+                (student.numOfStudent / totalStudent.numOfStudent) *
+                100
+              ).toFixed(2)
+            );
             return percentage;
           } else {
             return 0;

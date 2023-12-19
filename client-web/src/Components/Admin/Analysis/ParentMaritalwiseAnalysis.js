@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ReasonwiseDropoutAnalysis = ({
+const ParentMaritalwiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -58,7 +58,7 @@ const ReasonwiseDropoutAnalysis = ({
       },
       colors: ["#3498db", "#5dade2", "#85c1e9"],
       title: {
-        text: "Reason wise Dropout Analysis",
+        text: "Parent Marital Status wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -84,65 +84,50 @@ const ReasonwiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/Reasons?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/FilterStudentinGroup/ParentMaritalStatus?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        const datas = result.data;
-        // const categories = datas.StudentsData.map((s) => {
-        //   if (s.Reasons === undefined || s.Reasons === null || s.Reasons === "") {
-        //     return "Without Reason";
-        //   } else {
-        //     return s.Reasons;
-        //   }
-        // });
-        // categories.pop();
-        // datas.StudentsData.pop();
-
-        // const percentage = datas.StudentsData.map((student, index) => {
-        //   const totalStudent = datas.total[(datas.total.length - 1)].numOfStudent;
-        //   return parseFloat(
-        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-        //   );
-        // });
-
-        const categories = datas.StudentsData.map((s) => {
-          if (
-            s.Reasons === undefined ||
-            s.Reasons === null ||
-            s.Reasons === ""
-          ) {
-            return "Without Reason";
-          } else {
-            return s.Reasons;
+        const data = result.data.StudentsData;
+        const categories = data.map((s) => {
+          let educationLevel;
+          switch (s.ParentMaritalStatus) {
+            case 0:
+              educationLevel = "Married";
+              break;
+            case 1:
+              educationLevel = "Divorced";
+              break;
+            case 2:
+              educationLevel = "Separated";
+              break;
+            case 3:
+              educationLevel = "Widowed";
+              break;
+            // case 4:
+            //   educationLevel = "Graduate";
+            //   break;
+            default:
+              educationLevel = "Unknown Education Level";
           }
-        });
-        categories.pop();
-        datas.StudentsData.pop();
-
-        const percentage = datas.StudentsData.map((student, index) => {
-          const reason = student.Reasons;
-
-          // const totalStudent = datas.total.find((total) => total.Reasons === reason);
-          const totalStudent = datas.total[datas.total.length - 1].numOfStudent;
-
-          if (totalStudent) {
-            return parseFloat(
-              ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-            );
-          } else {
-            return 0;
-          }
+          return educationLevel;
         });
 
+        // const student = data.map((s) => s.numOfStudent);
+        let total = 0;
+        data.map((s) => {
+          total += s.numOfStudent;
+        });
+        const student = data.map((s) =>
+          ((s.numOfStudent / total) * 100).toFixed(2)
+        );
         setChartData({
           ...chartData,
           series: [
             {
-              name: "Reason",
-              data: percentage,
+              name: "Parent Education",
+              data: student,
             },
           ],
           options: {
@@ -169,4 +154,4 @@ const ReasonwiseDropoutAnalysis = ({
   );
 };
 
-export default ReasonwiseDropoutAnalysis;
+export default ParentMaritalwiseAnalysis;
