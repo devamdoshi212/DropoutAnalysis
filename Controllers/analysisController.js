@@ -1491,7 +1491,7 @@ module.exports.DistrictWiseData = async (req, res) => {
 
     if (req.query.year != "") {
       pipeline.push({
-        $match: { Date: { $year: req.query.year } },
+        $match: { Date: { $year: parseInt(req.query.year) } },
       });
     }
 
