@@ -373,28 +373,37 @@ async function getChooseWiseStudents(req, res) {
 
 async function update(req, res) {
   try {
-    let data = await StudentModel.find({});
-    let id = [];
+    let data = await StudentModel.find()
+      .populate("City")
+      .populate({
+        path: "SchoolID",
+        populate: {
+          path: "Medium",
+        },
+      });
+    let cityType = [];
+    let medium = [];
     data.map((ele) => {
-      id.push(ele._id);
+      // cityType.push(ele.City.cityType);
+      medium.push(ele.SchoolID[ele.SchoolID.length - 1].Medium.name);
     });
-    console.log(id);
-    // id = id.slice(, 90);
     // console.log(id);
+    // // id = id.slice(, 90);
+    // // console.log(id);
+    // console.log(data.length);
 
-    let update = await StudentModel.updateMany(
-      { _id: { $in: id } },
-      {
-        // fatherEducation: 3,
-        // motherEducation: 4,
-        // result: 86,
-        // academicLevel: 2,\
-        Disability: 0, //0 10 20 40 60 80 85
-      }
-    );
+    // let update = await StudentModel.updateMany(
+    //   { _id: { $in: id } },
+    //   {
+    //     SchoolID: ["657edae486be0cabe4bf61b1", null],
+    //   }
+    // );
     res.json({
-      results: update.length,
-      data: update,
+      // results: update.length,
+      data: {
+        cityType,
+        medium,
+      },
       rcode: 200,
     });
   } catch (err) {
