@@ -56,7 +56,7 @@ const StandardwiseDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#2980b9"],
       title: {
         text: "Standard wise Dropout Analysis",
         align: "center",
@@ -100,6 +100,7 @@ const StandardwiseDropoutAnalysis = ({
         const student = data.map((s) =>
           ((s.numOfStudent / total) * 100).toFixed(2)
         );
+
         setChartData({
           ...chartData,
           series: [

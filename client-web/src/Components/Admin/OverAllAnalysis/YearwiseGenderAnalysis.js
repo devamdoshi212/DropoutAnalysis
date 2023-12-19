@@ -53,7 +53,7 @@ const YearwiseGenderAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#5dade2", "#85c1e9"],
       title: {
         text: "Year wise Dropout Student Analysis",
         align: "center",
@@ -86,7 +86,7 @@ const YearwiseGenderAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         const data = result.data.resultArray;
         // console.log(data);
         const categories = data.map((s) => s.year);

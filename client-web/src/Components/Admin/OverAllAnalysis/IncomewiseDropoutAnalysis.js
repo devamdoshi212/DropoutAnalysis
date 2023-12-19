@@ -56,7 +56,7 @@ const FamilyIncomewiseDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#2980b9"],
       title: {
         text: "FamilyIncome wise Dropout Analysis",
         align: "center",
@@ -89,15 +89,31 @@ const FamilyIncomewiseDropoutAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         const datas = result.data;
+        // const categories = datas.StudentsData.map((s) => s.FamilyIncome);
+        // const percentages = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[index].numOfStudent;
+        //   return parseFloat(
+        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+        //   );
+        // });
+
         const categories = datas.StudentsData.map((s) => s.FamilyIncome);
+
         const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
+          const FamilyIncome = student.FamilyIncome;
+
+          const totalStudent = datas.total.find((total) => total.FamilyIncome === FamilyIncome);
+
+          if (totalStudent) {
+            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            return percentage;
+          } else {
+            return 0;
+          }
         });
+
         setChartData({
           ...chartData,
           series: [

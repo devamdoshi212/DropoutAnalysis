@@ -56,7 +56,7 @@ const MediumwiseDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#2980b9"],
       title: {
         text: "Medium wise Dropout Analysis",
         align: "center",
@@ -91,12 +91,27 @@ const MediumwiseDropoutAnalysis = ({
       .then((result) => {
         console.log(result);
         let datas = result.data;
+        // const categories = datas.StudentsData.map((s) => s.schoolType);
+        // const percentages = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[index].numOfStudent;
+        //   return parseFloat(
+        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+        //   );
+        // });
+
         const categories = datas.StudentsData.map((s) => s.schoolType);
+
         const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
+          const schoolType = student.schoolType;
+
+          const totalStudent = datas.total.find((total) => total.schoolType === schoolType);
+
+          if (totalStudent) {
+            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            return percentage;
+          } else {
+            return 0;
+          }
         });
 
         setChartData({
