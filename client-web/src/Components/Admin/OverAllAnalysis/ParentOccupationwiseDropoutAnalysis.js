@@ -92,12 +92,27 @@ const AreawiseDropoutAnalysis = ({
       .then((result) => {
         // console.log(result)
         let datas = result.data;
+        // const categories = datas.StudentsData.map((s) => s.ParentOccupation);
+        // const percentages = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[index].numOfStudent;
+        //   return parseFloat(
+        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+        //   );
+        // });
+
         const categories = datas.StudentsData.map((s) => s.ParentOccupation);
+
         const percentages = datas.StudentsData.map((student, index) => {
-          const totalStudent = datas.total[index].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
+          const ParentOccupation = student.ParentOccupation;
+
+          const totalStudent = datas.total.find((total) => total.ParentOccupation === ParentOccupation);
+
+          if (totalStudent) {
+            const percentage = parseFloat(((student.numOfStudent / totalStudent.numOfStudent) * 100).toFixed(2));
+            return percentage;
+          } else {
+            return 0;
+          }
         });
 
         setChartData({

@@ -86,7 +86,7 @@ const YearwiseGenderAnalysis = ({
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         const data = result.data.resultArray;
         // console.log(data);
         const categories = data.map((s) => s.year);

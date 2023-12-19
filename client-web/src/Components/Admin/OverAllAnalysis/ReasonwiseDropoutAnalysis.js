@@ -91,6 +91,23 @@ const ReasonwiseDropoutAnalysis = ({
       .then((result) => {
         console.log(result);
         const datas = result.data;
+        // const categories = datas.StudentsData.map((s) => {
+        //   if (s.Reasons === undefined || s.Reasons === null || s.Reasons === "") {
+        //     return "Without Reason";
+        //   } else {
+        //     return s.Reasons;
+        //   }
+        // });
+        // categories.pop();
+        // datas.StudentsData.pop();
+
+        // const percentage = datas.StudentsData.map((student, index) => {
+        //   const totalStudent = datas.total[(datas.total.length - 1)].numOfStudent;
+        //   return parseFloat(
+        //     ((student.numOfStudent / totalStudent) * 100).toFixed(2)
+        //   );
+        // });
+
         const categories = datas.StudentsData.map((s) => {
           if (s.Reasons === undefined || s.Reasons === null || s.Reasons === "") {
             return "Without Reason";
@@ -102,10 +119,17 @@ const ReasonwiseDropoutAnalysis = ({
         datas.StudentsData.pop();
 
         const percentage = datas.StudentsData.map((student, index) => {
+          const reason = student.Reasons;
+
+          // const totalStudent = datas.total.find((total) => total.Reasons === reason);
           const totalStudent = datas.total[(datas.total.length - 1)].numOfStudent;
-          return parseFloat(
-            ((student.numOfStudent / totalStudent) * 100).toFixed(2)
-          );
+
+
+          if (totalStudent) {
+            return parseFloat(((student.numOfStudent / totalStudent) * 100).toFixed(2));
+          } else {
+            return 0;
+          }
         });
 
         setChartData({
