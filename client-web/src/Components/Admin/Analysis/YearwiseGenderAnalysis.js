@@ -53,7 +53,7 @@ const YearwiseGenderAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#66FF33", "#FF3366"],
+      colors: ["#3498db", "#2980b9"],
       title: {
         text: "Year wise Dropout Student Analysis",
         align: "center",
