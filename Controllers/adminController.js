@@ -20,7 +20,7 @@ async function dashboardCount(req, res) {
       return ele.Gender == "female";
     });
     const otherstudents = students.filter((ele) => {
-      return (ele.Gender = "other");
+      return ele.Gender == "other";
     });
     const inactivestudents = students.filter((ele) => {
       return ele.is_active == 0;
@@ -46,7 +46,7 @@ async function dashboardCount(req, res) {
     const internationalschools = schools.filter((ele) => {
       return ele.Type == 3;
     });
-
+    console.log(otherstudents.length);
     res.json({
       schools: schools.length,
       states: states,
