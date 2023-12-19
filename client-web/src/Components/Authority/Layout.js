@@ -49,16 +49,16 @@ const AuthorityLayout = () => {
             {userData.State.name}
           </Link>
           <div className=" text-center">
-          {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
-          <Link
-            to={"/authority"}
-            className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
-          >
-            Authority
-          </Link>
+            {/* <img src={image} alt="symbol" className="opacity-60 w-2/3 m-auto  " /> */}
+            <Link
+              to={"/authority"}
+              className="text-white text-3xl  first-letter:font-semibold uppercase hover:text-gray-300 "
+            >
+              Authority
+            </Link>
+          </div>
         </div>
-        </div>
-        
+
         <nav className=" text-base font-semibold  overflow-y-scroll h-1/2">
           <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
@@ -106,6 +106,78 @@ const AuthorityLayout = () => {
           </div>
           <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
+              to={"stateMap"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                />
+              </svg>
+              State Map
+            </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"overallanalysis"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
+                />
+              </svg>
+              Overall Analysis
+            </Link>
+          </div>
+
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"analysis"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+                />
+              </svg>
+              Droped Analysis
+            </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
               to={"dropoutstudents"}
               className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
             >
@@ -124,6 +196,28 @@ const AuthorityLayout = () => {
                 />
               </svg>
               Dropout Students
+            </Link>
+          </div>
+          <div className=" hover:shadow-gray-400 hover:shadow-md">
+            <Link
+              to={"remediesresources"}
+              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
+                />
+              </svg>
+              Remedies Resources
             </Link>
           </div>
           <div className=" hover:shadow-gray-400 hover:shadow-md">
@@ -171,55 +265,7 @@ const AuthorityLayout = () => {
               School Details
             </Link>
           </div>
-          <div className=" hover:shadow-gray-400 hover:shadow-md">
-            <Link
-              to={"remediesresources"}
-              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
-                />
-              </svg>
-              Remedies Resources
-            </Link>
-          </div>
-          <div className=" hover:shadow-gray-400 hover:shadow-md">
-            <Link
-              to={"stateMap"}
-              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
-              State Map
-            </Link>
-          </div>
+
           <div className=" hover:shadow-gray-400 hover:shadow-md">
             <Link
               to={"addSchool"}
@@ -240,50 +286,6 @@ const AuthorityLayout = () => {
                 />
               </svg>
               Add School
-            </Link>
-          </div>
-          <div className=" hover:shadow-gray-400 hover:shadow-md">
-            <Link
-              to={"overallanalysis"}
-              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-              Overall Analysis
-            </Link>
-          </div>
-          <div className=" hover:shadow-gray-400 hover:shadow-md">
-            <Link
-              to={"analysis"}
-              className="flex items-center active-nav-link text-white py-4 pl-6 nav-item gap-2 focus:outline-none focus:shadow-md focus:shadow-gray-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-              Droped Analysis
             </Link>
           </div>
         </nav>
