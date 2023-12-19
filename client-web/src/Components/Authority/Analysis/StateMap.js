@@ -360,7 +360,8 @@ const StateMap = () => {
   return (
     <>
       <div className="m-auto">
-        <div className="relative m-5 w-80">
+      <div className="flex ">
+        <div className="m-5 w-1/5">
           <select
             name="dropoutreason"
             className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
@@ -374,7 +375,7 @@ const StateMap = () => {
             ))}
           </select>
         </div>
-        <div className="relative m-5 w-80">
+        <div className=" m-5 w-1/5">
           <select
             name="dropoutreason"
             className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
@@ -388,7 +389,7 @@ const StateMap = () => {
             <option value="ST">ST</option>
           </select>
         </div>
-        <div className="relative m-5 w-80">
+        <div className=" m-5 w-1/5">
           <select
             name="dropoutreason"
             className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
@@ -407,7 +408,7 @@ const StateMap = () => {
             <option value="10">Standard 10</option>
           </select>
         </div>
-        <div className="relative m-5 w-80">
+        <div className=" m-5 w-1/5">
           <select
             name="dropoutreason"
             className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
@@ -420,7 +421,7 @@ const StateMap = () => {
             <option value="other">Other</option>
           </select>
         </div>
-        <div className="relative m-5 w-80">
+        <div className=" m-5 w-1/5">
           <select
             name="dropoutreason"
             className="p-2 border border-gray-300 rounded w-full outline-2 focus:outline-gray-500 "
@@ -433,8 +434,12 @@ const StateMap = () => {
             <option value="2023">2023</option>
           </select>
         </div>
+        </div>
+        </div>
+        <div className="m-auto">
         <ReactFC {...chartConfigs} />;
-      </div>
+        </div>
+      
     </>
   );
 };
