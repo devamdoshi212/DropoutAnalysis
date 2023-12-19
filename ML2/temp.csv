@@ -1,7 +1,4 @@
 Gender,State,District,Taluka,City,School_name[0],City_type,School_medium,School_std,ParentOccupation,ParentMaritalStatus,Family_income,Cast,Disabled,Reason
-other,Gujarat,Sabarkantha,Idar,Gambhirpura,65809ef15602deb378740a73,Rural,Gujarati,5,Journalist,3,More than 6 lakh,SC,0,Family and Economic Factors
-female,Gujarat,Sabarkantha,Idar,Gambhirpura,65809ef15602deb378740a73,Rural,Gujarati,3,Artist,0,1-2 Lakh,Open,0,Family and Economic Factors
-other,Gujarat,Sabarkantha,Idar,Gambhirpura,65809ef15602deb378740a73,Rural,Gujarati,2,Journalist,3,More than 6 lakh,SC,0,Family and Economic Factors
-male,Gujarat,Sabarkantha,Idar,Gambhirpura,65809ef15602deb378740a73,Rural,Gujarati,0,Police Officer,3,More than 6 lakh,ST,0,Family and Economic Factors
-female,Gujarat,Sabarkantha,Idar,Gambhirpura,65809ef15602deb378740a73,Rural,Gujarati,0,Artist,0,1-2 Lakh,Open,0,Family and Economic Factors
-male,Gujarat,Anand,Umreth,Umreth,65809ef15602deb378740a73,Rural,Gujarati,5,Construction Worker,1,2-4 Lakh,ST,0,Family and Economic Factors
+female,Gujarat,Rajkot,Gondal,Moviya,6580224900270b10031c1ee7,Rural,Gujarati,5,Chef,2,2-4 Lakh,SEBC,0,Lack of Interest or Engagement
+female,Gujarat,Rajkot,Gondal,Moviya,6580224900270b10031c1ee7,Rural,Gujarati,5,Chef,2,2-4 Lakh,SEBC,0,Academic Struggles
+male,Gujarat,Rajkot,Gondal,Moviya,6580224900270b10031c1ee7,Rural,Gujarati,6,Librarian,2,1-2 Lakh,SEBC,0,Academic Struggles

@@ -41,6 +41,7 @@ import SchoolProfile from "./Components/School/Profile";
 import AuthorityProfile from "./Components/Authority/Profile";
 import Remediesresources from "./Components/Authority/Resouces/Remediesresources";
 import PredictDropoutDataTable from "./Components/School/StudentDetails/PredictDropoutDataTable";
+import Addreasons from "./Components/Admin/Reason/Addreasons";
 
 const router = createBrowserRouter([
   {
@@ -129,6 +130,11 @@ const router = createBrowserRouter([
       {
         path: "topanalysis",
         element: <Top5Dropout />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "addreason",
+        element: <Addreasons />,
         errorElement: <ErrorPage />,
       },
     ],
