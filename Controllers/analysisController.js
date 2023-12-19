@@ -1691,3 +1691,125 @@ module.exports.groupBySchool = async (req, res) => {
     });
   }
 };
+
+module.exports.reasonYearTrend = async function (req, res) {
+  try {
+    let pipeline = [];
+    if (req.query.state != "") {
+      pipeline.push({ $match: { State: state } });
+    }
+
+    if (req.query.district != "") {
+      pipeline.push({ $match: { District: district } });
+    }
+
+    if (req.query.city != "") {
+      pipeline.push({ $match: { City: city } });
+    }
+
+    if (req.query.taluka != "") {
+      pipeline.push({ $match: { Taluka: taluka } });
+    }
+
+    pipeline.push({ $match: { is_active: { $in: [1] } } });
+
+    pipeline.push({
+      $group: {
+        _id: {
+          // is_active: "$is_active",
+          year: { $year: "$updatedAt" },
+          reason: "$Reasons",
+        },
+        numOfStudent: { $sum: 1 },
+      },
+    });
+
+    pipeline.push({
+      $project: {
+        _id: 0,
+        numOfStudent: 1,
+        year: "$_id.year",
+        reason: "$_id.reason",
+      },
+    });
+
+    let data = await studentModel.aggregate(pipeline);
+    // const result = {};
+
+    // data.forEach((item) => {
+    //   const { year, numOfStudent, reason } = item;
+
+    //   if (!result[year]) {
+    //     result[year] = {};
+    //   }
+
+    //   if (!result[year][reason]) {
+    //     result[year][reason] = 0;
+    //   }
+
+    //   result[year][reason] += numOfStudent;
+    // });
+
+    // const resultArray = Object.entries(result).map(([year, reasons]) => ({
+    //   year: parseInt(year),
+    //   count: reasons,
+    // }));
+
+    // console.log(resultArray);
+
+    // const result = {};
+
+    // data.forEach((item) => {
+    //   const { numOfStudent, reason } = item;
+
+    //   if (!result[reason]) {
+    //     result[reason] = 0;
+    //   }
+
+    //   result[reason] += numOfStudent;
+    // });
+
+    // const resultArray = Object.entries(result).map(
+    //   ([reason, numOfStudent]) => ({
+    //     reason,
+    //     numOfStudent,
+    //   })
+    // );
+
+    // console.log(resultArray);
+
+    const result = {};
+
+    data.forEach((item) => {
+      const { year, numOfStudent, reason } = item;
+
+      if (!result[year]) {
+        result[year] = [];
+      }
+
+      result[year].push({
+        reason,
+        numOfStudent,
+      });
+    });
+
+    const resultArray = Object.entries(result).map(([year, reasons]) => ({
+      year: parseInt(year),
+      count: reasons,
+    }));
+
+    // console.log();
+    // console.log(resultArray);
+
+    res.json({
+      data: resultArray,
+      rcode: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

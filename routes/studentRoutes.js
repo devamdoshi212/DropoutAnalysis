@@ -13,7 +13,7 @@ router.patch("/deactivateStudent", StudentController.deactivateStudent);
 router.patch("/promteStudent", StudentController.promoteStudent);
 router.get("/getSchoolWiseStudents", StudentController.getSchoolWiseStudents);
 router.get("/getChooseWiseStudents", StudentController.getChooseWiseStudents);
-router.get("/update", StudentController.update);
+// router.get("/update", StudentController.update);
 router.get("/updateResult", StudentController.updateResult);
 router.get("/getPrediction", async (req, res) => {
   const lastSchoolId = new mongoose.Types.ObjectId(req.query.schoolId);
