@@ -22,6 +22,9 @@ async function dashboardCount(req, res) {
     const malestudents = students.filter((ele) => {
       return ele.Gender == "male";
     });
+    const otherstudents = students.filter((ele) => {
+      return ele.Gender == "other";
+    });
     const femalestudents = students.filter((ele) => {
       return ele.Gender == "female";
     });
@@ -58,6 +61,8 @@ async function dashboardCount(req, res) {
       city: city,
       students: students.length,
       malestudents: malestudents.length,
+
+      otherstudents: otherstudents.length,
       femalestudents: femalestudents.length,
       inactivestudents: inactivestudents.length,
       dropwithreason: dropwithreason.length,
