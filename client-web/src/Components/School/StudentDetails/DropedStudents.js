@@ -558,6 +558,7 @@ export default function DropedStudents() {
                   onClick={() => {
                     navigate("/school/scholarship", { state: e });
                   }}
+                  className="bg-blue-900 font-semibold text-white p-2 hover:bg-blue-600 rounded-md"
                 >
                   Get ScholarShip
                 </button>
@@ -582,7 +583,7 @@ export default function DropedStudents() {
                 <Link
                   to={`/school/remedies?reason=${encodeURIComponent(reason)}`}
                 >
-                  Get Remedies
+                <Button className="bg-green-900 font-semibold text-white p-2 hover:bg-green-600 ">Get Remedies</Button>  
                 </Link>
               );
             }}

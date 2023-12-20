@@ -6,14 +6,45 @@ const ScholarShip = () => {
   console.log(data);
   return (
     <>
-      <div>Name :{data.Name}</div>
-      <div>Caste :{data.Caste}</div>
-      <div>Family Income :{data.FamilyIncome}</div>
-      <div>Parent Occupation :{data.ParentOccupation}</div>
-      <div>Standard :{data.Standard}</div>
-      <div>AcademicLevel :{data.academicLevel === 0 ? "Low" : "High"}</div>
-      <div>Contact Number :{data.ContactNumber}</div>
-      <div>city :{data.City.city}</div>
+    <div className="bg-[#f8f9fa] m-5 h-screen">
+     <div className=" mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600 w-2/3 space-y-2">
+      <div className="flex">
+        <label className="w-1/2 text-gray-600 font-bold">Name </label>
+        <div className="mx-2">:</div><div>{data.Name }</div>
+      </div>
+      <div className="flex">
+        <label className=" w-1/2 text-gray-600 font-bold">Caste</label>{" "}
+        <div className="mx-2">:</div><div>{data.Caste}</div>
+      </div>
+      <div className="flex">
+        <label className="w-1/2 text-gray-600 font-bold">Family Income</label>{" "}
+        <div className="mx-2">:</div> <div>{data.FamilyIncome}</div>
+      </div>
+
+      <div className="flex">
+        <label className=" w-1/2 text-gray-600 font-bold">
+          Parent Occupation{" "}
+        </label>
+        <div className="mx-2">:</div><div>{data.ParentOccupation}</div>
+      </div>
+      <div className="flex">
+        <label className="w-1/2 text-gray-600 font-bold">Standard </label>{" "}
+        <div className="mx-2">:</div><div>{data.Standard}</div>
+      </div>
+      <div className="flex">
+        <label className=" w-1/2 text-gray-600 font-bold">AcademicLevel</label>{" "}
+        <div className="mx-2">:</div><div>{data.academicLevel === 0 ? "Low" : "High"}</div>{" "}
+      </div>
+      <div className="flex">
+        <label className=" w-1/2 text-gray-600 font-bold">Contact Number</label>{" "}
+        <div className="mx-2">:</div><div>{data.ContactNumber}</div>
+      </div>
+      <div className="flex">
+        <label className=" w-1/2 text-gray-600 font-bold">city </label>
+        <div className="mx-2">:</div><div>{data.City.city}</div>
+      </div>
+      </div>
+      </div>
     </>
   );
 };
