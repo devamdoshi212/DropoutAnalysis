@@ -12,7 +12,7 @@ const Addreasons = () => {
             reason: Yup.string().required('Reason is required'),
             subReasons: Yup.array().of(Yup.string().required('Sub-reason is required')),
         }),
-        onSubmit: (values) => {
+        onSubmit: (values, action) => {
             console.log(values);
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -31,7 +31,7 @@ const Addreasons = () => {
 
             fetch("http://localhost:9999/addReason", requestOptions)
                 .then(response => response.text())
-                .then(result => console.log(result))
+                .then(result => { action.resetForm(); })
                 .catch(error => console.log('error', error));
         },
     });
