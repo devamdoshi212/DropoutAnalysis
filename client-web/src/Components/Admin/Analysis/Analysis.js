@@ -296,12 +296,13 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <ReasonAreawiseAnalysis
+        {/* <ReasonAreawiseAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
-        />
+          standard={standard}
+        /> */}
 
         <CastewiseDropoutAnalysis
           selectedCity={selectedCity}
