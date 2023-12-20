@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { DropedStudentsServices } from "./DropoutStudentServices";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 export default function DropedStudents() {
   const [deleterefresh, setdeleterefresh] = useState(true);
   const [customers, setCustomers] = useState(null);
@@ -23,35 +24,6 @@ export default function DropedStudents() {
     District: "",
   });
 
-  //   const DeleteHandler = (rowdata) => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You won't be able to revert this!",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, Delete it!",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         var myHeaders = new Headers();
-  //         myHeaders.append("token", cookies.token);
-  //         var requestOptions = {
-  //           method: "DELETE",
-  //           headers: myHeaders,
-  //           redirect: "follow",
-  //         };
-  //         fetch(`http://localhost:9999/deleteblog/${rowdata._id}`, requestOptions)
-  //           .then((response) => response.text())
-  //           .then((result) => {
-  //             setdeleterefresh(!deleterefresh);
-  //           })
-  //           .catch((error) => console.log("error", error));
-  //         console.log("Deleted !!");
-  //         Swal.fire("Deleted!", "Your file has been deleted.", "success");
-  //       }
-  //     });
-  //   };
   const schoolData = useSelector((state) => state.user.user);
 
   const sId = schoolData.School._id;
@@ -247,27 +219,24 @@ export default function DropedStudents() {
   };
 
   const handleRemidies = (reason) => {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(`http://localhost:9999/getReason?reason=${reason}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        setReason(result.data[0]);
-      })
-      .catch((error) => console.log("error", error));
-    openModal();
+    // var requestOptions = {
+    //   method: "GET",
+    //   redirect: "follow",
+    // };
+    // fetch(`http://localhost:9999/getReason?reason=${reason}`, requestOptions)
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log(result);
+    //     setReason(result.data[0]);
+    //   })
+    //   .catch((error) => console.log("error", error));
+    // openModal();
   };
-
-  console.log(customers);
+  const navigate = useNavigate();
   return (
     <>
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <div>
-          {/* Display links if present in Reason */}
           <h2 className="text-xl font-semibold mb-3">Reason:</h2>
           {Reason && Reason.links && Reason.links.length > 0 && (
             <div>
@@ -289,8 +258,6 @@ export default function DropedStudents() {
               ))}
             </div>
           )}
-
-          {/* Display resources if present in Reason */}
           <h2 className="text-xl font-semibold mb-3">Resource:</h2>
           {Reason && Reason.resources && Reason.resources.length > 0 && (
             <div>
@@ -313,7 +280,7 @@ export default function DropedStudents() {
             </div>
           )}
         </div>
-      )}
+      )} */}
 
       <div className="card p-10">
         <DataTable
@@ -584,15 +551,39 @@ export default function DropedStudents() {
               borderWidth: "1px",
             }}
             body={(e) => {
-              const reason = e.Reasons;
+              // const objectString = encodeURIComponent(JSON.stringify(e));
 
               return (
                 <button
-                  className="px-2 py-1 bg-green-500 hover:bg-green-400 text-white rounded"
-                  onClick={() => handleRemidies(reason)}
+                  onClick={() => {
+                    navigate("/school/scholarship", { state: e });
+                  }}
+                >
+                  Get ScholarShip
+                </button>
+              );
+            }}
+          />
+          <Column
+            header="Actions"
+            field="City"
+            filterField="City_type"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+            body={(e) => {
+              const reason = e.Reasons;
+              return (
+                <Link
+                  to={`/school/remedies?reason=${encodeURIComponent(reason)}`}
                 >
                   Get Remedies
-                </button>
+                </Link>
               );
             }}
           />
