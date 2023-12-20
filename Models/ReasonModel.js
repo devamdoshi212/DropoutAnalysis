@@ -10,6 +10,7 @@ const reasonSchema = new mongoose.Schema({
       pdf: [{ name: String, file: String }],
       video: [{ name: String, file: String }],
       pptx: [{ name: String, file: String }],
+      links: [String],
     },
   ],
 });
