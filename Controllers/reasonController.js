@@ -49,16 +49,20 @@ async function addResource(req, res) {
         }))
       : [];
     // let links = req.body.links;
-    let data = await ReasonModel.findByIdAndUpdate(
-      new mongoose.Types.ObjectId(req.query.id),
-      {
-        pdf: pdf,
-        pptx: pptx,
-        video: video,
-        standard: req.query.standard,
-        keyword: req.query.keyword,
-      }
-    );
+    let data = await ReasonModel.findOne({
+      _id: new mongoose.Types.ObjectId(req.query.id),
+    });
+
+    data.resources.push({
+      pdf: pdf,
+      pptx: pptx,
+      video: video,
+      standard: req.query.standard,
+      keyword: req.query.keyword,
+    });
+
+    await data.save();
+
     res.json({
       rcode: 200,
     });
