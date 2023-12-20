@@ -33,9 +33,6 @@ const DropoutReasonwiseTrend = ({
             size: 10,
           },
         },
-        stroke: {
-          curve: "smooth", // Set the curve property to smooth
-        },
       },
       dataLabels: {
         enabled: true,
@@ -79,6 +76,14 @@ const DropoutReasonwiseTrend = ({
         "#66CC33",
         "#FF99CC",
       ],
+      stroke: {
+        show: true,
+        curve: "smooth",
+        lineCap: "butt",
+        colors: undefined,
+        width: 2,
+        dashArray: 0, // Set the curve property to smooth
+      },
       title: {
         text: "Dropout-Reason wise Dropout Student Analysis",
         align: "center",

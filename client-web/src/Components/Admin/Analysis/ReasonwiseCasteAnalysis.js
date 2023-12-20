@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ReasonwiseGenderDropoutAnalysis = ({
+const ReasonwiseCasteAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -82,64 +82,88 @@ const ReasonwiseGenderDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=Gender&standard=`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&type1=Reasons&type2=Caste&standard=${standard}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        const data = result.data.StudentsData.filter(
-          (s) =>
-            s.Reasons !== "undefined" &&
-            s.Reasons !== null &&
-            s.Reasons !== "" &&
-            s.Reasons !== undefined
-        );
-        let reasonGenderCount = {};
 
-        data.forEach((entry) => {
-          let reason = entry["Reasons"];
-          let gender = entry["Gender"];
+        const data = result.data.StudentsData;
 
-          if (!reasonGenderCount[reason]) {
-            reasonGenderCount[reason] = { male: 0, female: 0, other: 0 };
+        // console.log(uniqueReasonCasteWiseCount);
+        const casteReasonCounts = {
+          ST: [],
+          SEBC: [],
+          SC: [],
+          General: [],
+        };
+
+        // Initialize an object to store unique reasons
+        const uniqueReasons = {};
+
+        // Iterate through the studentsData array
+        data.forEach((student) => {
+          const { numOfStudent, Reasons, Caste } = student;
+
+          // Add the reason to the uniqueReasons object
+          uniqueReasons[Reasons] = true;
+
+          // Initialize the array for the caste if not exists
+          if (!casteReasonCounts[Caste]) {
+            casteReasonCounts[Caste] = [];
           }
 
-          reasonGenderCount[reason][gender] += entry["numOfStudent"];
+          // Update the count for the reason
+          casteReasonCounts[Caste].push({
+            reason: Reasons,
+            count: numOfStudent,
+          });
         });
-        // console.log(reasonGenderCount);
-        const reason = Object.keys(reasonGenderCount);
 
-        const count = Object.values(reasonGenderCount);
-        const total = count.map((s) => s.male + s.female + s.other);
-        const male = count.map((s) => s.male);
-        const female = count.map((s) => s.female);
-        const other = count.map((s) => s.other);
+        // Convert the uniqueReasons object to an array
+        const uniqueReasonArray = Object.keys(uniqueReasons);
+
+        // Convert the casteReasonCounts object to arrays
+        const resultArrayST = casteReasonCounts.ST.map((entry) => entry.count);
+        const resultArraySEBC = casteReasonCounts.SEBC.map(
+          (entry) => entry.count
+        );
+        const resultArraySC = casteReasonCounts.SC.map((entry) => entry.count);
+        const resultArrayGeneral = casteReasonCounts.General.map(
+          (entry) => entry.count
+        );
+
+        // console.log("ST Array:", resultArrayST);
+        // console.log("SEBC Array:", resultArraySEBC);
+        // console.log("SC Array:", resultArraySC);
+        // console.log("General Array:", resultArrayGeneral);
+
         setChartData({
           ...chartData,
           series: [
             {
-              name: "Total",
-              data: total,
+              name: "ST",
+              data: resultArrayST,
             },
             {
-              name: "Male",
-              data: male,
+              name: "SC",
+              data: resultArraySC,
             },
             {
-              name: "Female",
-              data: female,
+              name: "SEBC",
+              data: resultArraySEBC,
             },
             {
-              name: "Other",
-              data: other,
+              name: "General",
+              data: resultArrayGeneral,
             },
           ],
           options: {
             ...chartData.options,
             xaxis: {
               ...chartData.options.xaxis,
-              categories: reason,
+              categories: uniqueReasonArray,
             },
           },
         });
@@ -159,4 +183,4 @@ const ReasonwiseGenderDropoutAnalysis = ({
   );
 };
 
-export default ReasonwiseGenderDropoutAnalysis;
+export default ReasonwiseCasteAnalysis;
