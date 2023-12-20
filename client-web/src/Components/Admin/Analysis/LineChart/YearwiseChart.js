@@ -58,6 +58,14 @@ const YearwiseLineChart = ({
         },
       },
       colors: ["#66FF33", "#FF3366", "#3366FF"],
+      stroke: {
+        show: true,
+        curve: "smooth",
+        lineCap: "butt",
+        colors: undefined,
+        width: 2,
+        dashArray: 0, // Set the curve property to smooth
+      },
       title: {
         text: "Year wise Dropout Student Analysis",
         align: "center",
