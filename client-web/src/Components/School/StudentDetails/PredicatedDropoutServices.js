@@ -4,8 +4,8 @@ export const PredicatedDropoutServices = {
     return fetch(`http://localhost:9999/getPrediction?schoolId=${id}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.data);
-        res = res.data.filter((e) => e.predictPercentage > 69);
+        // console.log(res.data);
+        // res = res.data.filter((e) => e.predictPercentage > 69);
         return res;
       });
   },
