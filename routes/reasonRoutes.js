@@ -12,11 +12,20 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage, limits: { fileSize: 15000000 } });
 
-router.get("/getReason", reasonController.getReason );
+router.get("/getReason", reasonController.getReason);
 
 router.post(
   "/addReason",
   upload.array("resources"),
   reasonController.addReason
+);
+router.patch(
+  "/addResource",
+  upload.fields([
+    { name: "pdf", maxCount: 10 },
+    { name: "video", maxCount: 10 },
+    { name: "pptx", maxCount: 10 },
+  ]),
+  reasonController.addR esource
 );
 module.exports = router;
