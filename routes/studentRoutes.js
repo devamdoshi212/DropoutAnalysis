@@ -41,7 +41,8 @@ router.get("/getPrediction", async (req, res) => {
       .lean();
     for (let index = 0; index < data.length; index++) {
       let ele = data[index];
-      console.log(ele._id);
+      // console.log(ele._id);
+
       const result = await fetch("http://127.0.0.1:5000/predictModel", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -62,10 +63,22 @@ router.get("/getPrediction", async (req, res) => {
           Disabled: ele.Disablity,
         }),
       });
-      const response = await result.json();
+      let response = await result.json();
+      response.probability = response.probability.sort(
+        (a, b) => b.probability - a.probability
+      );
       console.log(response);
-      ele.predictReason = response.message;
-      ele.predictPercentage = response.probability;
+      if (response.message == "Studying") {
+        // Student.Reasons = response.probability[1].reason;
+
+        ele.predictReason = response.probability[1].reason;
+        ele.predictPercentage = response.probability[1].probability;
+      } else {
+        // Student.Reasons = response.probability[0].reason;
+
+        ele.predictReason = response.probability[0].reason;
+        ele.predictPercentage = response.probability[0].probability;
+      }
     }
     res.json({
       data: data,

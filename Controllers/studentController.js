@@ -160,7 +160,11 @@ async function deactivateStudent(req, res) {
         console.log(response);
         if (response.message != "NO REASON FOUND") {
           let Student = await StudentModel.findOne({ _id: ele._id });
-          Student.Reasons = response.message;
+          if (response.message == "Studying") {
+            Student.Reasons = response.probability[1].reason;
+          } else {
+            Student.Reasons = response.probability[0].reason;
+          }
           await Student.save();
         }
       }

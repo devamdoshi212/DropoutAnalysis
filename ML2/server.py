@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.compose import ColumnTransformer
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import accuracy_score, classification_report
@@ -19,7 +20,7 @@ def add_to_csv(data: pd.DataFrame):
     df = pd.read_csv("temp.csv")
     # print(df.shape[0])
     if df.shape[0] >= 10:
-        df.to_csv("new.csv", mode="a", index=False, header=False)
+        df.to_csv("pratham.csv", mode="a", index=False, header=False)
         template = pd.read_csv("./template.csv")
         template.to_csv("temp.csv", mode="w", index=False, header=True)
         train_model()
@@ -29,7 +30,8 @@ def train_model():
     global pipeline
     global df_train
     global X_train
-    df_train = pd.read_csv("new.csv")
+    df_train = pd.read_csv("pratham.csv")
+    df_train = df_train.drop("Predict", axis=1)
     categorical_columns = [
         "Gender",
         "District",
@@ -48,13 +50,12 @@ def train_model():
     X_train = pd.get_dummies(
         df_train.drop("Reason", axis=1), columns=categorical_columns
     )
-    print(X_train)
     y_train = df_train["Reason"]
     # preprocessor = ColumnTransformer(
     #     transformers=[("onehot", OneHotEncoder(), categorical_columns)],
     #     remainder="passthrough",
     # )
-    pipeline = Pipeline([("classifier", RandomForestClassifier(random_state=42))])
+    pipeline = Pipeline([("classifier", KNeighborsClassifier(n_neighbors=10))])
     # pipeline = Pipeline(
     #     [
     #         ("preprocessor", preprocessor),
@@ -87,15 +88,33 @@ def predict_model(data: pd.DataFrame):
         columns=X_train.columns, fill_value=False
     )
     y_pred = None
+
     try:
         y_pred = pipeline.predict(X_test)
-        prob = pipeline.predict_proba(X_test).max(axis=1)
-    except ValueError as err:
-        print(err)
+        prob = pipeline.predict_proba(X_test)
+        distances, indices = pipeline.named_steps["classifier"].kneighbors(
+            X_test, n_neighbors=10
+        )
+        prediction_probabilities = pd.DataFrame(
+            pipeline.named_steps["classifier"].classes_, columns=["reason"]
+        )
+        parray = []
+        for i in prob[0]:
+            parray.append(i * 100)
+        prediction_probabilities["probability"] = prob[0]
+        obj = prediction_probabilities.to_dict(orient="records")
+        obj = [
+            {"reason": d["reason"], "probability": d["probability"] * 100}
+            for d in obj
+            if d["probability"] > 0
+        ]
+        obj = sorted(obj, key=lambda x: x["probability"])
 
-        return "NO REASON FOUND"
+    except Exception as err:
+        print(err)
+        return ["NO REASON FOUND", [{"reason": "NO REASON FOUND", "probability": 0}]]
     else:
-        return [y_pred, prob]
+        return [y_pred, obj]
 
 
 train_model()
@@ -133,11 +152,8 @@ def predictModel():
     data = pd.DataFrame(newDict)
     [message, probability] = predict_model(data)
     # print(type(message))
-    print(probability)
     if isinstance(message, np.ndarray):
-        return jsonify(
-            {"message": message.tolist()[0], "probability": probability[0] * 100}
-        )
+        return jsonify({"message": message.tolist()[0], "probability": probability})
     else:
         return jsonify({"message": message})
 
