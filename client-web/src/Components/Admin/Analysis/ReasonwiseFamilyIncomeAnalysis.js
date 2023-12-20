@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ReasonwiseGenderDropoutAnalysis = ({
+const ReasonwiseFamilyIncomeAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -82,64 +82,84 @@ const ReasonwiseGenderDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=Gender&standard=`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&type1=Reasons&type2=FamilyIncome&standard=${standard}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        const data = result.data.StudentsData.filter(
-          (s) =>
-            s.Reasons !== "undefined" &&
-            s.Reasons !== null &&
-            s.Reasons !== "" &&
-            s.Reasons !== undefined
-        );
-        let reasonGenderCount = {};
+        const data = result.data.StudentsData;
+        console.log(data);
+        const incomeReasonCounts = {
+          "More than 6 lakh": [],
+          "4-6 Lakh": [],
+          "2-4 Lakh": [],
+          "1-2 Lakh": [],
+        };
 
-        data.forEach((entry) => {
-          let reason = entry["Reasons"];
-          let gender = entry["Gender"];
+        // Initialize an object to store unique reasons
+        const uniqueReasons = {};
 
-          if (!reasonGenderCount[reason]) {
-            reasonGenderCount[reason] = { male: 0, female: 0, other: 0 };
+        // Iterate through the studentsData array
+        data.forEach((student) => {
+          const { numOfStudent, Reasons, FamilyIncome } = student;
+
+          // Add the reason to the uniqueReasons object
+          uniqueReasons[Reasons] = true;
+
+          // Initialize the array for the income category if not exists
+          if (!incomeReasonCounts[FamilyIncome]) {
+            incomeReasonCounts[FamilyIncome] = [];
           }
 
-          reasonGenderCount[reason][gender] += entry["numOfStudent"];
+          // Update the count for the reason and income category
+          incomeReasonCounts[FamilyIncome].push({
+            reason: Reasons,
+            count: numOfStudent,
+          });
         });
-        // console.log(reasonGenderCount);
-        const reason = Object.keys(reasonGenderCount);
 
-        const count = Object.values(reasonGenderCount);
-        const total = count.map((s) => s.male + s.female + s.other);
-        const male = count.map((s) => s.male);
-        const female = count.map((s) => s.female);
-        const other = count.map((s) => s.other);
+        // Convert the uniqueReasons object to an array
+        const uniqueReasonArray = Object.keys(uniqueReasons);
+
+        // Convert the incomeReasonCounts object to arrays
+        const resultArrayMoreThan6Lakh = incomeReasonCounts[
+          "More than 6 lakh"
+        ].map((entry) => entry.count);
+        const resultArray4to6Lakh = incomeReasonCounts["4-6 Lakh"].map(
+          (entry) => entry.count
+        );
+        const resultArray2to4Lakh = incomeReasonCounts["2-4 Lakh"].map(
+          (entry) => entry.count
+        );
+        const resultArray1to2Lakh = incomeReasonCounts["1-2 Lakh"].map(
+          (entry) => entry.count
+        );
+
         setChartData({
           ...chartData,
           series: [
             {
-              name: "Total",
-              data: total,
+              name: "More Than 6 Lakh",
+              data: resultArrayMoreThan6Lakh,
             },
             {
-              name: "Male",
-              data: male,
+              name: "Between 4 to 6 Lakh",
+              data: resultArray4to6Lakh,
             },
             {
-              name: "Female",
-              data: female,
+              name: "Between 2 to 4 Lakh",
+              data: resultArray2to4Lakh,
             },
             {
-              name: "Other",
-              data: other,
+              name: "Between 1 to 2 Lakh",
+              data: resultArray1to2Lakh,
             },
           ],
           options: {
             ...chartData.options,
             xaxis: {
               ...chartData.options.xaxis,
-              categories: reason,
+              categories: uniqueReasonArray,
             },
           },
         });
@@ -159,4 +179,4 @@ const ReasonwiseGenderDropoutAnalysis = ({
   );
 };
 
-export default ReasonwiseGenderDropoutAnalysis;
+export default ReasonwiseFamilyIncomeAnalysis;
