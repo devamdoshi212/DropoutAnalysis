@@ -346,12 +346,12 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <StandardGenderwiseAnalysis
+        {/* <StandardGenderwiseAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
-        />
+        /> */}
 
         <ParentEducationwiseAnalysis
           selectedCity={selectedCity}
