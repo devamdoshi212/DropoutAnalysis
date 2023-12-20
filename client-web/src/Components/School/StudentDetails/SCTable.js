@@ -149,37 +149,56 @@ export default function SCTable() {
       ],
     },
     {
-      _id: 2,
-      educationLevel: "Undergraduate",
+      _id: 5,
+      educationLevel: "School (Grades 1-5)",
       scholarships: [
         {
-          name: "Financial Assistance Grant",
-          amount: "INR 10,000",
+          name: "Shagun Scholarship Scheme",
+          amount: "INR 1,000 - INR 3,000",
           eligibility:
-            "Open to economically disadvantaged undergraduate students",
+            "Financial assistance for girls of economically weaker sections studying in Classes 1-5",
         },
         {
-          name: "Sports Excellence Scholarship",
-          amount: "INR 8,000",
-          eligibility: "For talented athletes pursuing undergraduate studies",
+          name: "CM Bal Sanjivani Yojana",
+          amount: "INR 5,000 per year",
+          eligibility:
+            "Financial assistance for children diagnosed with critical illnesses who are enrolled in government schools (Classes 1-5)",
         },
       ],
     },
     {
-      _id: 3,
-      educationLevel: "Postgraduate",
+      _id: 6,
+      educationLevel: "School (Grades 6-8)",
       scholarships: [
         {
-          name: "Research Fellowship",
-          amount: "INR 15,000",
+          name: "Dr. Ambedkar Merit Scholarship Scheme",
+          amount: "INR 6,000 per year",
           eligibility:
-            "For postgraduate students engaged in innovative research projects",
+            "Merit-based scholarship for students of Scheduled Castes and Scheduled Tribes securing top ranks in Class 6 exams",
         },
         {
-          name: "Social Impact Scholarship",
-          amount: "INR 12,000",
+          name: "Gujarat Rural Scholarships for Girls",
+          amount: "INR 2,000 per year",
           eligibility:
-            "Open to postgraduate students working on projects with social impact",
+            "Financial assistance for girls from rural areas studying in Classes 6-8 in government schools",
+        },
+      ],
+    },
+    {
+      _id: 7,
+      educationLevel: "School (Grade 9 & 10)",
+      scholarships: [
+        {
+          name: "Kishori Samman Yojana",
+          amount: "INR 1,000 - INR 5,000",
+          eligibility:
+            "Financial assistance for girls scoring high marks in Science and Mathematics in Class 9 exams",
+        },
+        {
+          name: "Vikram Sarabhai Science Talent Scholarship",
+          amount: "INR 10,000 per year",
+          eligibility:
+            "Merit-based scholarship for students excelling in Science Olympiads or National Science Talent Examination after Class 9",
         },
       ],
     },

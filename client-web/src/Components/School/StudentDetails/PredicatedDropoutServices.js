@@ -5,7 +5,8 @@ export const PredicatedDropoutServices = {
       .then((res) => res.json())
       .then((res) => {
         console.log(res.data);
-        return res.data;
+        res = res.data.filter((e) => e.predictPercentage > 69);
+        return res;
       });
   },
 
