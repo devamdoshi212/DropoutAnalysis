@@ -59,7 +59,7 @@ async function addResource(req, res) {
       video: video,
       standard: req.body.standard,
       keyword: req.body.keyword,
-      link: req.body.link,
+      links: req.body.links,
     });
 
     await data.save();
@@ -75,8 +75,28 @@ async function addResource(req, res) {
     });
   }
 }
+
+async function customeSearch(req, res) {
+  try {
+    // Using the find method with $regex to perform a case-insensitive search
+    const q = req.query.q;
+    const result = await ReasonModel.find({
+      "resources.keyword": { $regex: new RegExp(q, "i") },
+    });
+
+    // return result;
+    res.json({
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    // throw err;
+  }
+}
+
 module.exports = {
   getReason,
   addReason,
   addResource,
+  customeSearch,
 };
