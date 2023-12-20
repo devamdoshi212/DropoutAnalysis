@@ -6,6 +6,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
   selectedTaluka,
   selectedDistrict,
   selectedState,
+  standard
 }) => {
   const [chartData, setChartData] = useState({
     series: [
@@ -81,7 +82,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=Gender`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=Gender&standard=${standard}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -144,7 +145,7 @@ const ReasonwiseGenderDropoutAnalysis = ({
         });
       })
       .catch((error) => console.log("error", error));
-  }, [selectedCity, selectedDistrict, selectedState, selectedTaluka]);
+  }, [selectedCity, selectedDistrict, selectedState, selectedTaluka, standard]);
 
   return (
     <div className="chart m-8">

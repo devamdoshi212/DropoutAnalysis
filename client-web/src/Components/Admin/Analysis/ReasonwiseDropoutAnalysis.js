@@ -6,6 +6,7 @@ const ReasonwiseDropoutAnalysis = ({
   selectedTaluka,
   selectedDistrict,
   selectedState,
+  standard
 }) => {
   const [chartData, setChartData] = useState({
     series: [
@@ -84,12 +85,11 @@ const ReasonwiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroup/Reasons?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school`,
+      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=null&standard=${standard}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result);
         const data = result.data.StudentsData;
         console.log(data);
         const categories = data
@@ -134,7 +134,7 @@ const ReasonwiseDropoutAnalysis = ({
         });
       })
       .catch((error) => console.log("error", error));
-  }, [selectedCity, selectedDistrict, selectedState, selectedTaluka]);
+  }, [selectedCity, selectedDistrict, selectedState, selectedTaluka, standard]);
 
   return (
     <div className="chart m-8">
