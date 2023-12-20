@@ -1490,8 +1490,15 @@ module.exports.DistrictWiseData = async (req, res) => {
     }
 
     if (req.query.year != "") {
+      console.log(req.query.year);
+
       pipeline.push({
-        $match: { Date: { $year: parseInt(req.query.year) } },
+        $match: {
+          date: {
+            $gte: new Date(req.query.year, 0, 1), // Start of the year
+            $lt: new Date(req.query.year, 12, 1), // Start of the next year
+          },
+        },
       });
     }
 
