@@ -14,6 +14,25 @@ const Addreasons = () => {
         }),
         onSubmit: (values) => {
             console.log(values);
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+                "reason": values.reason,
+                "category": values.subReasons
+            });
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:9999/addReason", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
         },
     });
 
