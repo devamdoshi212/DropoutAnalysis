@@ -26,6 +26,6 @@ router.patch(
     { name: "video", maxCount: 10 },
     { name: "pptx", maxCount: 10 },
   ]),
-  reasonController.addR esource
+  reasonController.addResource
 );
 module.exports = router;

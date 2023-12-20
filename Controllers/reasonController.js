@@ -55,6 +55,8 @@ async function addResource(req, res) {
         pdf: pdf,
         pptx: pptx,
         video: video,
+        standard: req.query.standard,
+        keyword: req.query.keyword,
       }
     );
     res.json({
