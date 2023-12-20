@@ -150,7 +150,7 @@ const Analysis = () => {
         />
         <div className="flex">
           <label className="w-1/4 m-4">
-            <span className="text-gray-500 font-bold w-1/3">Select State</span>
+            <span className="text-gray-500 font-bold w-1/3">Select Standard</span>
             <select
               className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
               value={standard}
