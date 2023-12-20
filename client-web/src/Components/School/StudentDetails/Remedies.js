@@ -63,13 +63,13 @@ const Remedies = () => {
               <div className="flex">
                 <label className="text-gray-600 font-bold w-1/3">Title</label>
                 <div className="mx-2">:</div>
-                <div>{reason}</div>
+                <div className="w-2/3">{reason}</div>
               </div>
 
               <div className="flex">
                 <label className="text-gray-600 font-bold w-1/3">STD </label>
                 <div className="mx-2">:</div>
-                <div>{item.standard}</div>
+                <div className="w-2/3">{item.standard}</div>
               </div>
 
               <div className="flex">
@@ -77,7 +77,7 @@ const Remedies = () => {
                   <div className="text-gray-600 font-bold w-1/3">PDF </div>
                 )}
                 <div className="mx-2">:</div>
-                <ui className="list-none">
+                <ui className="list-none w-2/3">
                   {item.pdf &&
                     item.pdf.map((e) => (
                       <li>
@@ -99,7 +99,7 @@ const Remedies = () => {
                   <div className="text-gray-600 font-bold w-1/3">Video </div>
                 )}
                 <div className="mx-2">:</div>
-                <ui className="list-none">
+                <ui className="list-none w-2/3">
                   {item.video &&
                     item.video.map((e) => (
                       <li>
@@ -121,7 +121,7 @@ const Remedies = () => {
                   <div className="text-gray-600 font-bold w-1/3">PPT </div>
                 )}
                 <div className="mx-2">:</div>
-                <ui className="list-none">
+                <ui className="list-none w-2/3">
                   {item.pptx &&
                     item.pptx.map((e) => (
                       <li>
@@ -143,7 +143,7 @@ const Remedies = () => {
                   <div className="text-gray-600 font-bold w-1/3">Links: </div>
                 )}
                 <div className="mx-2">:</div>
-                <ui className="list-none">
+                <ui className="list-none w-2/3">
                   {item.links &&
                     item.links.map((e) => (
                       <li>
