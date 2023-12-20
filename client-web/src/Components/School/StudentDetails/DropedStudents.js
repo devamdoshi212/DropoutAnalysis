@@ -551,12 +551,12 @@ export default function DropedStudents() {
               borderWidth: "1px",
             }}
             body={(e) => {
-              // const objectString = encodeURIComponent(JSON.stringify(e));
+              const objectString = encodeURIComponent(JSON.stringify(e));
 
               return (
                 <button
                   onClick={() => {
-                    navigate("/school/scholarship", { state: e });
+                    navigate("/school/scholarship", { state: objectString });
                   }}
                   className="bg-blue-900 font-semibold text-white p-2 hover:bg-blue-600 rounded-md"
                 >
@@ -583,7 +583,9 @@ export default function DropedStudents() {
                 <Link
                   to={`/school/remedies?reason=${encodeURIComponent(reason)}`}
                 >
-                <Button className="bg-green-900 font-semibold text-white p-2 hover:bg-green-600 ">Get Remedies</Button>  
+                  <Button className="bg-green-900 font-semibold text-white p-2 hover:bg-green-600 ">
+                    Get Remedies
+                  </Button>
                 </Link>
               );
             }}
