@@ -28,4 +28,6 @@ router.patch(
   ]),
   reasonController.addResource
 );
+
+router.get("/customeSearch", reasonController.customeSearch);
 module.exports = router;
