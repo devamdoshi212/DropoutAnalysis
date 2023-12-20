@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ReasonwiseDropoutAnalysis = ({
+const AreaReasonwiseAnalysis = ({
   selectedCity,
   selectedTaluka,
   selectedDistrict,
@@ -39,16 +39,13 @@ const ReasonwiseDropoutAnalysis = ({
           fontWeight: "bold",
           colors: ["#000"],
         },
-        formatter: function (val) {
-          return val + "%"; // Append "%" to the label
-        },
       },
       xaxis: {
         categories: ["Cricket", "Basket Ball", "Volly Ball", "Tennis"],
       },
       yaxis: {
         title: {
-          text: "Percentage of Dropout students",
+          text: "Number of Dropout Student",
           style: {
             fontSize: "12px",
             // fontWeight: "bold",
@@ -57,9 +54,9 @@ const ReasonwiseDropoutAnalysis = ({
           }, // Your Y-axis title
         },
       },
-      colors: ["#3498db", "#5dade2", "#85c1e9"],
+      colors: ["#1abc9c", "#3498db", "#e74c3c", "#f39c12"],
       title: {
-        text: "Reason wise Dropout Analysis",
+        text: "Reason and Gender wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
@@ -85,50 +82,67 @@ const ReasonwiseDropoutAnalysis = ({
     };
 
     fetch(
-      `http://localhost:9999/FilterStudentinGroupByTwo?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&school&type1=Reasons&type2=null&standard=`,
+      `http://localhost:9999/ReasonAndAreaWise?state=${selectedState}&district=${selectedDistrict}&city=${selectedCity}&taluka=${selectedTaluka}&standard=${standard}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
+
         const data = result.data.StudentsData;
         console.log(data);
-        const categories = data
-          .filter(
-            (s) =>
-              s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-          )
-          .map((s) => s.Reasons);
+        const citytypeReasonCounts = {
+          0: [],
+          1: [],
+        };
 
-        // const student = data
-        //   .filter(
-        //     (s) =>
-        //       s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-        //   )
-        //   .map((s) => s.numOfStudent);
-        let total = 0;
-        data.map((s) => {
-          total += s.numOfStudent;
+        // Initialize an object to store unique reasons
+        const uniqueReasons = {};
+
+        // Iterate through the studentsData array
+        data.forEach((student) => {
+          const { numOfStudent, reason, citytype } = student;
+
+          // Add the reason to the uniqueReasons object
+          uniqueReasons[reason] = true;
+
+          // Initialize the array for the citytype if not exists
+          if (!citytypeReasonCounts[citytype]) {
+            citytypeReasonCounts[citytype] = [];
+          }
+
+          // Update the count for the reason and citytype
+          citytypeReasonCounts[citytype].push({ reason, count: numOfStudent });
         });
-        const student = data
-          .filter(
-            (s) =>
-              s.Reasons !== undefined && s.Reasons !== null && s.Reasons !== ""
-          )
-          .map((s) => ((s.numOfStudent / total) * 100).toFixed(2));
+
+        // Convert the uniqueReasons object to an array
+        const uniqueReasonArray = Object.keys(uniqueReasons);
+
+        // Convert the citytypeReasonCounts object to arrays
+        const resultArrayCitytype1 = citytypeReasonCounts["1"].map(
+          (entry) => entry.count
+        );
+        const resultArrayCitytype0 = citytypeReasonCounts["0"].map(
+          (entry) => entry.count
+        );
 
         setChartData({
           ...chartData,
           series: [
             {
-              name: "Reason",
-              data: student,
+              name: "Urban",
+              data: resultArrayCitytype1,
+            },
+            {
+              name: "Rural",
+              data: resultArrayCitytype0,
             },
           ],
           options: {
             ...chartData.options,
             xaxis: {
               ...chartData.options.xaxis,
-              categories: categories,
+              categories: uniqueReasonArray,
             },
           },
         });
@@ -148,4 +162,4 @@ const ReasonwiseDropoutAnalysis = ({
   );
 };
 
-export default ReasonwiseDropoutAnalysis;
+export default AreaReasonwiseAnalysis;
