@@ -148,9 +148,9 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <div>
+        <div className="flex">
           <label className="w-1/4 m-4">
-            <span className="text-gray-500 font-bold w-1/3">Select State</span>
+            <span className="text-gray-500 font-bold w-1/3">Select Standard</span>
             <select
               className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
               value={standard}
@@ -296,12 +296,13 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <ReasonAreawiseAnalysis
+        {/* <ReasonAreawiseAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
-        />
+          standard={standard}
+        /> */}
 
         <CastewiseDropoutAnalysis
           selectedCity={selectedCity}
@@ -346,12 +347,12 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <StandardGenderwiseAnalysis
+        {/* <StandardGenderwiseAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
-        />
+        /> */}
 
         <ParentEducationwiseAnalysis
           selectedCity={selectedCity}

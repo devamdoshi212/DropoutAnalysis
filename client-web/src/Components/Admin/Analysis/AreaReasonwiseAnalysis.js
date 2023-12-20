@@ -56,7 +56,7 @@ const AreaReasonwiseAnalysis = ({
       },
       colors: ["#1abc9c", "#3498db", "#e74c3c", "#f39c12"],
       title: {
-        text: "Reason and Gender wise Dropout Analysis",
+        text: "Reason and Area Type wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,
