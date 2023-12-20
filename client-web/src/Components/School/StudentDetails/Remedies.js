@@ -45,17 +45,25 @@ const Remedies = () => {
 
   return (
     <>
-      <h2>Search By KeyWord</h2>
-      <input type="text" onChange={handleChange} value={input} />
+    <div className="bg-[#f8f9fa] m-5 h-screen">
+      {/* <div className="flex " >
+      <h2 className="font-bold text-lg m-1">Search By KeyWord : </h2>
+      <input type="text" onChange={handleChange} value={input} className="border  border-gray-800 rounded-md w-1/3 focus:outline-gray-600 p-1.5" />
+      </div> */}
       {rea &&
         rea.resources &&
         rea.resources.map((item) => (
-          <div className="bg-[#f8f9fa] m-5 h-screen">
+          
             <div className=" mx-auto mt-8 p-4 bg-gray-100 rounded shadow-md shadow-gray-600 w-2/3 space-y-2">
+
+              <div className="flex items-center justify-center">
+                 <h2 className="font-bold text-3xl text-gray-800 ">Remedies Resources  </h2>
+              </div>
+
               <div className="flex">
                 <label className="text-gray-600 font-bold w-1/3">Title</label>
                 <div className="mx-2">:</div>
-                <div>XYZ</div>
+                <div>{reason}</div>
               </div>
 
               <div className="flex">
@@ -153,8 +161,9 @@ const Remedies = () => {
                 </ui>
               </div>
             </div>
-          </div>
+         
         ))}
+        </div>
     </>
   );
 };
