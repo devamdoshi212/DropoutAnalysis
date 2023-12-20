@@ -7,7 +7,7 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PredicatedDropoutServices } from "./PredicatedDropoutServices";
 
@@ -368,6 +368,9 @@ export default function PredictDropoutDataTable() {
     return currentPage * 10 + rowIndex + 1;
   };
   // console.log(selectedStudents);
+  // console.log(customers);
+  const navigate = useNavigate();
+
   return (
     <>
       {isModalOpen && (
@@ -517,21 +520,7 @@ export default function PredictDropoutDataTable() {
               borderWidth: "1px",
             }}
           />
-          <Column
-            sortable
-            header="Gender"
-            field="Gender"
-            filterField="location"
-            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
-            style={{
-              backgroundColor: "#e9e9e9",
-              border: "solid",
-              borderCollapse: "collapse",
-              borderColor: "#c0c0c0",
-              borderWidth: "1px",
-            }}
-          />
-          <Column
+          {/* <Column
             sortable
             header="Predicted Percentage"
             field="predictPercentage"
@@ -547,7 +536,7 @@ export default function PredictDropoutDataTable() {
             body={(rowData) => {
               return rowData.predictPercentage.toFixed(2) + "%";
             }}
-          />
+          /> */}
           <Column
             sortable
             header="Predicted Reason"
@@ -560,6 +549,142 @@ export default function PredictDropoutDataTable() {
               borderCollapse: "collapse",
               borderColor: "#c0c0c0",
               borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="Caste"
+            field="Caste"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="District"
+            field="District.district"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="Taluka"
+            field="Taluka.taluka"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="Family Income"
+            field="FamilyIncome"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="Disablity"
+            field="Disablity"
+            filterField="UID"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            sortable
+            header="Gender"
+            field="Gender"
+            filterField="location"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+          />
+          <Column
+            header="Actions"
+            field="City"
+            filterField="City_type"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+            body={(e) => {
+              const reason = e.Reasons;
+              return (
+                <Link
+                  to={`/school/remedies?reason=${encodeURIComponent(reason)}`}
+                >
+                  <Button className="bg-green-900 font-semibold text-white p-2 hover:bg-green-600 ">
+                    Get Remedies
+                  </Button>
+                </Link>
+              );
+            }}
+          />
+          <Column
+            header="Actions"
+            field="City"
+            filterField="City_type"
+            headerStyle={{ color: "#fff", backgroundColor: "#333" }}
+            style={{
+              backgroundColor: "#e9e9e9",
+              border: "solid",
+              borderCollapse: "collapse",
+              borderColor: "#c0c0c0",
+              borderWidth: "1px",
+            }}
+            body={(e) => {
+              // const objectString = encodeURIComponent(JSON.stringify(e));
+
+              return (
+                <button
+                  onClick={() => {
+                    navigate("/school/scholarship", { state: e });
+                  }}
+                  className="bg-blue-900 font-semibold text-white p-2 hover:bg-blue-600 rounded-md"
+                >
+                  Get ScholarShip
+                </button>
+              );
             }}
           />
           {/* <Column
