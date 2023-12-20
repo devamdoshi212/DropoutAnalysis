@@ -148,7 +148,7 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
-        <div>
+        <div className="flex">
           <label className="w-1/4 m-4">
             <span className="text-gray-500 font-bold w-1/3">Select State</span>
             <select
