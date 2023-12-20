@@ -56,7 +56,7 @@ const ReasonwiseCasteAnalysis = ({
       },
       colors: ["#1abc9c", "#3498db", "#e74c3c", "#f39c12"],
       title: {
-        text: "Reason and Gender wise Dropout Analysis",
+        text: "Reason and Caste wise Dropout Analysis",
         align: "center",
         margin: 50,
         offsetX: 0,

@@ -42,6 +42,8 @@ import AuthorityProfile from "./Components/Authority/Profile";
 import Remediesresources from "./Components/Authority/Resouces/Remediesresources";
 import PredictDropoutDataTable from "./Components/School/StudentDetails/PredictDropoutDataTable";
 import Addreasons from "./Components/Admin/Reason/Addreasons";
+import Remedies from "./Components/School/StudentDetails/Remedies";
+import ScholarShip from "./Components/School/StudentDetails/ScholarShip";
 
 const router = createBrowserRouter([
   {
@@ -243,6 +245,16 @@ const router = createBrowserRouter([
       {
         path: "predicedstudents",
         element: <PredictDropoutDataTable />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "remedies",
+        element: <Remedies />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "scholarship",
+        element: <ScholarShip />,
         errorElement: <ErrorPage />,
       },
     ],
