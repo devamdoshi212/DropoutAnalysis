@@ -32,6 +32,8 @@ const Analysis = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedTaluka, setSelectedTaluka] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [standard, setStandard] = useState("");
+  const [flag, setflag] = useState("0");
   useEffect(() => {
     FetchState().then((res) => {
       setStateName(res);
@@ -134,6 +136,69 @@ const Analysis = () => {
           selectedDistrict={selectedDistrict}
           selectedState={selectedState}
         />
+        <div>
+          <label className="w-1/4 m-4">
+            <span className="text-gray-500 font-bold w-1/3">Select State</span>
+            <select
+              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              value={standard}
+              onChange={(e) => {
+                setStandard(e.target.value);
+              }}
+              required
+            >
+              <option value="">Select Standard</option>
+              <option value="1">Standard 1</option>
+              <option value="2">Standard 2</option>
+              <option value="3">Standard 3</option>
+              <option value="4">Standard 4</option>
+              <option value="5">Standard 5</option>
+              <option value="6">Standard 6</option>
+              <option value="7">Standard 7</option>
+              <option value="8">Standard 8</option>
+              <option value="9">Standard 9</option>
+              <option value="10">Standard 10</option>
+            </select>
+          </label>
+          <label className="w-1/4 m-4">
+            <span className="text-gray-500 font-bold w-1/3">Select Type</span>
+            <select
+              className="mt-1 p-2 w-full border rounded-md focus:outline-2 focus:outline-gray-400"
+              value={standard}
+              onChange={(e) => {
+                setflag(e.target.value);
+              }}
+              required
+            >
+              <option value="">Select Type</option>
+              <option value="1">Gender</option>
+              <option value="2">Area</option>
+              <option value="3">Caste</option>
+              <option value="4">Family Income</option>
+            </select>
+          </label>
+        </div>
+
+        {flag === "0" && <ReasonwiseDropoutAnalysis
+          selectedCity={selectedCity}
+          selectedTaluka={selectedTaluka}
+          selectedDistrict={selectedDistrict}
+          selectedState={selectedState}
+          standard={standard}
+        />
+        }
+        {
+          flag === "1" &&
+          <ReasonwiseGenderDropoutAnalysis
+            selectedCity={selectedCity}
+            selectedTaluka={selectedTaluka}
+            selectedDistrict={selectedDistrict}
+            selectedState={selectedState}
+            standard={standard}
+          />
+        }
+
+
         <GenderwiseDropoutAnalysis
           selectedCity={selectedCity}
           selectedTaluka={selectedTaluka}
