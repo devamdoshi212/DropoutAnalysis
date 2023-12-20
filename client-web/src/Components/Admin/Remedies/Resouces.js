@@ -46,57 +46,55 @@ const Resources = () => {
     const onSubmit = async (values, action) => {
         console.log(values);
 
-        if (values.pdfFiles.length > 0 && values.links.length > 0 && values.pptFiles.length > 0 && values.videoFiles.length > 0) {
-            const filesData = {
-                pdf: values.pdfFiles,
-                pptx: values.pptFiles,
-                video: values.videoFiles,
-                links: values.links.filter((link) => link.trim() !== ''),
-                reason: values.dropoutReason,
-                standard: values.standard,
-                title: values.title,
-                keyword: values.keyword
-            };
-            console.log(filesData);
-
-
-            var formdata = new FormData();
-            formdata.append("reason", filesData.dropoutReason);
-            formdata.append("standard", filesData.standard);
-            formdata.append("title", filesData.title);
-            formdata.append("keyword", filesData.keyword);
-
-            for (let i = 0; i < filesData.pdf.length; i++) {
-                var file = filesData.pdf[i];
-                formdata.append("pdf", file, filesData.pdf[i].name);
-            }
-            for (let i = 0; i < filesData.pptx.length; i++) {
-                var file = filesData.pptx[i];
-                formdata.append("pptx", file, filesData.pptx[i].name);
-            }
-            for (let i = 0; i < filesData.video.length; i++) {
-                var file = filesData.video[i];
-                formdata.append("video", file, filesData.video[i].name);
-            }
-            for (let i = 0; i < filesData.links.length; i++) {
-                formdata.append("links", filesData.links[i]);
-            }
-
-            console.log(formdata);
-            var requestOptions = {
-                method: 'PATCH',
-                body: formdata,
-                redirect: 'follow'
-            };
-
-            fetch(`http://localhost:9999/addResource?id=${filesData.reason}`, requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
-
-            action.resetForm();
+        const filesData = {
+            pdf: values.pdfFiles,
+            pptx: values.pptFiles,
+            video: values.videoFiles,
+            links: values.links.filter((link) => link.trim() !== ''),
+            reason: values.dropoutReason,
+            standard: values.standard,
+            title: values.title,
+            keyword: values.keyword
         };
-    }
+        console.log(filesData);
+
+
+        var formdata = new FormData();
+        formdata.append("reason", filesData.dropoutReason);
+        formdata.append("standard", filesData.standard);
+        formdata.append("title", filesData.title);
+        formdata.append("keyword", filesData.keyword);
+
+        for (let i = 0; i < filesData.pdf.length; i++) {
+            var file = filesData.pdf[i];
+            formdata.append("pdf", file, filesData.pdf[i].name);
+        }
+        for (let i = 0; i < filesData.pptx.length; i++) {
+            var file = filesData.pptx[i];
+            formdata.append("pptx", file, filesData.pptx[i].name);
+        }
+        for (let i = 0; i < filesData.video.length; i++) {
+            var file = filesData.video[i];
+            formdata.append("video", file, filesData.video[i].name);
+        }
+        for (let i = 0; i < filesData.links.length; i++) {
+            formdata.append("links", filesData.links[i]);
+        }
+
+        console.log(formdata);
+        var requestOptions = {
+            method: 'PATCH',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`http://localhost:9999/addResource?id=${filesData.reason}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+        action.resetForm();
+    };
 
     const formik = useFormik({
         initialValues,
