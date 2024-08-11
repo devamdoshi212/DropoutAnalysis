@@ -10,14 +10,15 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Features](#features)
+- [Features](#eatures)
 - [Contributing](#contributing)
+- [Deploy Link](https://dropout-analysis-lake.vercel.app/)
 
 ## About the Project
 
 The Dropout Analysis and Intervention System is a comprehensive solution aimed at addressing the high dropout rates in schools, with a particular focus on mitigating the impact of poverty and various socio-economic factors. The project provides a strategic framework for governments to formulate targeted policies by analyzing dropout data across different categories.
 
-## Glimps of our Project
+## Glimpse of our Project
 ![Dashboard](https://github.com/devamdoshi212/DropoutAnalysis/assets/114012274/a0038a82-7f62-42a4-97ca-e59155ddc6af)
 ![Gujarat Map](https://github.com/devamdoshi212/DropoutAnalysis/assets/114012274/14691566-883e-4b26-b501-e9da6f61046a)
 ![Analysis](https://github.com/devamdoshi212/DropoutAnalysis/assets/114012274/f347040d-d97b-40a1-88a5-e464d9c3e5dc)
