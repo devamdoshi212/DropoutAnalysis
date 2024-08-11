@@ -192,9 +192,9 @@ Utilizes regional heatmaps to identify high-risk areas for targeted intervention
 
 - [_Devam Doshi_](https://github.com/devamdoshi212)
 - [_Uday Gohel_](https://github.com/UdayGohel)
-- [_Dhruv Shah_](https://github.com/dhruvsharma1999)
-- [_Harekrushna Tejani_](https://github.com/harekrushn13)
+- [_Harekrushn Tejani_](https://github.com/harekrushn13)
 - [_Harsh Nirmal_](https://github.com/HarshN187)
+- [_Dhruv Shah_](https://github.com/dhruvsharma1999)
 - [_Isha Sanghani_](https://github.com/Ishasanghani)
 
 
